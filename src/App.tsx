@@ -14,6 +14,11 @@ import WhyDataArtisans from './pages/About/Whydataartisans'
 import OurJourney from './pages/About/Ourjourney'
 import Leadership from './pages/About/Leadership'
 import Locations from './pages/About/Locations'
+import TrainingPage from './pages/Expertise/Training'
+import InternshipPage from './pages/Expertise/Internship'
+import JobPlacementSupportPage from './pages/Expertise/Jobplacementsupport'
+import StudyAbroadPage from './pages/Expertise/Studyabroad'
+import ContactUsPage from './components/ContactSection'
 
 const Home: React.FC = () => (
   <>
@@ -38,6 +43,11 @@ const App: React.FC = () => (
           <Route path='/ourjourney' element={<OurJourney/>}/>
           <Route path='/leadership' element={<Leadership/>}/>
           <Route path='/locations' element={<Locations/>}/>
+          <Route path='/training' element={<TrainingPage/>}/>
+          <Route path='/internship' element={<InternshipPage/>}/>
+          <Route path='/jobplacementsupport' element={<JobPlacementSupportPage/>}/>
+          <Route path='/studyabroad' element={<StudyAbroadPage/>}/>
+          <Route path='/contact-us' element={<ContactUsPage/>}/>
         </Routes>
       </main>
       <Footer />

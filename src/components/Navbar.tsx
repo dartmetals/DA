@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 const NAV_LINKS = [
   { label: 'ABOUT US', href: '#about', hasDropdown: true },
   { label: 'EXPERTISE', href: '#expertise', hasDropdown: true },
-  { label: 'SOLUTIONS', href: '#solutions', hasDropdown: false },
-  { label: 'THOUGHT CENTRE', href: '#thought-centre', hasDropdown: true },
-  { label: 'CONTACT US', href: '#contact', hasDropdown: false },
-  { label: 'JOIN US', href: '#join-us', hasDropdown: false },
+  { label: 'SOLUTIONS', href: 'solutions', hasDropdown: false },
+  { label: 'THOUGHT CENTRE', href: 'thoughtcentre', hasDropdown: true },
+  { label: 'CONTACT US', href: 'contact-us', hasDropdown: false },
+  { label: 'JOIN US', href: 'join-us', hasDropdown: false },
 ]
 
 const HomeIcon: React.FC = () => (
@@ -42,15 +42,15 @@ const Navbar: React.FC = () => {
       { label: 'Locations', href: '/locations' },
     ],
     'EXPERTISE': [
-      { label: 'Training', href: '#training' },
-      { label: 'Internship', href: '#internship' },
-      { label: 'Job Placement Support', href: '#job-placement-support' },
-      { label: 'Study Abroad', href: '#study-abroad' },
+      { label: 'Training', href: 'training' },
+      { label: 'Internship', href: 'internship' },
+      { label: 'Job Placement Support', href: 'jobplacementsupport' },
+      { label: 'Study Abroad', href: 'studyabroad' },
     ],
     'THOUGHT CENTRE': [
-      { label: 'News', href: '#news' },
-      { label: 'Resource', href: '#resource' },
-      { label: 'Report', href: '#report' },
+      { label: 'News', href: 'news' },
+      { label: 'Resource', href: 'resource' },
+      { label: 'Report', href: 'report' },
     ],
   }
 
