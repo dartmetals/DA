@@ -1,0 +1,150 @@
+.about {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 200px 280px 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+/* Years Badge */
+.about-badge-col {
+  display: flex;
+  justify-content: center;
+}
+
+.years-badge {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.years-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  z-index: 2;
+}
+
+.years-number {
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--black);
+  line-height: 1;
+}
+
+.years-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--grey);
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-style: solid;
+  border-color: var(--red);
+}
+
+.badge-corner.top-left {
+  top: 0;
+  left: 0;
+  border-width: 3px 0 0 3px;
+}
+
+.badge-corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  border-width: 0 3px 3px 0;
+}
+
+/* Since Col */
+.about-since-col {
+  border-left: 1px solid var(--border);
+  padding-left: 48px;
+}
+
+.since-year {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--red);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.since-tagline {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--black);
+  line-height: 1.5;
+}
+
+/* Description Col */
+.about-desc-col {
+  border-left: 1px solid var(--border);
+  padding-left: 48px;
+}
+
+.about-desc {
+  font-size: 0.88rem;
+  color: var(--grey);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.tmi-group-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.tmi-group-link:hover {
+  color: var(--red);
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .about-badge-col {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-since-col,
+  .about-desc-col {
+    border-left: none;
+    border-top: 1px solid var(--border);
+    padding-left: 0;
+    padding-top: 24px;
+  }
+}

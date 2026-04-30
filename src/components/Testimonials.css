@@ -1,0 +1,131 @@
+.testimonials {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+.testimonials-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.testimonials-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testimonials-label span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--red);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.label-line-red {
+  width: 48px;
+  height: 2px;
+  background: var(--red);
+}
+
+/* Controls */
+.testimonials-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.testi-ctrl {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: white;
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.testi-ctrl:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* Testimonial Card */
+.testimonial-card {
+  max-width: 640px;
+  padding: 32px 0;
+  animation: fadeInUp 0.4s ease;
+}
+
+.quote-mark {
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.testimonial-text {
+  font-size: 0.96rem;
+  color: var(--grey);
+  line-height: 1.85;
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.author-line {
+  width: 2px;
+  height: 40px;
+  background: var(--red);
+  flex-shrink: 0;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.author-name {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.author-title {
+  font-size: 0.8rem;
+  color: var(--grey);
+}
+
+/* Dots */
+.testi-dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.testi-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.testi-dot.active {
+  background: var(--red);
+  width: 24px;
+  border-radius: 4px;
+}

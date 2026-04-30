@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --red: #E8000D;
+  --red-dark: #C0000B;
+  --black: #1a1a1a;
+  --dark: #222222;
+  --grey: #666666;
+  --light-grey: #f8f8f8;
+  --white: #ffffff;
+  --border: #e0e0e0;
+  --font-primary: 'Poppins', sans-serif;
+  --font-heading: 'Montserrat', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-primary);
+  color: var(--black);
+  background: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--black);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.section-subtitle {
+  font-size: 0.9rem;
+  color: var(--grey);
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.btn-outline-red {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid var(--red);
+  color: var(--red);
+  padding: 10px 28px;
+  font-family: var(--font-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.btn-outline-red:hover {
+  background: var(--red);
+  color: var(--white);
+}
+
+.btn-red {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--red);
+  color: var(--white);
+  padding: 12px 32px;
+  font-family: var(--font-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  border: 2px solid var(--red);
+  transition: all 0.3s ease;
+}
+
+.btn-red:hover {
+  background: var(--red-dark);
+  border-color: var(--red-dark);
+}
+
+.know-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--red);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: gap 0.2s ease;
+}
+
+.know-more:hover {
+  gap: 10px;
+}
+
+.know-more .arrow-icon {
+  width: 18px;
+  height: 18px;
+  background: var(--red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.know-more .arrow-icon svg {
+  fill: white;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

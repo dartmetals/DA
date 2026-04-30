@@ -1,0 +1,160 @@
+.footer {
+  background: #1a1a1a;
+  color: #aaa;
+}
+
+.footer-top {
+  padding: 64px 0 48px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 300px 160px 1fr;
+  gap: 48px;
+}
+
+/* Brand Column */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-logo-box {
+  width: 44px;
+  height: 44px;
+  background: var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.footer-logo-tmi {
+  color: white;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.footer-brand-desc {
+  font-size: 0.82rem;
+  line-height: 1.75;
+  color: #888;
+}
+
+.footer-brand-desc strong {
+  color: var(--red);
+  font-weight: 600;
+}
+
+/* Social Icons */
+.footer-socials {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.social-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.social-icon:hover {
+  background: var(--red);
+  color: white;
+}
+
+/* Footer Columns */
+.footer-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-col-title {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links li a {
+  font-size: 0.82rem;
+  color: #888;
+  transition: color 0.2s ease;
+  display: block;
+}
+
+.footer-links li a:hover {
+  color: var(--red);
+}
+
+/* Jobs Grid */
+.footer-col-jobs .footer-col-title {
+  margin-bottom: 20px;
+}
+
+.footer-jobs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 24px;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 20px 0;
+}
+
+.footer-bottom p {
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-brand {
+    grid-column: 1;
+  }
+
+  .footer-jobs-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

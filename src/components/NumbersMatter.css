@@ -1,0 +1,110 @@
+.numbers-matter {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px 24px;
+  margin-top: 48px;
+}
+
+.stat-card {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.stat-card:nth-child(1) { transition-delay: 0.0s; }
+.stat-card:nth-child(2) { transition-delay: 0.1s; }
+.stat-card:nth-child(3) { transition-delay: 0.2s; }
+.stat-card:nth-child(4) { transition-delay: 0.3s; }
+.stat-card:nth-child(5) { transition-delay: 0.4s; }
+.stat-card:nth-child(6) { transition-delay: 0.5s; }
+.stat-card:nth-child(7) { transition-delay: 0.6s; }
+.stat-card:nth-child(8) { transition-delay: 0.7s; }
+
+.stat-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stat-value {
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--black);
+  line-height: 1;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+}
+
+.stat-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.badge-plus {
+  background: var(--red);
+}
+
+.badge-percent {
+  background: var(--red);
+}
+
+.stat-label {
+  font-size: 0.88rem;
+  color: var(--grey);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Horizontal divider between rows */
+.stats-grid .stat-card:nth-child(n+5) {
+  border-top: 1px solid var(--border);
+  padding-top: 40px;
+  margin-top: -16px;
+}
+
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-grid .stat-card:nth-child(n+3) {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  .stats-grid .stat-card:nth-child(n+5) {
+    border-top: 1px solid var(--border);
+    padding-top: 40px;
+    margin-top: -16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+  }
+}
