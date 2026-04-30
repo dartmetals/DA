@@ -6,7 +6,7 @@ interface Card {
   title: string
   description: string
   href: string
-  isHighlighted?: boolean
+  bgImage?: string
 }
 
 const EmployerIcon: React.FC = () => (
@@ -61,6 +61,7 @@ const cards: Card[] = [
     description:
       'Tech enabled recruitment processes to get you the right people at the right place, time & cost-catalyzing your business growth!',
     href: '#',
+    bgImage: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&h=400&fit=crop',
   },
   {
     id: 'jobseeker',
@@ -69,6 +70,7 @@ const cards: Card[] = [
     description:
       'AI enabled applicant system for job recommendations so that we can show you the jobs that work for you & build your career!',
     href: '#',
+    bgImage: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=600&h=400&fit=crop',
   },
   {
     id: 'partner',
@@ -76,7 +78,7 @@ const cards: Card[] = [
     title: 'Partner',
     description: 'Work with marquee clients in volume & grow your business',
     href: '#',
-    isHighlighted: true,
+    bgImage: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
   },
 ]
 
@@ -130,14 +132,7 @@ const WhoWeServe: React.FC = () => {
           }}
         >
           {cards.map((card) => {
-            const isActive = hovered === card.id || card.isHighlighted
-            const bgColor = card.isHighlighted
-              ? '#e31e24'
-              : hovered === card.id
-              ? '#e31e24'
-              : '#ffffff'
-            const textColor = card.isHighlighted || hovered === card.id ? '#ffffff' : '#1a1a1a'
-            const descColor = card.isHighlighted || hovered === card.id ? 'rgba(255,255,255,0.85)' : '#666'
+            const isHovered = hovered === card.id
 
             return (
               <div
@@ -145,50 +140,73 @@ const WhoWeServe: React.FC = () => {
                 onMouseEnter={() => setHovered(card.id)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  backgroundColor: bgColor,
-                  borderRadius: '4px',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '12px',
                   padding: '38px 30px',
-                  boxShadow: isActive
-                    ? '0 8px 30px rgba(227,30,36,0.3)'
+                  boxShadow: isHovered
+                    ? '0 8px 30px rgba(0,0,0,0.15)'
                     : '0 2px 16px rgba(0,0,0,0.07)',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
                   position: 'relative',
                   overflow: 'hidden',
+                  transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+                  border: '1px solid #e0e0e0',
                 }}
               >
-                {/* Background pattern for highlighted card */}
-                {card.isHighlighted && (
+                {/* Background Image - only visible on hover */}
+                {card.bgImage && (
                   <div
                     style={{
                       position: 'absolute',
                       top: 0,
+                      left: 0,
                       right: 0,
                       bottom: 0,
-                      left: 0,
-                      backgroundImage:
-                        'url("https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&q=60")',
+                      backgroundImage: `url(${card.bgImage})`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
-                      opacity: 0.2,
+                      opacity: isHovered ? 1 : 0,
+                      transition: 'opacity 0.4s ease',
                     }}
                   />
                 )}
 
+                {/* Red Gradient Overlay - only visible on hover */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'linear-gradient(135deg, rgba(227, 30, 36, 0.7), rgba(200, 20, 25, 0.7))',
+                    opacity: isHovered ? 1 : 0,
+                    transition: 'opacity 0.4s ease',
+                  }}
+                />
+
                 <div
                   style={{
                     position: 'relative',
-                    zIndex: 1,
-                    color: textColor,
+                    zIndex: 2,
+                    color: isHovered ? '#ffffff' : '#1a1a1a',
                   }}
                 >
-                  <div style={{ marginBottom: '20px' }}>{card.icon}</div>
+                  <div 
+                    style={{ 
+                      marginBottom: '20px',
+                      color: isHovered ? '#ffffff' : '#1a1a1a',
+                    }}
+                  >
+                    {card.icon}
+                  </div>
                   <h3
                     style={{
                       fontSize: '20px',
                       fontWeight: '700',
                       marginBottom: '14px',
-                      color: textColor,
+                      color: isHovered ? '#ffffff' : '#1a1a1a',
                     }}
                   >
                     {card.title}
@@ -197,7 +215,7 @@ const WhoWeServe: React.FC = () => {
                     style={{
                       fontSize: '13.5px',
                       lineHeight: 1.75,
-                      color: descColor,
+                      color: isHovered ? 'rgba(255,255,255,0.85)' : '#666666',
                       marginBottom: '24px',
                     }}
                   >
@@ -211,15 +229,16 @@ const WhoWeServe: React.FC = () => {
                       gap: '6px',
                       fontSize: '12px',
                       fontWeight: '700',
-                      color: card.isHighlighted || hovered === card.id ? '#fff' : '#e31e24',
+                      color: isHovered ? '#ffffff' : '#e31e24',
                       letterSpacing: '1px',
                       textTransform: 'uppercase',
-                      borderBottom: `1px solid ${card.isHighlighted || hovered === card.id ? 'rgba(255,255,255,0.5)' : '#e31e24'}`,
+                      borderBottom: `1px solid ${isHovered ? 'rgba(255,255,255,0.5)' : '#e31e24'}`,
                       paddingBottom: '2px',
+                      textDecoration: 'none',
                     }}
                   >
                     KNOW MORE
-                    <KnowMoreArrow white={card.isHighlighted || hovered === card.id} />
+                    <KnowMoreArrow white={isHovered} />
                   </a>
                 </div>
               </div>

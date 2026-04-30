@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
 const NAV_LINKS = [
-  { label: 'ABOUT US', href: '#about' },
-  { label: 'EMPLOYERS', href: '#', hasDropdown: true },
-  { label: 'JOB SEEKERS', href: '#', hasDropdown: true },
-  { label: 'PARTNERS', href: '#serve' },
-  { label: 'INSIGHTS', href: '#', hasDropdown: true },
-  { label: 'CAREERS', href: '#' },
+  { label: 'ABOUT US', href: '#about', hasDropdown: true },
+  { label: 'EXPERTISE', href: '#expertise', hasDropdown: true },
+  { label: 'SOLUTIONS', href: '#solutions', hasDropdown: false },
+  { label: 'THOUGHT CENTRE', href: '#thought-centre', hasDropdown: true },
+  { label: 'CONTACT US', href: '#contact', hasDropdown: false },
+  { label: 'JOIN US', href: '#join-us', hasDropdown: false },
 ]
 
 const HomeIcon: React.FC = () => (
@@ -24,12 +24,34 @@ const ChevronDown: React.FC = () => (
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  const dropdowns = {
+    'ABOUT US': [
+      { label: 'Overview', href: '#overview' },
+      { label: 'Why Data Artisans', href: '#why-data-artisans' },
+      { label: 'Our Journey', href: '#our-journey' },
+      { label: 'Leadership', href: '#leadership' },
+      { label: 'Locations', href: '#locations' },
+    ],
+    'EXPERTISE': [
+      { label: 'Training', href: '#training' },
+      { label: 'Internship', href: '#internship' },
+      { label: 'Job Placement Support', href: '#job-placement-support' },
+      { label: 'Study Abroad', href: '#study-abroad' },
+    ],
+    'THOUGHT CENTRE': [
+      { label: 'News', href: '#news' },
+      { label: 'Resource', href: '#resource' },
+      { label: 'Report', href: '#report' },
+    ],
+  }
 
   return (
     <nav
@@ -119,35 +141,86 @@ const Navbar: React.FC = () => {
           </a>
 
           {NAV_LINKS.map((link) => (
-            <a
+            <div
               key={link.label}
-              href={link.href}
-              style={{
-                color: '#333',
-                fontSize: '12.5px',
-                fontWeight: '500',
-                padding: '6px 10px',
-                borderRadius: '3px',
-                display: 'flex',
-                alignItems: 'center',
-                whiteSpace: 'nowrap',
-                letterSpacing: '0.3px',
-                transition: 'color 0.2s',
-              }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.color = '#e31e24')
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.color = '#333')
-              }
+              style={{ position: 'relative' }}
+              onMouseEnter={() => link.hasDropdown && setOpenDropdown(link.label)}
+              onMouseLeave={() => link.hasDropdown && setOpenDropdown(null)}
             >
-              {link.label}
-              {link.hasDropdown && <ChevronDown />}
-            </a>
+              <a
+                href={link.href}
+                style={{
+                  color: '#333',
+                  fontSize: '12.5px',
+                  fontWeight: '500',
+                  padding: '6px 10px',
+                  borderRadius: '3px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  whiteSpace: 'nowrap',
+                  letterSpacing: '0.3px',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color = '#e31e24')
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLElement).style.color = '#333')
+                }
+              >
+                {link.label}
+                {link.hasDropdown && <ChevronDown />}
+              </a>
+
+              {/* Dropdown Menu */}
+              {link.hasDropdown && openDropdown === link.label && dropdowns[link.label as keyof typeof dropdowns] && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    backgroundColor: '#ffffff',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '8px',
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                    minWidth: '200px',
+                    overflow: 'hidden',
+                    zIndex: 100,
+                    animation: 'fadeIn 0.2s ease',
+                  }}
+                >
+                  {dropdowns[link.label as keyof typeof dropdowns].map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      style={{
+                        display: 'block',
+                        padding: '10px 16px',
+                        fontSize: '12px',
+                        color: '#333',
+                        textDecoration: 'none',
+                        borderBottom: '1px solid #f0f0f0',
+                        transition: 'background 0.2s ease, color 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5'
+                        ;(e.currentTarget as HTMLElement).style.color = '#e31e24'
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'
+                        ;(e.currentTarget as HTMLElement).style.color = '#333'
+                      }}
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
 
           <a
-            href="#contact"
+            href="#get-started"
             style={{
               color: '#ffffff',
               fontSize: '12.5px',
@@ -167,7 +240,7 @@ const Navbar: React.FC = () => {
               ((e.currentTarget as HTMLElement).style.backgroundColor = '#e31e24')
             }
           >
-            CONTACT US
+            GET STARTED
           </a>
         </div>
 
@@ -203,24 +276,53 @@ const Navbar: React.FC = () => {
             gap: '12px',
           }}
         >
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              style={{
-                color: '#333',
-                fontSize: '13px',
-                fontWeight: '500',
-                padding: '8px 0',
-                borderBottom: '1px solid #f0f0f0',
-              }}
-              onClick={() => setMobileOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const mobileDropdownItems = dropdowns[link.label as keyof typeof dropdowns]
+            
+            return (
+              <div key={link.label}>
+                <a
+                  href={link.href}
+                  style={{
+                    color: '#333',
+                    fontSize: '13px',
+                    fontWeight: '500',
+                    padding: '8px 0',
+                    borderBottom: '1px solid #f0f0f0',
+                    display: 'block',
+                  }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </a>
+                
+                {/* Mobile submenu items */}
+                {mobileDropdownItems && (
+                  <div style={{ paddingLeft: '16px', marginTop: '4px', marginBottom: '8px' }}>
+                    {mobileDropdownItems.map((item) => (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        style={{
+                          color: '#666',
+                          fontSize: '12px',
+                          fontWeight: '400',
+                          padding: '6px 0',
+                          display: 'block',
+                          borderBottom: '1px solid #f5f5f5',
+                        }}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
           <a
-            href="#contact"
+            href="#get-started"
             style={{
               color: '#fff',
               fontSize: '13px',
@@ -232,7 +334,7 @@ const Navbar: React.FC = () => {
               marginTop: '4px',
             }}
           >
-            CONTACT US
+            GET STARTED
           </a>
         </div>
       )}
@@ -241,6 +343,17 @@ const Navbar: React.FC = () => {
         @media (max-width: 900px) {
           .desktop-nav { display: none !important; }
           .hamburger { display: block !important; }
+        }
+        
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
       `}</style>
     </nav>

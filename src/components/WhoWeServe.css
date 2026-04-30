@@ -3,28 +3,6 @@
   background: #f9f9f9;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.section-title {
-  text-align: center;
-  font-family: var(--font-heading);
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 16px;
-  color: var(--black);
-}
-
-.section-subtitle {
-  text-align: center;
-  font-size: 1rem;
-  color: var(--grey);
-  margin-bottom: 48px;
-}
-
 .serve-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -32,120 +10,34 @@
 }
 
 .serve-card {
-  position: relative;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   transition: all 0.3s ease;
   cursor: pointer;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  overflow: hidden;
 }
 
-/* Hide the background image initially */
-.serve-card {
-  background-image: none !important;
-}
-
-/* Card overlay - hidden initially with reduced opacity for better image visibility */
-.card-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(232, 0, 13, 0.6), rgba(200, 0, 10, 0.6));
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 1;
-}
-
-/* Card content */
-.card-content {
-  position: relative;
-  z-index: 2;
-  transition: all 0.3s ease;
-}
-
-/* On hover - show background image and red gradient overlay */
 .serve-card:hover {
-  background-image: var(--bg-image) !important;
-}
-
-.serve-card:hover .card-overlay {
-  opacity: 1;
-}
-
-/* Change text colors on hover when overlay is visible */
-.serve-card:hover .card-title,
-.serve-card:hover .card-desc {
-  color: white;
-}
-
-.serve-card:hover .card-icon svg rect,
-.serve-card:hover .card-icon svg path,
-.serve-card:hover .card-icon svg circle {
-  stroke: white !important;
-}
-
-.serve-card:hover .card-icon svg path[fill="#E8000D"] {
-  fill: white !important;
-}
-
-.serve-card:hover .know-more {
-  color: white;
-}
-
-.serve-card:hover .arrow-icon {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.serve-card:hover .arrow-icon svg path {
-  stroke: white;
-}
-
-/* Remove featured card specific styles - all cards have white background initially */
-.serve-card.featured {
-  background: var(--white);
-  border-color: var(--border);
-  color: inherit;
-}
-
-.serve-card.featured .card-title {
-  color: var(--black);
-}
-
-.serve-card.featured .card-desc {
-  color: var(--grey);
-}
-
-.serve-card.featured .know-more {
-  color: var(--red);
-}
-
-.serve-card.featured .card-icon svg rect,
-.serve-card.featured .card-icon svg path,
-.serve-card.featured .card-icon svg circle {
-  stroke: #333;
-}
-
-/* Non-featured cards hover effects */
-.serve-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+.serve-card.featured {
+  background: var(--red);
+  border-color: var(--red);
+  color: white;
+}
+
+.serve-card.featured:hover {
+  background: var(--red-dark);
 }
 
 .card-icon {
   margin-bottom: 8px;
-}
-
-.card-icon svg rect,
-.card-icon svg path,
-.card-icon svg circle {
-  transition: stroke 0.3s ease;
 }
 
 .card-title {
@@ -153,8 +45,10 @@
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--black);
-  transition: color 0.3s ease;
-  margin-bottom: 12px;
+}
+
+.serve-card.featured .card-title {
+  color: white;
 }
 
 .card-desc {
@@ -162,7 +56,10 @@
   color: var(--grey);
   line-height: 1.75;
   flex: 1;
-  transition: color 0.3s ease;
+}
+
+.serve-card.featured .card-desc {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* Know More */
@@ -197,45 +94,19 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 0.3s ease;
-}
-
-.arrow-icon svg path {
-  stroke: white;
-  transition: stroke 0.3s ease;
 }
 
 .know-more-white .arrow-icon {
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* CSS Variables */
-:root {
-  --white: #ffffff;
-  --black: #1a1a1a;
-  --grey: #666666;
-  --red: #E8000D;
-  --red-dark: #c0000a;
-  --border: #e0e0e0;
-  --font-heading: 'Inter', 'DM Sans', system-ui, sans-serif;
-}
-
-/* Responsive */
 @media (max-width: 768px) {
   .serve-cards {
     grid-template-columns: 1fr;
   }
-  
-  .section-title {
-    font-size: 2rem;
-  }
-  
-  .serve-card {
-    padding: 32px 24px;
-  }
 }
 
-@media (max-width: 900px) and (min-width: 769px) {
+@media (max-width: 900px) {
   .serve-cards {
     grid-template-columns: 1fr 1fr;
   }
