@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 const NAV_LINKS = [
   { label: 'ABOUT US', href: '#about', hasDropdown: true },
@@ -34,11 +35,11 @@ const Navbar: React.FC = () => {
 
   const dropdowns = {
     'ABOUT US': [
-      { label: 'Overview', href: '#overview' },
-      { label: 'Why Data Artisans', href: '#why-data-artisans' },
-      { label: 'Our Journey', href: '#our-journey' },
-      { label: 'Leadership', href: '#leadership' },
-      { label: 'Locations', href: '#locations' },
+      { label: 'Overview', href: '/overview' },
+      { label: 'Why Data Artisans', href: '/whydataartisans' },
+      { label: 'Our Journey', href: '/ourjourney' },
+      { label: 'Leadership', href: '/leadership' },
+      { label: 'Locations', href: '/locations' },
     ],
     'EXPERTISE': [
       { label: 'Training', href: '#training' },
@@ -77,8 +78,8 @@ const Navbar: React.FC = () => {
           height: '68px',
         }}
       >
-        {/* ── Logo ── */}
-        <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '0px' }}>
+        {/* ── Logo - Navigates to Home ── */}
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0px', textDecoration: 'none' }}>
           <div
             style={{
               backgroundColor: '#e31e24',
@@ -114,7 +115,7 @@ const Navbar: React.FC = () => {
               NETWORK
             </span>
           </div>
-        </a>
+        </Link>
 
         {/* ── Desktop Nav ── */}
         <div
@@ -125,9 +126,9 @@ const Navbar: React.FC = () => {
           }}
           className="desktop-nav"
         >
-          {/* Home icon */}
-          <a
-            href="#"
+          {/* Home icon - Navigates to Home */}
+          <Link
+            to="/"
             style={{
               color: '#444',
               padding: '6px 10px',
@@ -135,10 +136,11 @@ const Navbar: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               transition: 'color 0.2s',
+              textDecoration: 'none',
             }}
           >
             <HomeIcon />
-          </a>
+          </Link>
 
           {NAV_LINKS.map((link) => (
             <div
@@ -160,6 +162,7 @@ const Navbar: React.FC = () => {
                   whiteSpace: 'nowrap',
                   letterSpacing: '0.3px',
                   transition: 'color 0.2s',
+                  textDecoration: 'none',
                 }}
                 onMouseEnter={(e) =>
                   ((e.currentTarget as HTMLElement).style.color = '#e31e24')
@@ -189,31 +192,61 @@ const Navbar: React.FC = () => {
                     animation: 'fadeIn 0.2s ease',
                   }}
                 >
-                  {dropdowns[link.label as keyof typeof dropdowns].map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      style={{
-                        display: 'block',
-                        padding: '10px 16px',
-                        fontSize: '12px',
-                        color: '#333',
-                        textDecoration: 'none',
-                        borderBottom: '1px solid #f0f0f0',
-                        transition: 'background 0.2s ease, color 0.2s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5'
-                        ;(e.currentTarget as HTMLElement).style.color = '#e31e24'
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'
-                        ;(e.currentTarget as HTMLElement).style.color = '#333'
-                      }}
-                    >
-                      {item.label}
-                    </a>
-                  ))}
+                  {dropdowns[link.label as keyof typeof dropdowns].map((item) => {
+                    // Check if it's a React Router path (starts with /) or hash link
+                    if (item.href.startsWith('/')) {
+                      return (
+                        <Link
+                          key={item.label}
+                          to={item.href}
+                          style={{
+                            display: 'block',
+                            padding: '10px 16px',
+                            fontSize: '12px',
+                            color: '#333',
+                            textDecoration: 'none',
+                            borderBottom: '1px solid #f0f0f0',
+                            transition: 'background 0.2s ease, color 0.2s ease',
+                          }}
+                          onMouseEnter={(e) => {
+                            (e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5'
+                            ;(e.currentTarget as HTMLElement).style.color = '#e31e24'
+                          }}
+                          onMouseLeave={(e) => {
+                            (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'
+                            ;(e.currentTarget as HTMLElement).style.color = '#333'
+                          }}
+                        >
+                          {item.label}
+                        </Link>
+                      )
+                    }
+                    return (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        style={{
+                          display: 'block',
+                          padding: '10px 16px',
+                          fontSize: '12px',
+                          color: '#333',
+                          textDecoration: 'none',
+                          borderBottom: '1px solid #f0f0f0',
+                          transition: 'background 0.2s ease, color 0.2s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5'
+                          ;(e.currentTarget as HTMLElement).style.color = '#e31e24'
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'
+                          ;(e.currentTarget as HTMLElement).style.color = '#333'
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    )
+                  })}
                 </div>
               )}
             </div>
@@ -232,6 +265,7 @@ const Navbar: React.FC = () => {
               letterSpacing: '0.5px',
               whiteSpace: 'nowrap',
               transition: 'background-color 0.2s ease',
+              textDecoration: 'none',
             }}
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLElement).style.backgroundColor = '#c01820')
@@ -276,6 +310,23 @@ const Navbar: React.FC = () => {
             gap: '12px',
           }}
         >
+          {/* Mobile Home Link */}
+          <Link
+            to="/"
+            style={{
+              color: '#333',
+              fontSize: '13px',
+              fontWeight: '500',
+              padding: '8px 0',
+              borderBottom: '1px solid #f0f0f0',
+              display: 'block',
+              textDecoration: 'none',
+            }}
+            onClick={() => setMobileOpen(false)}
+          >
+            HOME
+          </Link>
+
           {NAV_LINKS.map((link) => {
             const mobileDropdownItems = dropdowns[link.label as keyof typeof dropdowns]
             
@@ -290,6 +341,7 @@ const Navbar: React.FC = () => {
                     padding: '8px 0',
                     borderBottom: '1px solid #f0f0f0',
                     display: 'block',
+                    textDecoration: 'none',
                   }}
                   onClick={() => setMobileOpen(false)}
                 >
@@ -299,23 +351,46 @@ const Navbar: React.FC = () => {
                 {/* Mobile submenu items */}
                 {mobileDropdownItems && (
                   <div style={{ paddingLeft: '16px', marginTop: '4px', marginBottom: '8px' }}>
-                    {mobileDropdownItems.map((item) => (
-                      <a
-                        key={item.label}
-                        href={item.href}
-                        style={{
-                          color: '#666',
-                          fontSize: '12px',
-                          fontWeight: '400',
-                          padding: '6px 0',
-                          display: 'block',
-                          borderBottom: '1px solid #f5f5f5',
-                        }}
-                        onClick={() => setMobileOpen(false)}
-                      >
-                        {item.label}
-                      </a>
-                    ))}
+                    {mobileDropdownItems.map((item) => {
+                      if (item.href.startsWith('/')) {
+                        return (
+                          <Link
+                            key={item.label}
+                            to={item.href}
+                            style={{
+                              color: '#666',
+                              fontSize: '12px',
+                              fontWeight: '400',
+                              padding: '6px 0',
+                              display: 'block',
+                              borderBottom: '1px solid #f5f5f5',
+                              textDecoration: 'none',
+                            }}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        )
+                      }
+                      return (
+                        <a
+                          key={item.label}
+                          href={item.href}
+                          style={{
+                            color: '#666',
+                            fontSize: '12px',
+                            fontWeight: '400',
+                            padding: '6px 0',
+                            display: 'block',
+                            borderBottom: '1px solid #f5f5f5',
+                            textDecoration: 'none',
+                          }}
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {item.label}
+                        </a>
+                      )
+                    })}
                   </div>
                 )}
               </div>
@@ -332,6 +407,7 @@ const Navbar: React.FC = () => {
               borderRadius: '3px',
               textAlign: 'center',
               marginTop: '4px',
+              textDecoration: 'none',
             }}
           >
             GET STARTED
