@@ -437,25 +437,25 @@ const ContactUsPage: React.FC = () => {
     { label: "Contact Us", href: "#", active: true },
   ];
 
-  const menuLinks = ["Home", "About", "Employer", "Job Seeker"];
-  const menuLinks2 = ["Partner", "Careers", "Contact Us", "HR Compliance", "Privacy Policy"];
-  const quickJobsLeft = [
-    "Jobs in Insurance",
-    "Jobs in Banking",
-    "Jobs in I.T.",
-    "Jobs in ITeS",
-    "Jobs in Chemicals",
-  ];
-  const quickJobsRight = [
-    "Jobs in Hyderabad",
-    "Jobs in Bangalore",
-    "Jobs in Mumbai",
-    "Jobs in Pune",
-    "Jobs in Delhi",
-    "Jobs in Kolkata",
-    "Jobs in Ahmedabad",
-    "Jobs in Chennai",
-  ];
+  // const menuLinks = ["Home", "About", "Employer", "Job Seeker"];
+  // const menuLinks2 = ["Partner", "Careers", "Contact Us", "HR Compliance", "Privacy Policy"];
+  // const quickJobsLeft = [
+  //   "Jobs in Insurance",
+  //   "Jobs in Banking",
+  //   "Jobs in I.T.",
+  //   "Jobs in ITeS",
+  //   "Jobs in Chemicals",
+  // ];
+  // const quickJobsRight = [
+  //   "Jobs in Hyderabad",
+  //   "Jobs in Bangalore",
+  //   "Jobs in Mumbai",
+  //   "Jobs in Pune",
+  //   "Jobs in Delhi",
+  //   "Jobs in Kolkata",
+  //   "Jobs in Ahmedabad",
+  //   "Jobs in Chennai",
+  // ];
 
   return (
     <div style={S.root}>
