@@ -24,7 +24,7 @@ const About: React.FC = () => {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div
             style={{
-              border: '3px solid #e31e24',
+              border: '3px solid #2563eb',
               padding: '28px 22px',
               textAlign: 'center',
               minWidth: '160px',
@@ -39,7 +39,7 @@ const About: React.FC = () => {
                 right: '-3px',
                 width: '28px',
                 height: '28px',
-                backgroundColor: '#e31e24',
+                backgroundColor: '#2563eb',
               }}
             />
             <div
@@ -49,7 +49,7 @@ const About: React.FC = () => {
                 left: '-3px',
                 width: '28px',
                 height: '28px',
-                backgroundColor: '#e31e24',
+                backgroundColor: '#2563eb',
               }}
             />
             <span
@@ -82,7 +82,7 @@ const About: React.FC = () => {
         <div>
           <p
             style={{
-              color: '#e31e24',
+              color: '#2563eb',
               fontSize: '13px',
               fontWeight: '600',
               letterSpacing: '1px',
@@ -129,14 +129,14 @@ const About: React.FC = () => {
               fontWeight: '700',
               color: '#1a1a1a',
               letterSpacing: '1.5px',
-              borderBottom: '2px solid #e31e24',
+              borderBottom: '2px solid #2563eb',
               paddingBottom: '2px',
               display: 'inline-block',
               textTransform: 'uppercase',
               transition: 'color 0.2s',
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.color = '#e31e24')
+              ((e.currentTarget as HTMLElement).style.color = '#2563eb')
             }
             onMouseLeave={(e) =>
               ((e.currentTarget as HTMLElement).style.color = '#1a1a1a')

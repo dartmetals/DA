@@ -28,7 +28,7 @@ const PlusIcon: React.FC = () => (
       justifyContent: 'center',
       width: '18px',
       height: '18px',
-      backgroundColor: '#e31e24',
+      backgroundColor: '#2563eb',
       color: '#fff',
       fontSize: '13px',
       fontWeight: '700',
@@ -50,7 +50,7 @@ const PercentIcon: React.FC = () => (
       justifyContent: 'center',
       width: '18px',
       height: '18px',
-      backgroundColor: '#e31e24',
+      backgroundColor: '#2563eb',
       color: '#fff',
       fontSize: '10px',
       fontWeight: '700',
@@ -90,7 +90,7 @@ const StatItem: React.FC<{ stat: Stat; visible: boolean; delay: number }> = ({
         style={{
           fontSize: 'clamp(36px, 5vw, 52px)',
           fontWeight: '800',
-          color: '#1a1a1a',
+          color: '#1e3a8a',
           lineHeight: 1,
         }}
       >
@@ -102,7 +102,7 @@ const StatItem: React.FC<{ stat: Stat; visible: boolean; delay: number }> = ({
       style={{
         fontSize: '14px',
         fontWeight: '500',
-        color: '#555',
+        color: '#4b5563',
         lineHeight: 1.55,
         whiteSpace: 'pre-line',
       }}
@@ -136,7 +136,7 @@ const Stats: React.FC = () => {
       style={{
         padding: '70px 0',
         backgroundColor: '#ffffff',
-        borderTop: '1px solid #f0f0f0',
+        borderTop: '1px solid #e5e7eb',
       }}
     >
       <div
@@ -151,7 +151,7 @@ const Stats: React.FC = () => {
           style={{
             fontSize: '28px',
             fontWeight: '700',
-            color: '#1a1a1a',
+            color: '#1e3a8a',
             textAlign: 'center',
             marginBottom: '50px',
           }}
@@ -174,7 +174,7 @@ const Stats: React.FC = () => {
         </div>
 
         {/* Divider */}
-        <div style={{ borderTop: '1px solid #f0f0f0', margin: '16px 0' }} />
+        <div style={{ borderTop: '1px solid #e5e7eb', margin: '16px 0' }} />
 
         {/* Row 2 */}
         <div

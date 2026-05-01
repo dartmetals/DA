@@ -19,7 +19,7 @@
 .testimonials-label span {
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--red);
+  color: var(--blue);
   letter-spacing: 2px;
   text-transform: uppercase;
 }
@@ -27,7 +27,7 @@
 .label-line-red {
   width: 48px;
   height: 2px;
-  background: var(--red);
+  background: var(--blue);
 }
 
 /* Controls */
@@ -51,8 +51,8 @@
 }
 
 .testi-ctrl:hover {
-  border-color: var(--red);
-  color: var(--red);
+  border-color: var(--blue);
+  color: var(--blue);
 }
 
 /* Testimonial Card */
@@ -84,7 +84,7 @@
 .author-line {
   width: 2px;
   height: 40px;
-  background: var(--red);
+  background: var(--blue);
   flex-shrink: 0;
 }
 
@@ -125,7 +125,7 @@
 }
 
 .testi-dot.active {
-  background: var(--red);
+  background: var(--blue);
   width: 24px;
   border-radius: 4px;
 }

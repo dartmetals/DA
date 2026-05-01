@@ -55,7 +55,7 @@
   width: 40px;
   height: 40px;
   border-style: solid;
-  border-color: var(--red);
+  border-color: var(--blue);
 }
 
 .badge-corner.top-left {
@@ -79,7 +79,7 @@
 .since-year {
   font-size: 0.78rem;
   font-weight: 700;
-  color: var(--red);
+  color: var(--blue);
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 16px;
@@ -121,7 +121,18 @@
 }
 
 .tmi-group-link:hover {
-  color: var(--red);
+  color: var(--blue);
+}
+
+/* CSS Variables - Blue Theme */
+:root {
+  --white: #ffffff;
+  --black: #1a1a1a;
+  --grey: #666666;
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --border: #e0e0e0;
+  --font-heading: 'Inter', 'DM Sans', system-ui, sans-serif;
 }
 
 @media (max-width: 900px) {

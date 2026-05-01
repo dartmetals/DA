@@ -48,7 +48,7 @@ const PartnerIcon: React.FC = () => (
 )
 
 const KnowMoreArrow: React.FC<{ white?: boolean }> = ({ white }) => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={white ? '#fff' : '#e31e24'} strokeWidth="2.5">
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={white ? '#fff' : '#2563eb'} strokeWidth="2.5">
     <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
@@ -144,7 +144,7 @@ const WhoWeServe: React.FC = () => {
                   borderRadius: '12px',
                   padding: '38px 30px',
                   boxShadow: isHovered
-                    ? '0 8px 30px rgba(0,0,0,0.15)'
+                    ? '0 8px 30px rgba(37, 99, 235, 0.15)'
                     : '0 2px 16px rgba(0,0,0,0.07)',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
@@ -172,7 +172,7 @@ const WhoWeServe: React.FC = () => {
                   />
                 )}
 
-                {/* Red Gradient Overlay - only visible on hover */}
+                {/* Blue Gradient Overlay - only visible on hover */}
                 <div
                   style={{
                     position: 'absolute',
@@ -180,7 +180,7 @@ const WhoWeServe: React.FC = () => {
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    background: 'linear-gradient(135deg, rgba(227, 30, 36, 0.7), rgba(200, 20, 25, 0.7))',
+                    background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.75), rgba(29, 78, 216, 0.75))',
                     opacity: isHovered ? 1 : 0,
                     transition: 'opacity 0.4s ease',
                   }}
@@ -229,10 +229,10 @@ const WhoWeServe: React.FC = () => {
                       gap: '6px',
                       fontSize: '12px',
                       fontWeight: '700',
-                      color: isHovered ? '#ffffff' : '#e31e24',
+                      color: isHovered ? '#ffffff' : '#2563eb',
                       letterSpacing: '1px',
                       textTransform: 'uppercase',
-                      borderBottom: `1px solid ${isHovered ? 'rgba(255,255,255,0.5)' : '#e31e24'}`,
+                      borderBottom: `1px solid ${isHovered ? 'rgba(255,255,255,0.5)' : '#2563eb'}`,
                       paddingBottom: '2px',
                       textDecoration: 'none',
                     }}

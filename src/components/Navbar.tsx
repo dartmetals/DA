@@ -57,13 +57,13 @@ const Navbar: React.FC = () => {
   return (
     <nav
       style={{
-        position: 'fixed',
+        position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         zIndex: 1000,
         backgroundColor: '#ffffff',
-        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.12)' : '0 1px 6px rgba(0,0,0,0.06)',
+        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.12)' : 'none',
         transition: 'box-shadow 0.3s ease',
       }}
     >
@@ -78,43 +78,17 @@ const Navbar: React.FC = () => {
           height: '68px',
         }}
       >
-        {/* ── Logo - Navigates to Home ── */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0px', textDecoration: 'none' }}>
-          <div
+        {/* ── Logo Image - Navigates to Home ── */}
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <img 
+            src="/da-logo2.png" 
+            alt="TMI Network Logo"
             style={{
-              backgroundColor: '#e31e24',
-              color: '#ffffff',
-              width: '50px',
-              height: '50px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: '4px',
-              flexShrink: 0,
+              height: '70px',
+              width: 'auto',
+              objectFit: 'contain',
             }}
-          >
-            <span
-              style={{
-                fontSize: '19px',
-                fontWeight: '800',
-                lineHeight: 1.1,
-                letterSpacing: '-0.5px',
-              }}
-            >
-              tmi
-            </span>
-            <span
-              style={{
-                fontSize: '7px',
-                fontWeight: '600',
-                letterSpacing: '2px',
-                opacity: 0.9,
-              }}
-            >
-              NETWORK
-            </span>
-          </div>
+          />
         </Link>
 
         {/* ── Desktop Nav ── */}
@@ -165,7 +139,7 @@ const Navbar: React.FC = () => {
                   textDecoration: 'none',
                 }}
                 onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color = '#e31e24')
+                  ((e.currentTarget as HTMLElement).style.color = '#2563eb')
                 }
                 onMouseLeave={(e) =>
                   ((e.currentTarget as HTMLElement).style.color = '#333')
@@ -210,7 +184,7 @@ const Navbar: React.FC = () => {
                           }}
                           onMouseEnter={(e) => {
                             (e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5'
-                            ;(e.currentTarget as HTMLElement).style.color = '#e31e24'
+                            ;(e.currentTarget as HTMLElement).style.color = '#2563eb'
                           }}
                           onMouseLeave={(e) => {
                             (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'
@@ -236,7 +210,7 @@ const Navbar: React.FC = () => {
                         }}
                         onMouseEnter={(e) => {
                           (e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5'
-                          ;(e.currentTarget as HTMLElement).style.color = '#e31e24'
+                          ;(e.currentTarget as HTMLElement).style.color = '#2563eb'
                         }}
                         onMouseLeave={(e) => {
                           (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'
@@ -252,6 +226,7 @@ const Navbar: React.FC = () => {
             </div>
           ))}
 
+          {/* GET STARTED Button - Blue Theme */}
           <a
             href="#get-started"
             style={{
@@ -259,7 +234,7 @@ const Navbar: React.FC = () => {
               fontSize: '12.5px',
               fontWeight: '600',
               padding: '9px 20px',
-              backgroundColor: '#e31e24',
+              backgroundColor: '#2563eb',
               borderRadius: '3px',
               marginLeft: '6px',
               letterSpacing: '0.5px',
@@ -268,10 +243,10 @@ const Navbar: React.FC = () => {
               textDecoration: 'none',
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.backgroundColor = '#c01820')
+              ((e.currentTarget as HTMLElement).style.backgroundColor = '#1d4ed8')
             }
             onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.backgroundColor = '#e31e24')
+              ((e.currentTarget as HTMLElement).style.backgroundColor = '#2563eb')
             }
           >
             GET STARTED
@@ -403,7 +378,7 @@ const Navbar: React.FC = () => {
               fontSize: '13px',
               fontWeight: '600',
               padding: '10px 20px',
-              backgroundColor: '#e31e24',
+              backgroundColor: '#2563eb',
               borderRadius: '3px',
               textAlign: 'center',
               marginTop: '4px',

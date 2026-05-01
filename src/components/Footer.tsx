@@ -86,7 +86,7 @@ const LinkItem: React.FC<{ href: string; label: string }> = ({ href, label }) =>
   <a
     href={href}
     style={linkStyle}
-    onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#e31e24')}
+    onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#2563eb')}
     onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#aaaaaa')}
   >
     {label}
@@ -119,7 +119,7 @@ const Footer: React.FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
             <div
               style={{
-                backgroundColor: '#e31e24',
+                backgroundColor: '#2563eb',
                 color: '#fff',
                 width: '50px',
                 height: '50px',
@@ -136,7 +136,7 @@ const Footer: React.FC = () => {
           </div>
 
           <p style={{ fontSize: '13px', lineHeight: 1.85, color: '#888', marginBottom: '22px' }}>
-            <span style={{ color: '#e31e24', fontWeight: '600' }}>TMI Network</span> is one of
+            <span style={{ color: '#2563eb', fontWeight: '600' }}>TMI Network</span> is one of
             India's oldest and largest recruitment agencies in India. It is part of the TMI Group of
             companies, based in Hyderabad, India.
           </p>
@@ -161,9 +161,9 @@ const Footer: React.FC = () => {
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement
-                  el.style.borderColor = '#e31e24'
-                  el.style.color = '#e31e24'
-                  el.style.backgroundColor = 'rgba(227,30,36,0.1)'
+                  el.style.borderColor = '#2563eb'
+                  el.style.color = '#2563eb'
+                  el.style.backgroundColor = 'rgba(37,99,235,0.1)'
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement

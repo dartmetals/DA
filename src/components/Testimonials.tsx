@@ -35,7 +35,7 @@ const QuoteIcon: React.FC = () => (
   <svg width="50" height="38" viewBox="0 0 50 38" fill="none">
     <path
       d="M0 38V22.5C0 9.5 8.5 2.5 25.5 0L27 4C19.5 5.5 15.5 9.5 15 15H22V38H0ZM28 38V22.5C28 9.5 36.5 2.5 53.5 0L55 4C47.5 5.5 43.5 9.5 43 15H50V38H28Z"
-      fill="#e8e8e8"
+      fill="#2563eb"
     />
   </svg>
 )
@@ -83,7 +83,7 @@ const Testimonials: React.FC = () => {
             >
               <span
                 style={{
-                  color: '#e31e24',
+                  color: '#2563eb',
                   fontSize: '12px',
                   fontWeight: '600',
                   letterSpacing: '2px',
@@ -97,7 +97,7 @@ const Testimonials: React.FC = () => {
                   display: 'block',
                   width: '40px',
                   height: '2px',
-                  backgroundColor: '#e31e24',
+                  backgroundColor: '#2563eb',
                 }}
               />
             </div>
@@ -135,8 +135,8 @@ const Testimonials: React.FC = () => {
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement
-                  el.style.borderColor = '#e31e24'
-                  el.style.color = '#e31e24'
+                  el.style.borderColor = '#2563eb'
+                  el.style.color = '#2563eb'
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement
@@ -181,7 +181,7 @@ const Testimonials: React.FC = () => {
               style={{
                 width: '3px',
                 height: '40px',
-                backgroundColor: '#e31e24',
+                backgroundColor: '#2563eb',
                 borderRadius: '2px',
               }}
             />
@@ -220,7 +220,7 @@ const Testimonials: React.FC = () => {
                 height: '8px',
                 borderRadius: '4px',
                 border: 'none',
-                backgroundColor: i === current ? '#e31e24' : '#ddd',
+                backgroundColor: i === current ? '#2563eb' : '#ddd',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
               }}

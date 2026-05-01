@@ -6,7 +6,7 @@ const WhyChooseUs: React.FC = () => {
       id="why"
       style={{
         padding: '80px 0',
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#f8fafc',
       }}
     >
       <div
@@ -31,9 +31,9 @@ const WhyChooseUs: React.FC = () => {
               width: '160px',
               height: '160px',
               backgroundImage:
-                'radial-gradient(circle, #e31e24 1.5px, transparent 1.5px)',
+                'radial-gradient(circle, #2563eb 1.5px, transparent 1.5px)',
               backgroundSize: '14px 14px',
-              opacity: 0.35,
+              opacity: 0.25,
               zIndex: 0,
             }}
           />
@@ -45,7 +45,7 @@ const WhyChooseUs: React.FC = () => {
               borderRadius: '4px',
               overflow: 'hidden',
               height: '420px',
-              background: 'linear-gradient(135deg, #2c2c2c 0%, #444 100%)',
+              background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -54,27 +54,27 @@ const WhyChooseUs: React.FC = () => {
             {/* Placeholder person illustration */}
             <svg width="200" height="300" viewBox="0 0 200 320" fill="none">
               {/* Background suit */}
-              <rect x="40" y="130" width="120" height="180" rx="10" fill="#2a2a4a" />
+              <rect x="40" y="130" width="120" height="180" rx="10" fill="#1e3a8a" />
               {/* Shirt / tie area */}
-              <rect x="80" y="130" width="40" height="180" fill="#1a1a3a" />
-              <polygon points="95,140 100,180 105,140" fill="#e31e24" />
+              <rect x="80" y="130" width="40" height="180" fill="#2563eb" />
+              <polygon points="95,140 100,180 105,140" fill="#1d4ed8" />
               {/* Head */}
-              <circle cx="100" cy="90" r="45" fill="#d4a876" />
+              <circle cx="100" cy="90" r="45" fill="#fcd34d" />
               {/* Hair */}
-              <ellipse cx="100" cy="52" rx="45" ry="20" fill="#2a1a0a" />
+              <ellipse cx="100" cy="52" rx="45" ry="20" fill="#78350f" />
               {/* Arms */}
-              <rect x="10" y="135" width="32" height="100" rx="14" fill="#2a2a4a" />
-              <rect x="158" y="135" width="32" height="100" rx="14" fill="#2a2a4a" />
+              <rect x="10" y="135" width="32" height="100" rx="14" fill="#1e3a8a" />
+              <rect x="158" y="135" width="32" height="100" rx="14" fill="#1e3a8a" />
               {/* Hands */}
-              <ellipse cx="26" cy="240" rx="16" ry="12" fill="#d4a876" />
-              <ellipse cx="174" cy="240" rx="16" ry="12" fill="#d4a876" />
+              <ellipse cx="26" cy="240" rx="16" ry="12" fill="#fcd34d" />
+              <ellipse cx="174" cy="240" rx="16" ry="12" fill="#fcd34d" />
               {/* Lapels */}
-              <polygon points="80,130 100,160 60,200" fill="#1a1a2e" opacity="0.7" />
-              <polygon points="120,130 100,160 140,200" fill="#1a1a2e" opacity="0.7" />
+              <polygon points="80,130 100,160 60,200" fill="#1e40af" opacity="0.7" />
+              <polygon points="120,130 100,160 140,200" fill="#1e40af" opacity="0.7" />
             </svg>
           </div>
 
-          {/* Decorative red accent bar */}
+          {/* Decorative blue accent bar */}
           <div
             style={{
               position: 'absolute',
@@ -82,7 +82,7 @@ const WhyChooseUs: React.FC = () => {
               left: '-8px',
               width: '6px',
               height: '80px',
-              backgroundColor: '#e31e24',
+              backgroundColor: '#2563eb',
               zIndex: 2,
             }}
           />
@@ -101,7 +101,7 @@ const WhyChooseUs: React.FC = () => {
           >
             <span
               style={{
-                color: '#e31e24',
+                color: '#2563eb',
                 fontSize: '12px',
                 fontWeight: '600',
                 letterSpacing: '2px',
@@ -115,7 +115,7 @@ const WhyChooseUs: React.FC = () => {
                 display: 'block',
                 width: '50px',
                 height: '2px',
-                backgroundColor: '#e31e24',
+                backgroundColor: '#2563eb',
               }}
             />
           </div>
@@ -124,7 +124,7 @@ const WhyChooseUs: React.FC = () => {
             style={{
               fontSize: 'clamp(22px, 3vw, 32px)',
               fontWeight: '700',
-              color: '#1a1a1a',
+              color: '#1e3a8a',
               lineHeight: 1.35,
               marginBottom: '22px',
             }}
@@ -136,7 +136,7 @@ const WhyChooseUs: React.FC = () => {
           <p
             style={{
               fontSize: '14px',
-              color: '#666',
+              color: '#4b5563',
               lineHeight: 1.9,
               marginBottom: '36px',
             }}
@@ -154,25 +154,26 @@ const WhyChooseUs: React.FC = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              color: '#e31e24',
+              color: '#2563eb',
               fontSize: '12.5px',
               fontWeight: '700',
               padding: '11px 28px',
-              border: '2px solid #e31e24',
+              border: '2px solid #2563eb',
               borderRadius: '3px',
               letterSpacing: '1.5px',
               textTransform: 'uppercase',
               transition: 'all 0.25s ease',
+              textDecoration: 'none',
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLElement
-              el.style.backgroundColor = '#e31e24'
+              el.style.backgroundColor = '#2563eb'
               el.style.color = '#fff'
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement
               el.style.backgroundColor = 'transparent'
-              el.style.color = '#e31e24'
+              el.style.color = '#2563eb'
             }}
           >
             ABOUT US

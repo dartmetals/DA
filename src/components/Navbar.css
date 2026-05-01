@@ -1,5 +1,5 @@
 .navbar {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -35,7 +35,7 @@
 .logo-box {
   width: 42px;
   height: 42px;
-  background: var(--red);
+  background: var(--blue);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,7 +83,7 @@
 }
 
 .nav-links a:hover {
-  color: var(--red);
+  color: var(--blue);
 }
 
 .nav-icon-link {
@@ -91,7 +91,7 @@
 }
 
 .nav-icon-link:hover {
-  color: var(--red) !important;
+  color: var(--blue) !important;
 }
 
 .chevron {
@@ -132,12 +132,12 @@
 
 .dropdown a:hover {
   background: var(--light-grey);
-  color: var(--red);
+  color: var(--blue);
 }
 
-/* Contact Button */
+/* Get Started Button - Blue Theme */
 .nav-contact-btn {
-  background: var(--red) !important;
+  background: var(--blue) !important;
   color: white !important;
   padding: 8px 16px !important;
   border-radius: 20px !important;
@@ -146,7 +146,7 @@
 }
 
 .nav-contact-btn:hover {
-  background: var(--red-dark) !important;
+  background: var(--blue-dark) !important;
   color: white !important;
 }
 
@@ -191,7 +191,18 @@
 }
 
 .mobile-menu a:hover {
-  color: var(--red);
+  color: var(--blue);
+}
+
+/* CSS Variables - Blue Theme */
+:root {
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --black: #1a1a1a;
+  --grey: #666666;
+  --border: #e0e0e0;
+  --light-grey: #f5f5f5;
+  --font-heading: 'Inter', 'DM Sans', system-ui, sans-serif;
 }
 
 @media (max-width: 900px) {

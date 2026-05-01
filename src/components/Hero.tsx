@@ -54,13 +54,13 @@ const Hero: React.FC = () => {
         marginTop: '68px',
       }}
     >
-      {/* Background – dark gradient simulating the city/stairs image */}
+      {/* Background – white-blue gradient */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%)',
+            'linear-gradient(135deg, #f0f4ff 0%, #e0e8ff 30%, #d0deff 60%, #b8ccff 100%)',
           zIndex: 0,
         }}
       />
@@ -72,7 +72,7 @@ const Hero: React.FC = () => {
           inset: 0,
           zIndex: 1,
           overflow: 'hidden',
-          opacity: 0.12,
+          opacity: 0.08,
         }}
       >
         {Array.from({ length: 14 }).map((_, i) => (
@@ -86,18 +86,18 @@ const Hero: React.FC = () => {
               height: '0',
               borderLeft: '22px solid transparent',
               borderRight: '22px solid transparent',
-              borderBottom: `${180 + (i % 3) * 60}px solid #ffffff`,
+              borderBottom: `${180 + (i % 3) * 60}px solid #2563eb`,
             }}
           />
         ))}
       </div>
 
-      {/* Dark overlay */}
+      {/* Dark overlay - removed for white theme */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'rgba(0,0,0,0.55)',
+          background: 'rgba(255,255,255,0.15)',
           zIndex: 2,
         }}
       />
@@ -110,10 +110,10 @@ const Hero: React.FC = () => {
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 3,
-          opacity: 0.25,
+          opacity: 0.08,
         }}
       >
-        <svg width="80" height="180" viewBox="0 0 80 180" fill="white">
+        <svg width="80" height="180" viewBox="0 0 80 180" fill="#2563eb">
           <ellipse cx="40" cy="22" rx="14" ry="16" />
           <rect x="26" y="42" width="28" height="70" rx="6" />
           <rect x="10" y="45" width="14" height="55" rx="5" />
@@ -138,7 +138,7 @@ const Hero: React.FC = () => {
           <p
             key={`h1-${current}`}
             style={{
-              color: '#ffffff',
+              color: '#1e3a8a',
               fontSize: 'clamp(26px, 4vw, 40px)',
               fontWeight: '600',
               lineHeight: 1.25,
@@ -151,7 +151,7 @@ const Hero: React.FC = () => {
           <p
             key={`h2-${current}`}
             style={{
-              color: '#ffffff',
+              color: '#1e3a8a',
               fontSize: 'clamp(26px, 4vw, 40px)',
               fontWeight: '700',
               lineHeight: 1.25,
@@ -163,7 +163,7 @@ const Hero: React.FC = () => {
             {slide.headline2}{' '}
             <span
               style={{
-                backgroundColor: '#e31e24',
+                backgroundColor: '#2563eb',
                 color: '#fff',
                 padding: '2px 12px',
                 borderRadius: '2px',
@@ -179,8 +179,8 @@ const Hero: React.FC = () => {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              border: '2px solid #ffffff',
-              color: '#ffffff',
+              border: '2px solid #2563eb',
+              color: '#2563eb',
               fontSize: '13px',
               fontWeight: '600',
               padding: '12px 28px',
@@ -188,16 +188,19 @@ const Hero: React.FC = () => {
               letterSpacing: '1.5px',
               transition: 'all 0.25s ease',
               cursor: 'pointer',
+              textDecoration: 'none',
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLElement
-              el.style.backgroundColor = '#e31e24'
-              el.style.borderColor = '#e31e24'
+              el.style.backgroundColor = '#2563eb'
+              el.style.borderColor = '#2563eb'
+              el.style.color = '#ffffff'
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement
               el.style.backgroundColor = 'transparent'
-              el.style.borderColor = '#ffffff'
+              el.style.borderColor = '#2563eb'
+              el.style.color = '#2563eb'
             }}
           >
             {slide.sub}
@@ -223,9 +226,9 @@ const Hero: React.FC = () => {
                 width: '36px',
                 height: '36px',
                 borderRadius: '50%',
-                border: '2px solid rgba(255,255,255,0.6)',
-                background: 'rgba(255,255,255,0.1)',
-                color: '#fff',
+                border: '2px solid #2563eb',
+                background: 'rgba(37, 99, 235, 0.1)',
+                color: '#2563eb',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -236,13 +239,15 @@ const Hero: React.FC = () => {
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement
-                el.style.background = '#e31e24'
-                el.style.borderColor = '#e31e24'
+                el.style.background = '#2563eb'
+                el.style.borderColor = '#2563eb'
+                el.style.color = '#ffffff'
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLElement
-                el.style.background = 'rgba(255,255,255,0.1)'
-                el.style.borderColor = 'rgba(255,255,255,0.6)'
+                el.style.background = 'rgba(37, 99, 235, 0.1)'
+                el.style.borderColor = '#2563eb'
+                el.style.color = '#2563eb'
               }}
             >
               {i === 0 ? '‹' : '›'}
@@ -269,7 +274,7 @@ const Hero: React.FC = () => {
                 height: '8px',
                 borderRadius: '4px',
                 border: 'none',
-                background: i === current ? '#e31e24' : 'rgba(255,255,255,0.4)',
+                background: i === current ? '#2563eb' : 'rgba(37, 99, 235, 0.3)',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
               }}

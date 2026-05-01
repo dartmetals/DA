@@ -22,18 +22,18 @@
 }
 
 .serve-card:hover {
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.15);
   transform: translateY(-4px);
 }
 
 .serve-card.featured {
-  background: var(--red);
-  border-color: var(--red);
+  background: var(--blue);
+  border-color: var(--blue);
   color: white;
 }
 
 .serve-card.featured:hover {
-  background: var(--red-dark);
+  background: var(--blue-dark);
 }
 
 .card-icon {
@@ -67,7 +67,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--red);
+  color: var(--blue);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -88,7 +88,7 @@
 .arrow-icon {
   width: 20px;
   height: 20px;
-  background: var(--red);
+  background: var(--blue);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -98,6 +98,18 @@
 
 .know-more-white .arrow-icon {
   background: rgba(255, 255, 255, 0.3);
+}
+
+/* CSS Variables - Blue Theme */
+:root {
+  --white: #ffffff;
+  --black: #1a1a1a;
+  --grey: #666666;
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --border: #e0e0e0;
+  --light-grey: #f5f5f5;
+  --font-heading: 'Inter', 'DM Sans', system-ui, sans-serif;
 }
 
 @media (max-width: 768px) {

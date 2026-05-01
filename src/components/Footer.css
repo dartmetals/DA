@@ -29,7 +29,7 @@
 .footer-logo-box {
   width: 44px;
   height: 44px;
-  background: var(--red);
+  background: var(--blue);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -51,7 +51,7 @@
 }
 
 .footer-brand-desc strong {
-  color: var(--red);
+  color: var(--blue);
   font-weight: 600;
 }
 
@@ -76,7 +76,7 @@
 }
 
 .social-icon:hover {
-  background: var(--red);
+  background: var(--blue);
   color: white;
 }
 
@@ -109,7 +109,7 @@
 }
 
 .footer-links li a:hover {
-  color: var(--red);
+  color: var(--blue);
 }
 
 /* Jobs Grid */
@@ -157,4 +157,15 @@
   .footer-jobs-grid {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+/* CSS Variables */
+:root {
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --white: #ffffff;
+  --black: #1a1a1a;
+  --grey: #666666;
+  --border: #e0e0e0;
+  --font-heading: 'Inter', 'DM Sans', system-ui, sans-serif;
 }

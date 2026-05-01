@@ -46,8 +46,8 @@ const OurJourney: React.FC = () => {
       <div style={{ backgroundColor: '#fff', padding: '50px 0 30px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-            <span style={{ color: '#e31e24', fontSize: '12px', fontWeight: '600', letterSpacing: '2px' }}>OUR STORY</span>
-            <span style={{ display: 'block', width: '40px', height: '2px', backgroundColor: '#e31e24' }} />
+            <span style={{ color: '#2563eb', fontSize: '12px', fontWeight: '600', letterSpacing: '2px' }}>OUR STORY</span>
+            <span style={{ display: 'block', width: '40px', height: '2px', backgroundColor: '#2563eb' }} />
           </div>
           <h2 style={{ fontSize: 'clamp(22px,3.5vw,32px)', fontWeight: '700', color: '#1a1a1a', marginBottom: '16px' }}>
             A decade of data excellence
@@ -66,7 +66,7 @@ const OurJourney: React.FC = () => {
           {/* Vertical line */}
           <div style={{
             position: 'absolute', left: '50%', top: '0', bottom: '0',
-            width: '2px', backgroundColor: '#ececec', transform: 'translateX(-50%)',
+            width: '2px', backgroundColor: '#e2e8f0', transform: 'translateX(-50%)',
             zIndex: 0,
           }} />
 
@@ -91,13 +91,13 @@ const OurJourney: React.FC = () => {
                 <div style={{ paddingRight: '30px', textAlign: 'right' }}>
                   {isLeft ? (
                     <div style={{
-                      border: `1px solid ${m.isHighlight ? '#e31e24' : '#ebebeb'}`,
+                      border: `1px solid ${m.isHighlight ? '#2563eb' : '#ebebeb'}`,
                       borderRadius: '6px', padding: '22px 24px',
-                      backgroundColor: m.isHighlight ? '#fff8f8' : '#fff',
+                      backgroundColor: m.isHighlight ? '#eff6ff' : '#fff',
                       boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
                       textAlign: 'left',
                     }}>
-                      <h3 style={{ fontSize: '15px', fontWeight: '700', color: m.isHighlight ? '#e31e24' : '#1a1a1a', marginBottom: '8px' }}>{m.title}</h3>
+                      <h3 style={{ fontSize: '15px', fontWeight: '700', color: m.isHighlight ? '#2563eb' : '#1a1a1a', marginBottom: '8px' }}>{m.title}</h3>
                       <p style={{ fontSize: '13px', color: '#666', lineHeight: 1.75 }} dangerouslySetInnerHTML={{ __html: m.description }} />
                     </div>
                   ) : null}
@@ -107,12 +107,12 @@ const OurJourney: React.FC = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 1 }}>
                   <div style={{
                     width: '48px', height: '48px', borderRadius: '50%',
-                    backgroundColor: m.isHighlight ? '#e31e24' : '#fff',
-                    border: `2px solid ${m.isHighlight ? '#e31e24' : '#ccc'}`,
+                    backgroundColor: m.isHighlight ? '#2563eb' : '#fff',
+                    border: `2px solid ${m.isHighlight ? '#2563eb' : '#cbd5e1'}`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: m.isHighlight ? '0 0 0 6px rgba(227,30,36,0.12)' : 'none',
+                    boxShadow: m.isHighlight ? '0 0 0 6px rgba(37,99,235,0.12)' : 'none',
                   }}>
-                    <span style={{ fontSize: '10px', fontWeight: '800', color: m.isHighlight ? '#fff' : '#666', lineHeight: 1.1, textAlign: 'center' }}>
+                    <span style={{ fontSize: '10px', fontWeight: '800', color: m.isHighlight ? '#fff' : '#64748b', lineHeight: 1.1, textAlign: 'center' }}>
                       {m.year}
                     </span>
                   </div>
@@ -122,12 +122,12 @@ const OurJourney: React.FC = () => {
                 <div style={{ paddingLeft: '30px' }}>
                   {!isLeft ? (
                     <div style={{
-                      border: `1px solid ${m.isHighlight ? '#e31e24' : '#ebebeb'}`,
+                      border: `1px solid ${m.isHighlight ? '#2563eb' : '#ebebeb'}`,
                       borderRadius: '6px', padding: '22px 24px',
-                      backgroundColor: m.isHighlight ? '#fff8f8' : '#fff',
+                      backgroundColor: m.isHighlight ? '#eff6ff' : '#fff',
                       boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
                     }}>
-                      <h3 style={{ fontSize: '15px', fontWeight: '700', color: m.isHighlight ? '#e31e24' : '#1a1a1a', marginBottom: '8px' }}>{m.title}</h3>
+                      <h3 style={{ fontSize: '15px', fontWeight: '700', color: m.isHighlight ? '#2563eb' : '#1a1a1a', marginBottom: '8px' }}>{m.title}</h3>
                       <p style={{ fontSize: '13px', color: '#666', lineHeight: 1.75 }} dangerouslySetInnerHTML={{ __html: m.description }} />
                     </div>
                   ) : null}

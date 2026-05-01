@@ -5,46 +5,46 @@ import AboutLayout from '../../components/AboutLayout'
 const icons = {
   tech: (
     <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-      <rect x="4" y="8" width="36" height="26" rx="4" stroke="#e31e24" strokeWidth="2" fill="none" />
-      <path d="M15 20l-5 4 5 4M29 20l5 4-5 4M21 16l2 12" stroke="#e31e24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="4" y="8" width="36" height="26" rx="4" stroke="#2563eb" strokeWidth="2" fill="none" />
+      <path d="M15 20l-5 4 5 4M29 20l5 4-5 4M21 16l2 12" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   speed: (
     <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-      <circle cx="22" cy="24" r="16" stroke="#e31e24" strokeWidth="2" fill="none" />
-      <path d="M22 24L30 12" stroke="#e31e24" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="22" cy="24" r="2.5" fill="#e31e24" />
-      <path d="M10 10l2 2M34 10l-2 2M22 6v2" stroke="#e31e24" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="22" cy="24" r="16" stroke="#2563eb" strokeWidth="2" fill="none" />
+      <path d="M22 24L30 12" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="22" cy="24" r="2.5" fill="#2563eb" />
+      <path d="M10 10l2 2M34 10l-2 2M22 6v2" stroke="#2563eb" strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   ),
   talent: (
     <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-      <circle cx="22" cy="14" r="7" stroke="#e31e24" strokeWidth="2" fill="none" />
-      <path d="M8 38c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="#e31e24" strokeWidth="2" strokeLinecap="round" fill="none" />
-      <path d="M32 18l3 3-3 3M38 21h-6" stroke="#e31e24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="22" cy="14" r="7" stroke="#2563eb" strokeWidth="2" fill="none" />
+      <path d="M8 38c0-7.732 6.268-14 14-14s14 6.268 14 14" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <path d="M32 18l3 3-3 3M38 21h-6" stroke="#2563eb" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   scale: (
     <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-      <path d="M6 34l10-12 8 6 12-16" stroke="#e31e24" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      <circle cx="6" cy="34" r="3" fill="#e31e24" />
-      <circle cx="16" cy="22" r="3" fill="#e31e24" />
-      <circle cx="24" cy="28" r="3" fill="#e31e24" />
-      <circle cx="36" cy="12" r="3" fill="#e31e24" />
+      <path d="M6 34l10-12 8 6 12-16" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <circle cx="6" cy="34" r="3" fill="#2563eb" />
+      <circle cx="16" cy="22" r="3" fill="#2563eb" />
+      <circle cx="24" cy="28" r="3" fill="#2563eb" />
+      <circle cx="36" cy="12" r="3" fill="#2563eb" />
     </svg>
   ),
   trust: (
     <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-      <path d="M22 6l4 8 9 1.5-6.5 6.5 1.5 9L22 27l-8 4 1.5-9L9 15.5l9-1.5z" stroke="#e31e24" strokeWidth="2" fill="none" strokeLinejoin="round" />
-      <path d="M16 22l4 4 8-8" stroke="#e31e24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M22 6l4 8 9 1.5-6.5 6.5 1.5 9L22 27l-8 4 1.5-9L9 15.5l9-1.5z" stroke="#2563eb" strokeWidth="2" fill="none" strokeLinejoin="round" />
+      <path d="M16 22l4 4 8-8" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   domain: (
     <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-      <circle cx="22" cy="22" r="16" stroke="#e31e24" strokeWidth="2" fill="none" />
-      <ellipse cx="22" cy="22" rx="8" ry="16" stroke="#e31e24" strokeWidth="1.5" fill="none" />
-      <line x1="6" y1="22" x2="38" y2="22" stroke="#e31e24" strokeWidth="1.5" />
-      <line x1="22" y1="6" x2="22" y2="38" stroke="#e31e24" strokeWidth="1.5" />
+      <circle cx="22" cy="22" r="16" stroke="#2563eb" strokeWidth="2" fill="none" />
+      <ellipse cx="22" cy="22" rx="8" ry="16" stroke="#2563eb" strokeWidth="1.5" fill="none" />
+      <line x1="6" y1="22" x2="38" y2="22" stroke="#2563eb" strokeWidth="1.5" />
+      <line x1="22" y1="6" x2="22" y2="38" stroke="#2563eb" strokeWidth="1.5" />
     </svg>
   ),
 }
@@ -82,7 +82,7 @@ const differentiators = [
   },
 ]
 
-/* ── Stats Grid (red/white alternating) ── */
+/* ── Stats Grid (blue/white alternating) ── */
 const statsData = [
   { label: '3 Group Companies',            highlight: true },
   { label: '16 Countries',                 highlight: false },
@@ -118,8 +118,8 @@ const WhyDataArtisans: React.FC = () => {
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
           <div style={{ maxWidth: '800px', marginBottom: '50px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-              <span style={{ color: '#e31e24', fontSize: '12px', fontWeight: '600', letterSpacing: '2px' }}>WHY CHOOSE US</span>
-              <span style={{ display: 'block', width: '40px', height: '2px', backgroundColor: '#e31e24' }} />
+              <span style={{ color: '#2563eb', fontSize: '12px', fontWeight: '600', letterSpacing: '2px' }}>WHY CHOOSE US</span>
+              <span style={{ display: 'block', width: '40px', height: '2px', backgroundColor: '#2563eb' }} />
             </div>
             <h2 style={{ fontSize: 'clamp(22px, 3.5vw, 32px)', fontWeight: '700', color: '#1a1a1a', lineHeight: 1.4, marginBottom: '18px' }}>
               What makes Data Artisans<br />your ideal data partner?
@@ -142,7 +142,7 @@ const WhyDataArtisans: React.FC = () => {
               }}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLElement
-                  el.style.boxShadow = '0 8px 30px rgba(227,30,36,0.15)'
+                  el.style.boxShadow = '0 8px 30px rgba(37,99,235,0.15)'
                   el.style.transform = 'translateY(-4px)'
                 }}
                 onMouseLeave={e => {
@@ -169,7 +169,7 @@ const WhyDataArtisans: React.FC = () => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', border: '1px solid #ddd' }}>
             {statsData.map((s, i) => (
               <div key={i} style={{
-                backgroundColor: s.highlight ? '#e31e24' : '#fff',
+                backgroundColor: s.highlight ? '#2563eb' : '#fff',
                 color: s.highlight ? '#fff' : '#333',
                 padding: '30px 24px',
                 textAlign: 'center',
