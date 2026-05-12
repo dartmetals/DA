@@ -20,6 +20,7 @@ import JobPlacementSupportPage from './pages/Expertise/Jobplacementsupport'
 import StudyAbroadPage from './pages/Expertise/Studyabroad'
 import ContactUsPage from './components/ContactSection'
 import JoinUs from './components/Joinus'
+import DataEngineerCourse from './pages/Courses/DataEngineer'
 
 const Home: React.FC = () => (
   <>
@@ -50,6 +51,7 @@ const App: React.FC = () => (
           <Route path='/studyabroad' element={<StudyAbroadPage/>}/>
           <Route path='/contact-us' element={<ContactUsPage/>}/>
           <Route path='/join-us' element={<JoinUs/>}/>
+          <Route path='/data-engineer' element={<DataEngineerCourse/>}/>
         </Routes>
       </main>
       <Footer />

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 const NAV_LINKS = [
   { label: 'ABOUT US', href: '#about', hasDropdown: true },
   { label: 'EXPERTISE', href: '#expertise', hasDropdown: true },
-  { label: 'SOLUTIONS', href: 'solutions', hasDropdown: false },
-  { label: 'THOUGHT CENTRE', href: 'thoughtcentre', hasDropdown: true },
+  { label: 'SOLUTIONS', href: 'solutions', hasDropdown: true },
+  { label: 'COURSES', href: 'courses', hasDropdown: true },
   { label: 'CONTACT US', href: 'contact-us', hasDropdown: false },
   { label: 'JOIN US', href: 'join-us', hasDropdown: false },
 ]
@@ -47,10 +47,17 @@ const Navbar: React.FC = () => {
       { label: 'Job Placement Support', href: 'jobplacementsupport' },
       { label: 'Study Abroad', href: 'studyabroad' },
     ],
-    'THOUGHT CENTRE': [
-      { label: 'News', href: 'news' },
-      { label: 'Resource', href: 'resource' },
-      { label: 'Report', href: 'report' },
+    'SOLUTIONS': [
+      { label: 'Hiring', href: 'hiring' },
+      { label: 'Staffing', href: 'staffing' },
+      { label: 'Development', href: 'development' },
+      { label: 'Training', href: 'training-solutions' },
+    ],
+    'COURSES': [
+      { label: 'Azure Data Engineer', href: 'data-engineer' },
+      { label: 'Power BI', href: 'power-bi' },
+      { label: 'Data Analysis', href: 'data-analysis' },
+      { label: 'View All Courses', href: 'courses-lists' },
     ],
   }
 
