@@ -10,7 +10,7 @@ const ORG = '#f97316'
 const DARK = '#1a1a2e'
 const GRAY = '#64748b'
 const LGRAY = '#f1f5f9'
-const BDR = '#e2e8f0'
+// const BDR = '#e2e8f0'
 const TXT = '#1e293b'
 
 const btn = (bg: string, co: string, extra?: React.CSSProperties): React.CSSProperties => ({
@@ -545,16 +545,16 @@ const TrainingOptions: React.FC = () => {
    6. CURRICULUM ACCORDION
 ══════════════════════════════════════════════════════ */
 interface Lesson { title: string; duration: string; preview?: boolean }
-interface Module { title: string; totalDuration: string; lessons: Lesson[] }
+// interface Module { title: string; totalDuration: string; lessons: Lesson[] }
 
-const curriculum: Module[] = [
-  {
-    title: 'Section 01 - Self Paced Learning Curriculum', totalDuration: '48:30',
-    lessons: [
-      { title: 'Lesson 01: Data Engineering Fundamentals', duration: '36:20' },
-    ]
-  },
-]
+// const curriculum: Module[] = [
+//   {
+//     title: 'Section 01 - Self Paced Learning Curriculum', totalDuration: '48:30',
+//     lessons: [
+//       { title: 'Lesson 01: Data Engineering Fundamentals', duration: '36:20' },
+//     ]
+//   },
+// ]
 
 const fullLessons: Lesson[] = [
   { title: '1.1 Course Introduction', duration: '02:10', preview: true },
