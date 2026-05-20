@@ -47,3 +47,51 @@ html, body {
 html {
   scroll-behavior: smooth;
 }
+/* Add this to your existing CSS or create a new style tag */
+@media (max-width: 768px) {
+  .rsp-bottom-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    padding: 12px 16px !important;
+  }
+  
+  .rsp-bottom-cb,
+  .rsp-bottom-call {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  
+  .rsp-bottom-cb span,
+  .rsp-bottom-call span {
+    white-space: nowrap !important;
+  }
+  
+  .rsp-bottom-bar > div {
+    margin-left: 0 !important;
+  }
+  
+  .rsp-bottom-live {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .rsp-bottom-bar {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+  }
+  
+  .rsp-bottom-cb,
+  .rsp-bottom-call {
+    flex: 1 !important;
+    justify-content: center !important;
+  }
+  
+  .rsp-bottom-bar > div {
+    margin-left: 0 !important;
+  }
+}

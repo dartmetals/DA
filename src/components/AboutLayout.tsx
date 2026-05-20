@@ -5,7 +5,7 @@ const subLinks = [
   { label: 'Overview',           href: '/overview' },
   { label: 'Why Data Artisans',  href: '/whydataartisans' },
   { label: 'Our Journey',        href: '/ourjourney' },
-  { label: 'Leadership',         href: '/leadership' },
+  // { label: 'Leadership',         href: '/leadership' },
   { label: 'Locations',          href: '/locations' },
 ]
 
@@ -14,9 +14,45 @@ interface AboutLayoutProps {
   children: React.ReactNode
 }
 
-const AboutLayout: React.FC<AboutLayoutProps> = ({ title, children }) => {
+const AboutLayout: React.FC<AboutLayoutProps> = ({ children }) => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
+
+  // Dynamic hero content based on current path
+  const getHeroContent = () => {
+    if (pathname === '/overview') {
+      return {
+        heading: 'Tech for tomorrow.',
+        subheading: 'Empowering businesses with cutting-edge solutions',
+        bgImage: '/overview-bg.jpg'
+      }
+    } else if (pathname === '/whydataartisans') {
+      return {
+        heading: 'Making great teams.',
+        subheading: 'Choose us for reliable & secure software.',
+        bgImage: '/overview-bg.jpg'
+      }
+    } else if (pathname === '/ourjourney') {
+      return {
+        heading: 'From vision to innovation.',
+        subheading: 'A journey of progress, powered by technology and passion',
+        bgImage: '/overview-bg.jpg'
+      }
+    } else if (pathname === '/locations') {
+      return {
+        heading: 'Our Global Presence',
+        subheading: 'Serving businesses across the world with excellence',
+        bgImage: '/overview-bg.jpg'
+      }
+    }
+    return {
+      heading: 'Tech for tomorrow.',
+      subheading: 'Empowering businesses with cutting-edge solutions',
+      bgImage: '/overview-bg.jpg'
+    }
+  }
+
+  const heroContent = getHeroContent()
 
   return (
     <div style={{ paddingTop: '68px' }}>
@@ -24,16 +60,20 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ title, children }) => {
       <div
         style={{
           position: 'relative',
-          height: '220px',
+          height: '480px',
           overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
+          backgroundImage: `url(${heroContent.bgImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
         }}
       >
-        {/* BG gradient */}
+        {/* BG gradient overlay - decreased opacity */}
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(135deg, #0f2044 0%, #1a3566 40%, #0d3060 70%, #071d45 100%)',
+          background: 'linear-gradient(135deg, rgba(15,32,68,0.6) 0%, rgba(26,53,102,0.6) 40%, rgba(13,48,96,0.6) 70%, rgba(7,29,69,0.6) 100%)',
         }} />
         {/* Tech pattern overlay */}
         <div style={{
@@ -50,16 +90,6 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ title, children }) => {
             border: '1px solid rgba(255,255,255,0.08)',
           }} />
         ))}
-        {/* Globe-like decorative SVG (right side) */}
-        <div style={{ position: 'absolute', right: '120px', top: '20px', opacity: 0.18 }}>
-          <svg width="180" height="180" viewBox="0 0 180 180" fill="none">
-            <circle cx="90" cy="90" r="80" stroke="white" strokeWidth="1.5" />
-            <ellipse cx="90" cy="90" rx="45" ry="80" stroke="white" strokeWidth="1" />
-            <ellipse cx="90" cy="90" rx="80" ry="35" stroke="white" strokeWidth="1" />
-            <line x1="10" y1="90" x2="170" y2="90" stroke="white" strokeWidth="1" />
-            <line x1="90" y1="10" x2="90" y2="170" stroke="white" strokeWidth="1" />
-          </svg>
-        </div>
 
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '1200px', margin: '0 auto', padding: '0 40px', width: '100%' }}>
           {/* Breadcrumb */}
@@ -68,15 +98,20 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ title, children }) => {
             <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px' }}>»</span>
             <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>About Us</span>
           </div>
-          <h1 style={{ fontSize: 'clamp(30px, 5vw, 48px)', fontWeight: '700', color: '#ffffff', marginBottom: '14px' }}>
-            {title}
+          
+          {/* Dynamic Hero Content */}
+          <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: '700', color: '#ffffff', marginBottom: '12px' }}>
+            {heroContent.heading}
           </h1>
+          <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', fontWeight: '500', color: 'rgba(255,255,255,0.9)', marginBottom: '16px' }}>
+            {heroContent.subheading}
+          </p>
           <div style={{ width: '50px', height: '3px', backgroundColor: '#e31e24' }} />
         </div>
       </div>
 
-      {/* ── Sub Nav Tabs ── */}
-      <div style={{ backgroundColor: '#ffffff', borderBottom: '1px solid #e8e8e8', position: 'sticky', top: '68px', zIndex: 100 }}>
+      {/* ── Sub Nav Tabs - Removed sticky positioning ── */}
+      <div style={{ backgroundColor: '#ffffff', borderBottom: '1px solid #e8e8e8', position: 'relative', zIndex: 100 }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px', display: 'flex', gap: '0', overflowX: 'auto' }}>
           {subLinks.map((link) => {
             const active = pathname === link.href

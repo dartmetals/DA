@@ -13,15 +13,36 @@ interface Office {
 }
 
 const offices: Office[] = [
-  { city: 'Hyderabad', type: 'HQ', address: 'Plot 42, HITEC City, Madhapur, Hyderabad – 500 081', phone: '+91 40 4455 6677', email: 'hq@dataartisans.com', country: 'India', flag: '🇮🇳', coords: { lat: 17.45, lng: 78.38 } },
-  { city: 'Bengaluru', type: 'Regional', address: '6th Floor, Prestige Tech Park, Outer Ring Road, Bengaluru – 560 103', phone: '+91 80 4123 5678', email: 'bangalore@dataartisans.com', country: 'India', flag: '🇮🇳', coords: { lat: 12.97, lng: 77.59 } },
-  { city: 'Mumbai', type: 'Regional', address: 'Level 9, One BKC, Bandra Kurla Complex, Mumbai – 400 051', phone: '+91 22 6655 4433', email: 'mumbai@dataartisans.com', country: 'India', flag: '🇮🇳', coords: { lat: 19.07, lng: 72.87 } },
-  { city: 'Delhi NCR', type: 'Regional', address: 'Tower B, DLF Cyber Park, Phase 2, Gurugram – 122 002', phone: '+91 124 433 5566', email: 'delhi@dataartisans.com', country: 'India', flag: '🇮🇳', coords: { lat: 28.49, lng: 77.08 } },
-  { city: 'Chennai', type: 'Delivery', address: '4th Floor, Olympia Cyberspace, SIPCOT IT Park, Chennai – 600 119', phone: '+91 44 4221 3344', email: 'chennai@dataartisans.com', country: 'India', flag: '🇮🇳', coords: { lat: 12.84, lng: 80.22 } },
-  { city: 'Pune', type: 'Delivery', address: 'Unit 801, Commerzone, Yerwada, Pune – 411 006', phone: '+91 20 6677 8899', email: 'pune@dataartisans.com', country: 'India', flag: '🇮🇳', coords: { lat: 18.55, lng: 73.92 } },
-  { city: 'Singapore', type: 'Regional', address: '1 Raffles Place, #40-02 One Raffles Place, Singapore 048616', phone: '+65 6234 5678', email: 'singapore@dataartisans.com', country: 'Singapore', flag: '🇸🇬', coords: { lat: 1.28, lng: 103.85 } },
-  { city: 'Dubai', type: 'Delivery', address: 'DIFC, Gate Village Building 5, Level 4, Dubai, UAE', phone: '+971 4 330 1234', email: 'dubai@dataartisans.com', country: 'UAE', flag: '🇦🇪', coords: { lat: 25.21, lng: 55.28 } },
-  { city: 'London', type: 'Delivery', address: '10 Finsbury Square, Moorgate, London EC2A 1AF, UK', phone: '+44 20 7946 0123', email: 'london@dataartisans.com', country: 'UK', flag: '🇬🇧', coords: { lat: 51.52, lng: -0.09 } },
+  { 
+    city: 'London', 
+    type: 'Regional', 
+    address: '297, Suite 2, High Street North, London, E12 6SL', 
+    phone: '+44 7385 649648', 
+    email: 'london@dataartisans.com', 
+    country: 'International', 
+    flag: '🇬🇧', 
+    coords: { lat: 51.52, lng: -0.09 } 
+  },
+  { 
+    city: 'Hyderabad', 
+    type: 'HQ', 
+    address: '#918, 8th Floor, Vasavi MPM Grand, Beside Ameerpet Metro, (Pillar 1062 & 1063), Ameerpet, Hyderabad - 500073', 
+    phone: '+91 91333 29955', 
+    email: 'hyderabad@dataartisans.com', 
+    country: 'India', 
+    flag: '🇮🇳', 
+    coords: { lat: 17.45, lng: 78.38 } 
+  },
+  { 
+    city: 'Bangalore', 
+    type: 'Regional', 
+    address: 'No. 90/3, 2nd Floor, Outer Ring Rd, Opp. Innovative Multiplex, Marathahalli, Bangalore - 560037', 
+    phone: '+91 97395 52345', 
+    email: 'bangalore@dataartisans.com', 
+    country: 'India', 
+    flag: '🇮🇳', 
+    coords: { lat: 12.97, lng: 77.59 } 
+  },
 ]
 
 const typeColor = { HQ: '#2563eb', Regional: '#1e3a8a', Delivery: '#64748b' }
@@ -31,7 +52,7 @@ const Locations: React.FC = () => {
   const [activeCity, setActiveCity] = useState<string | null>('Hyderabad')
   const [activeTab, setActiveTab] = useState<'India' | 'International'>('India')
 
-  const filtered = offices.filter(o => activeTab === 'India' ? o.country === 'India' : o.country !== 'India')
+  const filtered = offices.filter(o => activeTab === 'India' ? o.country === 'India' : o.country === 'International')
 
   return (
     <AboutLayout title="Locations">

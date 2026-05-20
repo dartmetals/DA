@@ -22,9 +22,23 @@ const milestones: Milestone[] = [
   { year: '2025', title: 'Data Artisans 2.0', description: 'Launched Data Artisans 2.0 — a next-generation AI-native platform for automated data operations, real-time analytics, and self-service intelligence across the enterprise.', isHighlight: true },
 ]
 
+/* ── Journey Card Component ── */
+const JourneyCard: React.FC<{ title: string; description: string }> = ({ title, description }) => (
+  <div style={{
+    borderLeft: '4px solid #2563eb',
+    padding: '20px 24px',
+    backgroundColor: '#f8fafc',
+    borderRadius: '8px',
+    marginBottom: '20px',
+  }}>
+    <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#1a1a1a', marginBottom: '10px' }}>{title}</h3>
+    <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.75 }}>{description}</p>
+  </div>
+)
+
 const OurJourney: React.FC = () => {
   const refs = useRef<(HTMLDivElement | null)[]>([])
-  const [visible, setVisible] = useState<boolean[]>(new Array(milestones.length).fill(false))
+  const [_visible, setVisible] = useState<boolean[]>(new Array(milestones.length).fill(false))
 
   useEffect(() => {
     const observers = milestones.map((_, i) => {
@@ -40,101 +54,151 @@ const OurJourney: React.FC = () => {
     return () => observers.forEach(o => o.disconnect())
   }, [])
 
+  // New milestones data
+  const newMilestones = [
+    { year: '2014', title: 'Founded Flair Technologies', description: 'Started with a vision to bridge the skill gap in IT industry' },
+    { year: '2019', title: 'First 1000 Students Placed', description: 'Achieved 100% placement rate in our first year' },
+    { year: '2020', title: 'Expanded to Hyderabad', description: 'Opened our second training center to serve more students' },
+    { year: '2021', title: 'Launched Online Programs', description: 'Adapted to digital learning during pandemic' },
+    { year: '2022', title: '7000+ Students Trained', description: 'Crossed the milestone of training 2000+ professionals' },
+    { year: '2023', title: 'Industry Partnerships', description: 'Partnered with 100+ companies for direct placements' },
+    { year: '2024', title: '10000+ Success Stories', description: 'Celebrating 10000+ successful career transformations' },
+  ]
+
   return (
     <AboutLayout title="Our Journey">
-      {/* ── Intro ── */}
-      <div style={{ backgroundColor: '#fff', padding: '50px 0 30px' }}>
+      {/* ── Hero Section ── */}
+      <div style={{ backgroundColor: '#fff', padding: '50px 0 0' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
+          <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.85, marginBottom: '40px' }}>
+            At Data Artisans, our journey is driven by a passion for innovation, excellence, and transformative solutions. What started as a vision to revolutionize business processes has evolved into a trusted enterprise providing cutting-edge recruitment, workforce management, and digital transformation services. As we move forward, we remain dedicated to driving change, fostering innovation, and delivering impactful solutions that empower businesses worldwide. Join us on this journey, and let's shape the future together.
+          </p>
+        </div>
+      </div>
+
+      {/* ── Intro Section ── */}
+      <div style={{ backgroundColor: '#fff', padding: '0 0 30px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
             <span style={{ color: '#2563eb', fontSize: '12px', fontWeight: '600', letterSpacing: '2px' }}>OUR STORY</span>
             <span style={{ display: 'block', width: '40px', height: '2px', backgroundColor: '#2563eb' }} />
           </div>
           <h2 style={{ fontSize: 'clamp(22px,3.5vw,32px)', fontWeight: '700', color: '#1a1a1a', marginBottom: '16px' }}>
-            A decade of data excellence
+            A journey of growth, driven by software excellence.
           </h2>
-          <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.9, maxWidth: '700px' }}>
-            From a small team of passionate data engineers in Hyderabad to a global data solutions company
-            serving 400+ enterprises across 16 countries — here's how we grew.
+          <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.9, maxWidth: '100%', marginBottom: '20px' }}>
+            Over the years, Data Artisans have evolved alongside industry demands, embracing AI-driven automation, data intelligence, and smart business strategies to deliver unmatched efficiency and scalability. Our commitment to excellence, adaptability, and customer-centric solutions has helped us forge strong relationships with Fortune 500 companies, startups, and growing enterprises. As we move forward, innovation, integrity, and impact remain at the core of everything we do. Join us on this journey, and let's shape the future-together.
           </p>
-        </div>
-      </div>
 
-      {/* ── Timeline ── */}
-      <div style={{ backgroundColor: '#fff', padding: '10px 0 80px' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 40px', position: 'relative' }}>
+          <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.9, maxWidth: '100%', marginBottom: '20px' }}>
+            At Data Artisans, our journey began with a vision-to revolutionize businesses through innovation, technology, and seamless talent solutions. From a humble start, we have grown into a trusted partner for enterprises seeking cutting-edge recruitment, workforce management, and digital transformation services. With a vast network of professionals and institutions, we have successfully connected businesses with the right talent, ensuring they stay ahead in an ever-changing market. Our journey is defined by continuous learning, technological advancement, and a relentless pursuit of success.
+          </p>
 
-          {/* Vertical line */}
-          <div style={{
-            position: 'absolute', left: '50%', top: '0', bottom: '0',
-            width: '2px', backgroundColor: '#e2e8f0', transform: 'translateX(-50%)',
-            zIndex: 0,
-          }} />
+          <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.9, maxWidth: '100%', marginBottom: '20px' }}>
+            From our humble beginnings, we have grown into a technology-driven solutions provider, helping businesses across industries adapt to the ever-evolving digital landscape. Over the years, we have continuously evolved, embracing AI-driven automation, data intelligence, and strategic business solutions to ensure organizations stay competitive and agile. With a strong foundation in recruitment and workforce solutions, we have built an extensive network of professionals, institutions, and businesses, enabling seamless talent acquisition and workforce management.
+          </p>
 
-          {milestones.map((m, i) => {
-            const isLeft = i % 2 === 0
-            return (
-              <div
-                key={i}
-                ref={el => { refs.current[i] = el }}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 60px 1fr',
-                  gap: '0',
-                  marginBottom: '40px',
-                  alignItems: 'center',
-                  opacity: visible[i] ? 1 : 0,
-                  transform: visible[i] ? 'translateY(0)' : 'translateY(30px)',
-                  transition: 'opacity 0.6s ease, transform 0.6s ease',
-                }}
-              >
-                {/* Left content */}
-                <div style={{ paddingRight: '30px', textAlign: 'right' }}>
-                  {isLeft ? (
+          <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.9, maxWidth: '100%', marginBottom: '40px' }}>
+            As a company committed to scalability, efficiency, and long-term impact, we focus on delivering results that matter. Our risk-reward partnership models, innovative engagement strategies, and deep industry expertise set us apart as a trusted name in the industry. At Data Artisans, we believe in the power of continuous learning, collaboration, and technological advancement. Every milestone we achieve strengthens our resolve to redefine the future of business solutions. With a strong focus on excellence, adaptability, and success, we continue to push boundaries, enabling businesses to scale, innovate, and transform seamlessly.
+          </p>
+
+          {/* Milestones That Define Us Section */}
+          <div style={{ marginBottom: '50px' }}>
+            <h2 style={{ fontSize: '32px', fontWeight: '700', color: '#1a1a1a', textAlign: 'center', marginBottom: '48px' }}>
+              Milestones That Define Us
+            </h2>
+            
+            <div style={{ position: 'relative', maxWidth: '900px', margin: '0 auto' }}>
+              {/* Vertical line */}
+              <div style={{
+                position: 'absolute',
+                left: '50%',
+                top: '0',
+                bottom: '0',
+                width: '2px',
+                backgroundColor: '#e2e8f0',
+                transform: 'translateX(-50%)',
+                zIndex: 0,
+              }} />
+
+              {newMilestones.map((milestone, index) => {
+                const isLeft = index % 2 === 0
+                return (
+                  <div
+                    key={index}
+                    style={{
+                      display: 'flex',
+                      justifyContent: isLeft ? 'flex-start' : 'flex-end',
+                      marginBottom: '40px',
+                      position: 'relative',
+                      zIndex: 1,
+                    }}
+                  >
                     <div style={{
-                      border: `1px solid ${m.isHighlight ? '#2563eb' : '#ebebeb'}`,
-                      borderRadius: '6px', padding: '22px 24px',
-                      backgroundColor: m.isHighlight ? '#eff6ff' : '#fff',
-                      boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
-                      textAlign: 'left',
+                      width: 'calc(50% - 40px)',
+                      textAlign: isLeft ? 'right' : 'left',
                     }}>
-                      <h3 style={{ fontSize: '15px', fontWeight: '700', color: m.isHighlight ? '#2563eb' : '#1a1a1a', marginBottom: '8px' }}>{m.title}</h3>
-                      <p style={{ fontSize: '13px', color: '#666', lineHeight: 1.75 }} dangerouslySetInnerHTML={{ __html: m.description }} />
+                      <div style={{
+                        backgroundColor: '#fff',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '8px',
+                        padding: '20px 24px',
+                        boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+                      }}>
+                        <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#2563eb', marginBottom: '8px' }}>
+                          {milestone.year}
+                        </h3>
+                        <h4 style={{ fontSize: '15px', fontWeight: '700', color: '#1a1a1a', marginBottom: '8px' }}>
+                          {milestone.title}
+                        </h4>
+                        <p style={{ fontSize: '13px', color: '#666', lineHeight: 1.75, margin: 0 }}>
+                          {milestone.description}
+                        </p>
+                      </div>
                     </div>
-                  ) : null}
-                </div>
 
-                {/* Center dot */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 1 }}>
-                  <div style={{
-                    width: '48px', height: '48px', borderRadius: '50%',
-                    backgroundColor: m.isHighlight ? '#2563eb' : '#fff',
-                    border: `2px solid ${m.isHighlight ? '#2563eb' : '#cbd5e1'}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: m.isHighlight ? '0 0 0 6px rgba(37,99,235,0.12)' : 'none',
-                  }}>
-                    <span style={{ fontSize: '10px', fontWeight: '800', color: m.isHighlight ? '#fff' : '#64748b', lineHeight: 1.1, textAlign: 'center' }}>
-                      {m.year}
-                    </span>
+                    {/* Center dot */}
+                    <div style={{
+                      position: 'absolute',
+                      left: '50%',
+                      top: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      width: '12px',
+                      height: '12px',
+                      borderRadius: '50%',
+                      backgroundColor: '#2563eb',
+                      border: '2px solid #fff',
+                      boxShadow: '0 0 0 3px rgba(37,99,235,0.2)',
+                      zIndex: 2,
+                    }} />
                   </div>
-                </div>
+                )
+              })}
+            </div>
+          </div>
 
-                {/* Right content */}
-                <div style={{ paddingLeft: '30px' }}>
-                  {!isLeft ? (
-                    <div style={{
-                      border: `1px solid ${m.isHighlight ? '#2563eb' : '#ebebeb'}`,
-                      borderRadius: '6px', padding: '22px 24px',
-                      backgroundColor: m.isHighlight ? '#eff6ff' : '#fff',
-                      boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
-                    }}>
-                      <h3 style={{ fontSize: '15px', fontWeight: '700', color: m.isHighlight ? '#2563eb' : '#1a1a1a', marginBottom: '8px' }}>{m.title}</h3>
-                      <p style={{ fontSize: '13px', color: '#666', lineHeight: 1.75 }} dangerouslySetInnerHTML={{ __html: m.description }} />
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-            )
-          })}
+          {/* Transforming recruitment section */}
+          <div style={{ textAlign: 'center', margin: '30px 0 30px' }}>
+            <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', marginBottom: '16px' }}>
+              Transforming recruitment with innovation and technology for a smarter workforce.
+            </h2>
+          </div>
+
+          {/* Journey Cards - 3 cards */}
+          <div style={{ marginBottom: '50px' }}>
+            <JourneyCard 
+              title="Advancing technology, empowering businesses, redefining possibilities."
+              description="At Data Artisans, we believe that technology is the key to unlocking new business opportunities and driving sustainable growth. As industries evolve, we continue to innovate, adapt, and implement cutting-edge solutions that help businesses stay ahead of the curve. Our commitment to advancing technology ensures that organizations can leverage the latest digital tools, automation, and AI-driven solutions to enhance efficiency, productivity, and overall business performance. Through a strategic blend of innovation and expertise, we provide tailored solutions that meet the dynamic demands of the modern business world."
+            />
+            <JourneyCard 
+              title="Empowering businesses for success"
+              description="Empowering businesses is at the core of what we do. Whether it's through intelligent recruitment solutions, workforce management, or digital transformation, we help enterprises streamline their operations and maximize their potential. By offering scalable, flexible, and high-impact technology solutions, we enable companies to build strong teams, optimize workflows, and achieve operational excellence. Our data-driven approach ensures businesses have the insights and resources needed to make informed decisions, drive efficiency, and create long-term success in an ever-changing marketplace."
+            />
+            <JourneyCard 
+              title="Redefining what's possible"
+              description="At Data Artisans, we are not just keeping pace with change-we are redefining what's possible. By combining technology with strategic thinking and a customer-centric approach, we transform challenges into opportunities for businesses across industries. Our vision is to bridge the gap between innovation and business success, ensuring that our clients remain competitive, agile, and ready for the future. As we continue to push boundaries, our goal remains the same: to provide future-ready solutions that drive transformation, create impact, and pave the way for a smarter, more connected world."
+            />
+          </div>
         </div>
       </div>
     </AboutLayout>

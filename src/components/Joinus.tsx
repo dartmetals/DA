@@ -1,10 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 /* ══════════════════════════════════════════════════════
    SHARED PRIMITIVES
 ══════════════════════════════════════════════════════ */
 const RED = '#e31e24'
+const BLUE = '#2563eb'
+const BLUE_DARK = '#1e3a8a'
+const BLUE_LIGHT = '#dbeafe'
 const DARK = '#1a1a1a'
+
+/* ══════════════════════════════════════════════════════
+   ANIMATED HERO BANNER
+   Cycles through blue shades light→dark every 3-4s
+   with a smooth animated particle/network overlay
+══════════════════════════════════════════════════════ */
+
+// 8 blue gradient phases: pale sky → royal → navy → midnight
+const BLUE_PHASES = [
+  { from: '#a8d8f0', to: '#3b82f6' },   // pale → blue
+  { from: '#3b82f6', to: '#1e40af' },   // blue → indigo
+  { from: '#1e40af', to: '#1e3a8a' },   // indigo → navy
+  { from: '#1e3a8a', to: '#0c1f4a' },   // navy → midnight
+  { from: '#0c1f4a', to: '#172554' },   // midnight → deep navy
+  { from: '#172554', to: '#1d4ed8' },   // deep navy → royal
+  { from: '#1d4ed8', to: '#60a5fa' },   // royal → light blue
+  { from: '#60a5fa', to: '#a8d8f0' },   // light → pale (loop)
+]
+
+interface Particle {
+  x: number; y: number; vx: number; vy: number;
+  r: number; opacity: number; type: 'dot' | 'person' | 'pin' | 'chart'
+}
 
 const ItalicScript: React.FC<{ children: React.ReactNode; size?: string; color?: string }> = ({
   children, size = '48px', color = '#fff'
@@ -16,15 +42,226 @@ const ItalicScript: React.FC<{ children: React.ReactNode; size?: string; color?:
   }}>{children}</span>
 )
 
-const RedBar = () => <div style={{ width: '44px', height: '3px', backgroundColor: RED, margin: '14px 0 22px' }} />
+const HeroBanner: React.FC = () => {
+  const [phaseIdx, setPhaseIdx] = useState(0)
+  const [transitioning, setTransitioning] = useState(false)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const particlesRef = useRef<Particle[]>([])
+  const animFrameRef = useRef<number>(0)
 
-const Tag: React.FC<{ text: string }> = ({ text }) => (
-  <p style={{ fontSize: '11.5px', fontWeight: '700', color: RED, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>{text}</p>
-)
+  /* ── Colour cycling ── */
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTransitioning(true)
+      setTimeout(() => {
+        setPhaseIdx(i => (i + 1) % BLUE_PHASES.length)
+        setTransitioning(false)
+      }, 600)
+    }, 3500)
+    return () => clearInterval(timer)
+  }, [])
+
+  /* ── Canvas particle network ── */
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')!
+    const W = canvas.offsetWidth
+    const H = canvas.offsetHeight
+    canvas.width = W
+    canvas.height = H
+
+    // init particles
+    const count = 28
+    particlesRef.current = Array.from({ length: count }, (_, ) => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      r: 2.5 + Math.random() * 2,
+      opacity: 0.5 + Math.random() * 0.5,
+      type: (['dot', 'dot', 'dot', 'dot', 'person', 'pin', 'chart'] as const)[
+        Math.floor(Math.random() * 7)
+      ],
+    }))
+
+    const drawPerson = (ctx: CanvasRenderingContext2D, x: number, y: number, s: number) => {
+      ctx.beginPath()
+      ctx.arc(x, y - s * 1.4, s * 0.7, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.beginPath()
+      ctx.moveTo(x - s * 0.8, y + s * 1.2)
+      ctx.quadraticCurveTo(x, y - s * 0.2, x + s * 0.8, y + s * 1.2)
+      ctx.fill()
+    }
+
+    const drawPin = (ctx: CanvasRenderingContext2D, x: number, y: number, s: number) => {
+      ctx.beginPath()
+      ctx.arc(x, y - s, s * 0.9, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.beginPath()
+      ctx.moveTo(x - s * 0.4, y - s * 0.2)
+      ctx.lineTo(x, y + s * 1.2)
+      ctx.lineTo(x + s * 0.4, y - s * 0.2)
+      ctx.fill()
+    }
+
+    const drawChart = (ctx: CanvasRenderingContext2D, x: number, y: number, s: number) => {
+      ;[[0, 0], [s * 1.2, -s * 0.6], [s * 2.4, -s * 1.4], [s * 3.6, -s * 0.8]].forEach(
+        ([dx, dy], i, arr) => {
+          if (i === 0) return
+          const [px, py] = arr[i - 1]
+          ctx.beginPath()
+          ctx.moveTo(x + px, y + py)
+          ctx.lineTo(x + dx, y + dy)
+          ctx.strokeStyle = ctx.fillStyle as string
+          ctx.lineWidth = 1.5
+          ctx.stroke()
+          ctx.beginPath()
+          ctx.arc(x + dx, y + dy, s * 0.35, 0, Math.PI * 2)
+          ctx.fill()
+        }
+      )
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H)
+      const pts = particlesRef.current
+
+      // draw connections
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const dx = pts[i].x - pts[j].x
+          const dy = pts[i].y - pts[j].y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < 130) {
+            ctx.beginPath()
+            ctx.moveTo(pts[i].x, pts[i].y)
+            ctx.lineTo(pts[j].x, pts[j].y)
+            ctx.strokeStyle = `rgba(255,255,255,${0.18 * (1 - dist / 130)})`
+            ctx.lineWidth = 0.8
+            ctx.stroke()
+          }
+        }
+      }
+
+      // draw particles
+      pts.forEach(p => {
+        ctx.fillStyle = `rgba(255,255,255,${p.opacity})`
+        if (p.type === 'dot') {
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+          ctx.fill()
+        } else if (p.type === 'person') {
+          drawPerson(ctx, p.x, p.y, p.r)
+        } else if (p.type === 'pin') {
+          drawPin(ctx, p.x, p.y, p.r)
+        } else {
+          drawChart(ctx, p.x, p.y, p.r * 0.7)
+        }
+
+        // move
+        p.x += p.vx
+        p.y += p.vy
+        if (p.x < 0 || p.x > W) p.vx *= -1
+        if (p.y < 0 || p.y > H) p.vy *= -1
+      })
+
+      animFrameRef.current = requestAnimationFrame(draw)
+    }
+
+    draw()
+    return () => cancelAnimationFrame(animFrameRef.current)
+  }, [])
+
+  const phase = BLUE_PHASES[phaseIdx]
+
+  return (
+    <div style={{
+      position: 'relative',
+      minHeight: '480px',
+      overflow: 'hidden',
+      transition: 'background 1.2s ease',
+      background: transitioning
+        ? `linear-gradient(135deg, ${BLUE_PHASES[(phaseIdx + 1) % BLUE_PHASES.length].from}, ${BLUE_PHASES[(phaseIdx + 1) % BLUE_PHASES.length].to})`
+        : `linear-gradient(135deg, ${phase.from}, ${phase.to})`,
+      display: 'flex',
+      alignItems: 'stretch',
+    }}>
+      {/* Animated canvas overlay */}
+      <canvas
+        ref={canvasRef}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 1 }}
+      />
+
+      {/* Pulsing ring decorations */}
+      {[0, 1, 2].map(i => (
+        <div key={i} style={{
+          position: 'absolute',
+          right: `${-40 + i * 100}px`,
+          top: '50%',
+          transform: 'translateY(-50%)',
+          width: `${300 + i * 120}px`,
+          height: `${300 + i * 120}px`,
+          borderRadius: '50%',
+          border: `1px solid rgba(255,255,255,${0.06 + i * 0.04})`,
+          animation: `pulse-ring ${3 + i}s ease-in-out infinite`,
+          animationDelay: `${i * 0.8}s`,
+        }} />
+      ))}
+
+      {/* Dot grid overlay */}
+      <div style={{
+        position: 'absolute', inset: 0, opacity: 0.07, zIndex: 2,
+        backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
+        backgroundSize: '26px 26px',
+      }}/>
+
+      {/* Content */}
+      <div style={{
+        position: 'relative', zIndex: 10,
+        maxWidth: '1200px', margin: '0 auto', padding: '0 40px',
+        width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        minHeight: '480px',
+      }}>
+        <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}>
+          <ItalicScript size="clamp(38px,5vw,64px)">
+            Make your career happen with us
+          </ItalicScript>
+          <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '14px', lineHeight: 1.8, marginTop: '24px', maxWidth: '900px', marginLeft: 'auto', marginRight: 'auto' }}>
+            As India's leading talent solutions provider, our values range from our love to large enterprises to our resolve to make a difference. We strongly believe that a diverse workforce is essential for future growth and innovation — and that calls for passionate people like you.
+          </p>
+          <p style={{ color: 'rgba(255,255,255,0.95)', fontSize: '14.5px', fontWeight: '600', marginTop: '20px', lineHeight: 1.7 }}>
+            Are you passionate, driven and want to make your mark in the recruitment space?
+          </p>
+          <a href="#" style={{
+            display: 'inline-block', marginTop: '28px',
+            backgroundColor: '#fff', color: RED,
+            padding: '12px 32px', borderRadius: '4px',
+            fontSize: '13px', fontWeight: '700', letterSpacing: '1px',
+            transition: 'all 0.25s ease',
+          }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = RED; el.style.color = '#fff' }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = '#fff'; el.style.color = RED }}
+          >
+            EXPLORE OPENINGS →
+          </a>
+        </div>
+      </div>
+
+      <style>{`
+        @keyframes pulse-ring {
+          0%, 100% { transform: translateY(-50%) scale(1); opacity: 0.5; }
+          50%       { transform: translateY(-50%) scale(1.04); opacity: 1; }
+        }
+      `}</style>
+    </div>
+  )
+}
 
 /* icon wrappers */
 const Circle: React.FC<{ size?: number; bg?: string; children: React.ReactNode }> = ({
-  size = 70, bg = RED, children
+  size = 70, bg = BLUE, children
 }) => (
   <div style={{
     width: size, height: size, borderRadius: '50%',
@@ -33,7 +270,13 @@ const Circle: React.FC<{ size?: number; bg?: string; children: React.ReactNode }
   }}>{children}</div>
 )
 
-/* ── SVG icon library ── */
+const RedBar = () => <div style={{ width: '44px', height: '3px', backgroundColor: RED, margin: '14px 0 22px' }} />
+
+const Tag: React.FC<{ text: string }> = ({ text }) => (
+  <p style={{ fontSize: '11.5px', fontWeight: '700', color: RED, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>{text}</p>
+)
+
+/* ── SVG icon library (updated to blue theme) ── */
 const I = {
   enterprise: (
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -193,99 +436,6 @@ const I = {
 }
 
 /* ══════════════════════════════════════════════════════
-   SECTION 1 — HERO
-══════════════════════════════════════════════════════ */
-const HeroSection: React.FC = () => (
-  <div style={{
-    position: 'relative', minHeight: '480px', overflow: 'hidden',
-    background: 'linear-gradient(135deg, #1a0000 0%, #3d0000 30%, #a00000 65%, #e31e24 100%)',
-    display: 'flex', alignItems: 'stretch',
-  }}>
-    {/* Dot grid overlay */}
-    <div style={{
-      position: 'absolute', inset: 0, opacity: 0.07,
-      backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)',
-      backgroundSize: '26px 26px',
-    }}/>
-    {/* Ring decorations */}
-    {[0,1,2].map(i => (
-      <div key={i} style={{
-        position: 'absolute', right: `${-60 + i * 100}px`, top: '50%',
-        transform: 'translateY(-50%)',
-        width: `${500 + i * 120}px`, height: `${500 + i * 120}px`,
-        borderRadius: '50%',
-        border: `1px solid rgba(255,255,255,${0.05 + i * 0.04})`,
-        pointerEvents: 'none',
-      }}/>
-    ))}
-
-    <div style={{
-      maxWidth: '1200px', margin: '0 auto', padding: '0 40px',
-      width: '100%', position: 'relative', zIndex: 2,
-      display: 'grid', gridTemplateColumns: '1fr 420px',
-      alignItems: 'center', gap: '40px',
-    }}>
-      {/* Left: headline */}
-      <div style={{ padding: '70px 0' }}>
-        <ItalicScript size="clamp(38px,5vw,64px)">
-          Make your<br />career happen<br />with us
-        </ItalicScript>
-        <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', lineHeight: 1.8, marginTop: '24px', maxWidth: '440px' }}>
-          As India's leading talent solutions provider, Careernet's values range from our love to large enterprises to our resolve to make a difference. We strongly believe that a diverse workforce is essential for future growth and innovation — and that calls for passionate people like you.
-        </p>
-        <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '14.5px', fontWeight: '600', marginTop: '20px', lineHeight: 1.7 }}>
-          Are you passionate, driven and want to<br />make your mark in the recruitment space?
-        </p>
-        <a href="#" style={{
-          display: 'inline-block', marginTop: '28px',
-          backgroundColor: '#fff', color: RED,
-          padding: '12px 32px', borderRadius: '4px',
-          fontSize: '13px', fontWeight: '700', letterSpacing: '1px',
-          transition: 'all 0.25s ease',
-        }}
-          onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = RED; el.style.color = '#fff' }}
-          onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = '#fff'; el.style.color = RED }}
-        >
-          EXPLORE OPENINGS →
-        </a>
-      </div>
-
-      {/* Right: circular inset */}
-      <div style={{ position: 'relative', height: '480px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-        <div style={{
-          width: '340px', height: '340px',
-          borderRadius: '50% 50% 0 0',
-          background: 'rgba(255,255,255,0.13)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          overflow: 'hidden', position: 'relative',
-        }}>
-          {/* Illustrated person group */}
-          <svg width="320" height="320" viewBox="0 0 320 320" fill="none" style={{ position: 'absolute', bottom: 0 }}>
-            {/* Person 1 (woman, left) */}
-            <ellipse cx="100" cy="80" rx="30" ry="36" fill="#f5c5a0"/>
-            <ellipse cx="100" cy="52" rx="32" ry="18" fill="#2a1a0a"/>
-            <path d="M70 120 Q80 110 100 115 L100 200 Q60 200 60 180 L70 120" fill="#fff"/>
-            <rect x="55" y="118" width="14" height="70" rx="6" fill="#fff"/>
-            {/* Person 2 (man, right) */}
-            <ellipse cx="220" cy="80" rx="32" ry="38" fill="#d4956a"/>
-            <ellipse cx="220" cy="50" rx="34" ry="20" fill="#1a0a00"/>
-            <path d="M185 125 Q200 112 220 118 L240 112 Q255 118 260 130 L265 210 Q175 210 175 190 Z" fill="#1a1a3e"/>
-            <rect x="162" y="125" width="16" height="72" rx="6" fill="#1a1a3e"/>
-            <rect x="264" y="125" width="16" height="72" rx="6" fill="#1a1a3e"/>
-            {/* Tie */}
-            <polygon points="215,118 220,145 225,118" fill={RED}/>
-          </svg>
-          {/* Text overlay */}
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(180,0,0,0.35)' }}>
-            <ItalicScript size="26px">Making<br />passionate<br />teams happen</ItalicScript>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-)
-
-/* ══════════════════════════════════════════════════════
    SECTION 2 — WHY JOIN US STATS
 ══════════════════════════════════════════════════════ */
 const WhyJoinStats: React.FC = () => {
@@ -298,7 +448,7 @@ const WhyJoinStats: React.FC = () => {
     <div style={{ backgroundColor: '#fff', padding: '70px 0' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
         <h2 style={{ fontSize: 'clamp(24px,4vw,36px)', fontWeight: '700', color: DARK, textAlign: 'center', marginBottom: '14px' }}>
-          Why should you <ItalicScript size="inherit" color={RED}>join us?</ItalicScript>
+          Why should you <span style={{ fontFamily: "'Georgia','Times New Roman',serif", fontStyle: 'italic', fontWeight: '700', color: RED }}>join us?</span>
         </h2>
         <div style={{ width: '50px', height: '3px', backgroundColor: RED, margin: '0 auto 50px' }}/>
 
@@ -310,11 +460,11 @@ const WhyJoinStats: React.FC = () => {
               boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
               transition: 'box-shadow 0.3s, transform 0.3s',
             }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = '0 8px 32px rgba(227,30,36,0.14)'; el.style.transform = 'translateY(-4px)' }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = '0 8px 32px rgba(37,99,235,0.14)'; el.style.transform = 'translateY(-4px)' }}
               onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)'; el.style.transform = 'translateY(0)' }}
             >
               <Circle size={76}>{s.icon}</Circle>
-              <div style={{ fontSize: '38px', fontWeight: '800', color: RED, marginTop: '18px', lineHeight: 1 }}>{s.num}</div>
+              <div style={{ fontSize: '38px', fontWeight: '800', color: BLUE, marginTop: '18px', lineHeight: 1 }}>{s.num}</div>
               <p style={{ fontSize: '13px', color: '#666', lineHeight: 1.7, marginTop: '10px', whiteSpace: 'pre-line' }}>{s.label}</p>
             </div>
           ))}
@@ -335,7 +485,7 @@ const EmployeesFirst: React.FC = () => (
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px' }}>
         <div>
           <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px' }}>
-            Our company's successful rise of over two decades is based on attributes that we value: trust, empathy, and approachability. Careernet's culture matters. Trust, arriving in the workplace comes before arriving in the marketplace. That's why every employee is encouraged to achieve their full potential, to strive out of the box, take calculated risks and grow beyond their core roles.
+            Our company's successful rise of over two decades is based on attributes that we value: trust, empathy, and approachability. Our culture matters. Trust, arriving in the workplace comes before arriving in the marketplace. That's why every employee is encouraged to achieve their full potential, to strive out of the box, take calculated risks and grow beyond their core roles.
           </p>
           <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9 }}>
             We create equal opportunities for career building — both to serve our employees and our clients first organisation. To facilitate this, our HR professionals and employees work towards maintaining a motivated, inclusive and effective workforce.
@@ -347,7 +497,7 @@ const EmployeesFirst: React.FC = () => (
             Our vision — to create connectivity by incorporating technology and human-influenced capital to offer innovative recruitment solutions. We may be in our second decade as an organisation, but from Day One, to today and beyond, Talent and People have always been core. Our focus on best-in-class relationships and delivering value to all clients.
           </p>
           <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9 }}>
-            At Careernet, we believe in Commitment — it is our foundation. We've recognised and been recognised as one that has become better over every decade. Through the years, we are proud to say that there are people who have made Careernet what it is today. We aim to also enable a balanced culture that genuinely allows everyone to build a fulfilling career. At the end of the day, that is what matters most.
+            At our company, we believe in Commitment — it is our foundation. We've recognised and been recognised as one that has become better over every decade. Through the years, we are proud to say that there are people who have made our company what it is today. We aim to also enable a balanced culture that genuinely allows everyone to build a fulfilling career. At the end of the day, that is what matters most.
           </p>
         </div>
       </div>
@@ -356,80 +506,7 @@ const EmployeesFirst: React.FC = () => (
 )
 
 /* ══════════════════════════════════════════════════════
-   SECTION 4 — GREAT PLACE TO WORK + LIFE AT
-══════════════════════════════════════════════════════ */
-const LifeSection: React.FC = () => {
-  const photos = [
-    { label: 'Team Offsite', bg: '#c01820' },
-    { label: 'Celebrations', bg: '#8a0000' },
-    { label: 'Training Day', bg: '#b80000' },
-    { label: 'Culture Fest', bg: '#d01520' },
-    { label: 'Leadership Meet', bg: '#9a0010' },
-    { label: 'Awards Night', bg: '#c81020' },
-  ]
-  return (
-    <div style={{ backgroundColor: '#fff', padding: '70px 0' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
-        {/* Great place badge row */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 220px', gap: '60px', alignItems: 'flex-start', marginBottom: '60px' }}>
-          <div>
-            <h2 style={{ fontSize: '26px', fontWeight: '700', color: DARK, marginBottom: '14px' }}>
-              Proud to be recognised as a <span style={{ color: RED }}>Great Place to Work</span>
-            </h2>
-            <RedBar/>
-            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '14px' }}>
-              Careernet has been recognized as a <strong>Best Organisation for Women</strong> 2024 by the Economic Times, as 11 BEST Best Organisations for Women (Careernet 2024, featuring Times Group). We were listed by Forbes as a Top 100 Best Organisations for Women 2024 (Top 100). We stand testament to our commitment to our role as champions of women in our profession and in the communities.
-            </p>
-            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9 }}>
-              <strong>Best Organisation for Women:</strong> We recognize, celebrate our dedication to embracing this achievement fully.
-            </p>
-          </div>
-          {/* Badge */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
-            <div style={{
-              width: '160px', height: '160px', borderRadius: '50%',
-              border: `4px solid ${RED}`, display: 'flex', flexDirection: 'column',
-              alignItems: 'center', justifyContent: 'center', textAlign: 'center',
-              padding: '16px',
-            }}>
-              <div style={{ fontSize: '10px', fontWeight: '700', color: '#555', letterSpacing: '1px', marginBottom: '4px' }}>GREAT PLACE</div>
-              <div style={{ fontSize: '10px', fontWeight: '700', color: '#555', letterSpacing: '1px', marginBottom: '8px' }}>TO</div>
-              <div style={{ fontSize: '18px', fontWeight: '900', color: RED, letterSpacing: '1px' }}>WORK</div>
-              <div style={{ fontSize: '8px', fontWeight: '600', color: '#888', letterSpacing: '1px', marginTop: '6px' }}>CERTIFIED</div>
-              <div style={{ fontSize: '8px', color: '#aaa', marginTop: '2px' }}>2024–25 | INDIA</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Life at — photo grid */}
-        <h2 style={{ fontSize: '26px', fontWeight: '700', color: DARK, marginBottom: '8px' }}>Life at Careernet</h2>
-        <p style={{ fontSize: '13px', color: '#888', marginBottom: '28px' }}>
-          Our campus offers a workplace fueled by productivity, boundless dreams, and laughter. Our young, enthusiastic workforce enjoys a host of career-building possibilities such as in-fact training programs, high-profile projects and other diverse experiences that help them on constantly-improving processes.
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '14px' }}>
-          {photos.map((p, i) => (
-            <div key={i} style={{
-              height: '160px', borderRadius: '6px', backgroundColor: p.bg,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              position: 'relative', overflow: 'hidden', cursor: 'pointer',
-              transition: 'transform 0.3s',
-            }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.03)' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)' }}
-            >
-              {/* Pattern */}
-              <div style={{ position: 'absolute', inset: 0, opacity: 0.1, backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '16px 16px' }}/>
-              <ItalicScript size="18px">{p.label}</ItalicScript>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-/* ══════════════════════════════════════════════════════
-   SECTION 5 — L&D CIRCULAR IMAGE + FEATURES
+   SECTION 4 — L&D CIRCULAR IMAGE + FEATURES
 ══════════════════════════════════════════════════════ */
 const LandDSection: React.FC = () => (
   <div style={{ backgroundColor: '#fafafa', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
@@ -441,22 +518,41 @@ const LandDSection: React.FC = () => (
           <div style={{ position: 'relative' }}>
             <div style={{
               width: '320px', height: '320px', borderRadius: '50%',
-              background: `linear-gradient(135deg, ${RED} 0%, #8a0000 100%)`,
+              background: `linear-gradient(135deg, ${BLUE} 0%, ${BLUE_DARK} 100%)`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              overflow: 'hidden', boxShadow: '0 16px 50px rgba(227,30,36,0.3)',
+              overflow: 'hidden', boxShadow: '0 16px 50px rgba(37,99,235,0.3)',
             }}>
-              {/* Person with laptop illustration */}
-              <svg width="280" height="280" viewBox="0 0 280 280" fill="none" style={{ position: 'absolute', bottom: 0 }}>
-                <ellipse cx="140" cy="80" rx="38" ry="44" fill="#f5c5a0"/>
-                <ellipse cx="140" cy="52" rx="40" ry="22" fill="#1a0a00"/>
-                <path d="M95 130 Q110 115 140 120 L165 115 Q185 122 190 135 L195 240 Q110 250 95 235 Z" fill="#1a1a3e"/>
-                {/* Laptop */}
-                <rect x="105" y="160" width="80" height="50" rx="4" fill="#fff" opacity="0.9"/>
-                <rect x="100" y="208" width="90" height="5" rx="2" fill="#ddd"/>
-                <rect x="110" y="165" width="70" height="38" rx="2" fill="#dce8fe"/>
-              </svg>
-              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(120,0,0,0.4)', textAlign: 'center', padding: '30px' }}>
-                <ItalicScript size="22px">Making<br />career growth<br />happen</ItalicScript>
+              {/* Unsplash Image - Team meeting */}
+              <img 
+                src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop"
+                alt="Team collaboration and learning"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                }}
+              />
+              {/* Dark overlay for text readability */}
+              <div style={{ 
+                position: 'absolute', 
+                inset: 0, 
+                background: 'rgba(30,58,138,0.5)', 
+                zIndex: 1 
+              }} />
+              <div style={{ 
+                position: 'absolute', 
+                inset: 0, 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                textAlign: 'center', 
+                padding: '30px',
+                zIndex: 2,
+              }}>
+                <ItalicScript size="22px" color="#ffffff">Making<br />career growth<br />happen</ItalicScript>
               </div>
             </div>
           </div>
@@ -466,7 +562,7 @@ const LandDSection: React.FC = () => (
         <div>
           <Tag text="Learning & Development" />
           <h2 style={{ fontSize: '26px', fontWeight: '700', color: DARK, lineHeight: 1.4, marginBottom: '8px' }}>
-            Careernet has a dedicated L&D team<br />in place that aims to:
+            Our company has a dedicated L&D team<br />in place that aims to:
           </h2>
           <RedBar/>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '8px' }}>
@@ -513,7 +609,7 @@ const LandDSection: React.FC = () => (
       </div>
 
       {/* L&D new employees */}
-      <div style={{ marginTop: '40px', backgroundColor: '#fff8f8', border: '1px solid rgba(227,30,36,0.15)', borderRadius: '8px', padding: '28px 32px' }}>
+      <div style={{ marginTop: '40px', backgroundColor: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: '8px', padding: '28px 32px' }}>
         <p style={{ fontSize: '14px', fontWeight: '600', color: DARK, marginBottom: '16px' }}>
           We offer multiple ongoing L&D programmes and initiatives, many of which are designed especially for new employees:
         </p>
@@ -537,7 +633,7 @@ const LandDSection: React.FC = () => (
 )
 
 /* ══════════════════════════════════════════════════════
-   SECTION 6 — EMPLOYEE BENEFITS
+   SECTION 5 — EMPLOYEE BENEFITS
 ══════════════════════════════════════════════════════ */
 const BenefitsSection: React.FC = () => {
   const benefits = [
@@ -546,7 +642,7 @@ const BenefitsSection: React.FC = () => {
     { icon: I.insurance, title: 'Insurance coverage', desc: 'Health insurance for employees and their families and Accident Policy' },
     { icon: I.cafeteria, title: 'Cafeteria', desc: 'Good and readily available wholesome food on campus' },
     { icon: I.transport, title: 'Transport', desc: 'Cab services for early morning departures. Subject to terms and conditions' },
-    { icon: I.campus, title: 'Campus', desc: 'State-of-the-art Careernet campus starting from 80 sq. ft. to 1,000 sq. ft.' },
+    { icon: I.campus, title: 'Campus', desc: 'State-of-the-art campus starting from 80 sq. ft. to 1,000 sq. ft.' },
     { icon: I.culture, title: 'Cultural Committee', desc: 'Vibrant Cultural Committee events, activities, and team-building programs' },
     { icon: I.awards2, title: 'Awards', desc: 'Weekly, Fortnightly, monthly awards Quarterly, Annual Performance/Level Bonus' },
   ]
@@ -567,8 +663,8 @@ const BenefitsSection: React.FC = () => {
             }}
               onMouseEnter={e => {
                 const el = e.currentTarget as HTMLElement
-                el.style.boxShadow = '0 8px 28px rgba(227,30,36,0.16)'
-                el.style.borderColor = RED
+                el.style.boxShadow = '0 8px 28px rgba(37,99,235,0.16)'
+                el.style.borderColor = BLUE
                 el.style.transform = 'translateY(-4px)'
               }}
               onMouseLeave={e => {
@@ -590,7 +686,7 @@ const BenefitsSection: React.FC = () => {
 }
 
 /* ══════════════════════════════════════════════════════
-   SECTION 7 — LEADING FROM THE FRONT
+   SECTION 6 — LEADING FROM THE FRONT
 ══════════════════════════════════════════════════════ */
 const LeadingSection: React.FC = () => (
   <div style={{ backgroundColor: '#fafafa', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
@@ -600,7 +696,7 @@ const LeadingSection: React.FC = () => (
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px', alignItems: 'center' }}>
         <div>
           <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '14px' }}>
-            The leaders at Careernet push us from our current selves to professional qualifications and extensive industry expertise. What our founders created nearly two decades ago, is echoed back in everything that Careernet produces today. The in-depth dedication and focus on thinking. The single-mindedness and concentration that the team brings to the table has enabled far-reaching advances in our recruitment category and has allowed us to focus on producing consistently relevant results to be in the client's business, developing top-of-the-line recruitment models and providing unparalleled value in our understanding of recruitment.
+            The leaders at our company push us from our current selves to professional qualifications and extensive industry expertise. What our founders created nearly two decades ago, is echoed back in everything that our company produces today. The in-depth dedication and focus on thinking. The single-mindedness and concentration that the team brings to the table has enabled far-reaching advances in our recruitment category and has allowed us to focus on producing consistently relevant results to be in the client's business, developing top-of-the-line recruitment models and providing unparalleled value in our understanding of recruitment.
           </p>
           <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '20px' }}>
             We are currently hiring professionals with <span style={{ color: RED, fontWeight: '600' }}>6+ years</span> of experience in talent acquisition, of which <span style={{ color: RED, fontWeight: '600' }}>4+ years</span> of relevant experience as industry advisors well beyond.
@@ -634,8 +730,8 @@ const LeadingSection: React.FC = () => (
               padding: '26px 20px', textAlign: 'center',
               boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
             }}>
-              <Circle size={50} bg={RED}>{s.icon}</Circle>
-              <div style={{ fontSize: '32px', fontWeight: '800', color: RED, margin: '12px 0 4px' }}>{s.num}</div>
+              <Circle size={50}>{s.icon}</Circle>
+              <div style={{ fontSize: '32px', fontWeight: '800', color: BLUE, margin: '12px 0 4px' }}>{s.num}</div>
               <p style={{ fontSize: '12.5px', color: '#666', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{s.label}</p>
             </div>
           ))}
@@ -646,12 +742,12 @@ const LeadingSection: React.FC = () => (
 )
 
 /* ══════════════════════════════════════════════════════
-   SECTION 8 — CAREER BREAK
+   SECTION 7 — CAREER BREAK
 ══════════════════════════════════════════════════════ */
 const CareerBreakSection: React.FC = () => (
   <div style={{ backgroundColor: '#fff', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
-      <div style={{ backgroundColor: '#fff8f8', border: '1px solid rgba(227,30,36,0.12)', borderRadius: '12px', overflow: 'hidden' }}>
+      <div style={{ backgroundColor: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: '12px', overflow: 'hidden' }}>
         <div style={{ backgroundColor: RED, padding: '24px 36px' }}>
           <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#fff' }}>
             Getting back into the groove after a career break
@@ -660,7 +756,7 @@ const CareerBreakSection: React.FC = () => (
         <div style={{ padding: '36px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', alignItems: 'center' }}>
           <div>
             <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px' }}>
-              It is increasingly common for professionals to take a career break — to spend time with family, for personal reasons, or to pursue education. At Careernet, we make it easy for professionals who have been through career breaks to rejoin the workforce. We offer a special induction programme and structured onboarding for return professionals.
+              It is increasingly common for professionals to take a career break — to spend time with family, for personal reasons, or to pursue education. At our company, we make it easy for professionals who have been through career breaks to rejoin the workforce. We offer a special induction programme and structured onboarding for return professionals.
             </p>
             <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '22px' }}>
               Through our structured onboarding for reboarding candidates, we help professionals re-enter the industry with confidence and ease — providing them tools, mentors, and peer networks to get back up to speed.
@@ -700,7 +796,7 @@ const CareerBreakSection: React.FC = () => (
 )
 
 /* ══════════════════════════════════════════════════════
-   SECTION 9 — DIVERSITY & INCLUSION
+   SECTION 8 — DIVERSITY & INCLUSION
 ══════════════════════════════════════════════════════ */
 const DiversitySection: React.FC = () => (
   <div style={{ backgroundColor: '#fafafa', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
@@ -710,9 +806,9 @@ const DiversitySection: React.FC = () => (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div style={{
             width: '280px', height: '280px', borderRadius: '50%',
-            background: `linear-gradient(135deg, ${RED}, #8a0000)`,
+            background: `linear-gradient(135deg, ${BLUE}, ${BLUE_DARK})`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 12px 40px rgba(227,30,36,0.25)', textAlign: 'center', padding: '32px',
+            boxShadow: '0 12px 40px rgba(37,99,235,0.25)', textAlign: 'center', padding: '32px',
           }}>
             <ItalicScript size="22px">Making<br />workplaces<br />diverse,<br />equitable<br />&amp; inclusive</ItalicScript>
           </div>
@@ -726,7 +822,7 @@ const DiversitySection: React.FC = () => (
           </h2>
           <RedBar/>
           <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px' }}>
-            We strongly believe that a truly inclusive and equitable workplace is essential for organizational growth. Careernet puts this into practice by removing unconscious biases from our processes, providing tools and networks to hone their skills and advocating innovative thinking.
+            We strongly believe that a truly inclusive and equitable workplace is essential for organizational growth. Our company puts this into practice by removing unconscious biases from our processes, providing tools and networks to hone their skills and advocating innovative thinking.
           </p>
           <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px' }}>
             Do you believe in a workplace that prioritizes diversity, equity and inclusion? We want you to be part of this movement. Our Equal Opportunities policy makes certain that each employee, regardless of their background, gets a fair opportunity to contribute and grow.
@@ -757,10 +853,9 @@ const DiversitySection: React.FC = () => (
 ══════════════════════════════════════════════════════ */
 const JoinUs: React.FC = () => (
   <div style={{ paddingTop: '68px', fontFamily: "'Poppins', sans-serif" }}>
-    <HeroSection />
+    <HeroBanner />
     <WhyJoinStats />
     <EmployeesFirst />
-    <LifeSection />
     <LandDSection />
     <BenefitsSection />
     <LeadingSection />

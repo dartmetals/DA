@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
       { label: 'Overview', href: '/overview' },
       { label: 'Why Data Artisans', href: '/whydataartisans' },
       { label: 'Our Journey', href: '/ourjourney' },
-      { label: 'Leadership', href: '/leadership' },
+      // { label: 'Leadership', href: '/leadership' },
       { label: 'Locations', href: '/locations' },
     ],
     'EXPERTISE': [
