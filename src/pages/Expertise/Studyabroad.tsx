@@ -9,7 +9,7 @@ const styles: Record<string, React.CSSProperties> = {
     overflowX: "hidden",
   },
   hero: {
-    background: "linear-gradient(135deg, #C8102E 0%, #8B0000 100%)",
+    background: "linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #60a5fa 100%)",
     color: "#fff",
     padding: "80px 60px",
     display: "flex",
@@ -73,7 +73,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 360,
     height: 340,
     borderRadius: 16,
-    background: "linear-gradient(145deg, #F5A800 60%, #C8102E 100%)",
+    background: "linear-gradient(145deg, #3b82f6 30%, #1e3a8a 100%)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -91,7 +91,7 @@ const styles: Record<string, React.CSSProperties> = {
   introBody: { flex: 1 },
   introPara: { fontSize: 15, lineHeight: 1.75, color: "#333", marginBottom: 18 },
   sectionHeading: { fontSize: 36, fontWeight: 700, color: "#1A1A1A", marginBottom: 48 },
-  sectionHeadingItalic: { fontStyle: "italic", color: "#C8102E" },
+  sectionHeadingItalic: { fontStyle: "italic", color: "#2563eb" },
   cardsSection: { background: "#F7F7F7", padding: "60px 60px" },
   cardsGrid: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 32 },
   card: {
@@ -106,7 +106,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 64,
     height: 64,
     borderRadius: "50%",
-    background: "linear-gradient(135deg, #F5A800, #C8102E)",
+    background: "linear-gradient(135deg, #3b82f6, #1e3a8a)",
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
@@ -118,25 +118,25 @@ const styles: Record<string, React.CSSProperties> = {
     fontStyle: "italic",
     fontSize: 18,
     fontWeight: 700,
-    color: "#C8102E",
+    color: "#2563eb",
     marginBottom: 8,
     marginTop: 0,
   },
   cardBody: { fontSize: 14, lineHeight: 1.7, color: "#444", margin: 0 },
   goldBanner: {
-    background: "#F5A800",
+    background: "#3b82f6",
     padding: "70px 60px",
     display: "flex",
     alignItems: "center",
     gap: 60,
   },
-  goldBannerText: { flex: 1, color: "#1A1A1A" },
-  goldBannerPara: { fontSize: 15, lineHeight: 1.75, marginBottom: 16, color: "#1A1A1A" },
+  goldBannerText: { flex: 1, color: "#fff" },
+  goldBannerPara: { fontSize: 15, lineHeight: 1.75, marginBottom: 16, color: "#fff" },
   goldBannerImageBox: {
     width: 340,
     height: 380,
     borderRadius: 12,
-    background: "linear-gradient(145deg, #C8102E 0%, #8B0000 100%)",
+    background: "linear-gradient(145deg, #1e3a8a 0%, #2563eb 100%)",
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
@@ -145,7 +145,7 @@ const styles: Record<string, React.CSSProperties> = {
     textAlign: "center" as const,
   },
   iconRow: {
-    background: "#F5A800",
+    background: "#3b82f6",
     padding: "0 60px 70px",
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
@@ -162,7 +162,7 @@ const styles: Record<string, React.CSSProperties> = {
     justifyContent: "center",
     fontSize: 32,
   },
-  iconLabel: { fontSize: 14, lineHeight: 1.6, color: "#1A1A1A", fontWeight: 500 },
+  iconLabel: { fontSize: 14, lineHeight: 1.6, color: "#fff", fontWeight: 500 },
   techSection: {
     background: "#fff",
     padding: "70px 60px",
@@ -174,7 +174,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 340,
     height: 360,
     borderRadius: 12,
-    background: "linear-gradient(135deg, #C8102E 0%, #F5A800 100%)",
+    background: "linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%)",
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
@@ -204,7 +204,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 56,
     height: 56,
     borderRadius: "50%",
-    background: "linear-gradient(135deg, #C8102E, #F5A800)",
+    background: "linear-gradient(135deg, #2563eb, #1e3a8a)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -216,7 +216,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontStyle: "italic",
     fontSize: 16,
     fontWeight: 700,
-    color: "#C8102E",
+    color: "#2563eb",
     marginBottom: 8,
     marginTop: 0,
   },
@@ -237,17 +237,53 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: "center",
     justifyContent: "center",
     fontSize: 48,
-    background: "linear-gradient(135deg, #C8102E 0%, #F5A800 100%)",
+    background: "linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%)",
   },
   destCardBody: { padding: "16px 18px", background: "#fff" },
   destCardTitle: {
     fontWeight: 700,
     fontSize: 16,
-    color: "#C8102E",
+    color: "#2563eb",
     marginBottom: 6,
     marginTop: 0,
   },
   destCardText: { fontSize: 13, color: "#555", lineHeight: 1.6, margin: 0 },
+
+  processSection: { background: "#F7F7F7", padding: "60px 60px" },
+  processGrid: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, marginTop: 40 },
+  processCard: {
+    background: "#fff",
+    borderRadius: 12,
+    padding: "28px 24px",
+    textAlign: "center" as const,
+    boxShadow: "0 2px 12px rgba(0,0,0,0.05)",
+  },
+  processNumber: {
+    width: 48,
+    height: 48,
+    borderRadius: "50%",
+    background: "linear-gradient(135deg, #2563eb, #1e3a8a)",
+    color: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 22,
+    fontWeight: 700,
+    margin: "0 auto 16px",
+  },
+  processTitle: { fontSize: 18, fontWeight: 700, color: "#1e3a8a", marginBottom: 8 },
+  processDesc: { fontSize: 13, color: "#555", lineHeight: 1.6 },
+
+  whyChooseGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, marginTop: 40 },
+  whyCard: {
+    background: "#fff",
+    borderRadius: 10,
+    padding: "20px",
+    textAlign: "center" as const,
+    boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+  },
+  whyIcon: { fontSize: 32, marginBottom: 12 },
+  whyText: { fontSize: 13, fontWeight: 600, color: "#1e3a8a" },
 
   ctaBanner: {
     background: "#1A1A2E",
@@ -257,7 +293,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: 22,
     fontWeight: 700,
   },
-  ctaSpan: { color: "#F5A800" },
+  ctaSpan: { color: "#3b82f6" },
   footer: {
     background: "#111827",
     color: "#fff",
@@ -266,10 +302,10 @@ const styles: Record<string, React.CSSProperties> = {
     gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr",
     gap: 32,
   },
-  footerBrand: { fontSize: 24, fontWeight: 800, color: "#C8102E", marginBottom: 12 },
+  footerBrand: { fontSize: 24, fontWeight: 800, color: "#2563eb", marginBottom: 12 },
   footerAddress: { fontSize: 13, lineHeight: 1.8, color: "#aaa" },
   footerColTitle: { fontSize: 12, fontWeight: 700, letterSpacing: 1, color: "#fff", marginBottom: 12, textTransform: "uppercase" as const },
-  footerLink: { display: "block", fontSize: 13, color: "#C8102E", marginBottom: 6, textDecoration: "none" },
+  footerLink: { display: "block", fontSize: 13, color: "#3b82f6", marginBottom: 6, textDecoration: "none" },
   footerBottom: {
     background: "#0d1117",
     color: "#666",
@@ -289,10 +325,8 @@ const StudyAbroadPage: React.FC = () => {
         <div style={styles.heroOverlay2} />
         <div style={styles.heroText}>
           <h1 style={styles.heroHeading}>
-            Making<br />
-            global<br />
-            education<br />
-            happen
+            Study Abroad<br />
+            Expertise
           </h1>
         </div>
         <div style={styles.heroImagePlaceholder}>[ Study Abroad Hero Image ]</div>
@@ -301,35 +335,65 @@ const StudyAbroadPage: React.FC = () => {
       {/* ── INTRO ── */}
       <section style={styles.introSection}>
         <div style={styles.introImageBox}>
-          <p style={styles.introImageInnerText}>Making the right<br />global future happen</p>
+          <p style={styles.introImageInnerText}>Your Gateway<br />To Global<br />Education</p>
         </div>
         <div style={styles.introBody}>
           <p style={styles.introPara}>
-            Education has no borders — and neither should your ambitions. Studying abroad is one of the most transformative investments a student can make. It opens doors to world-class institutions, diverse cultures, and global career networks that are simply unmatched.
+            At Data Artisans, we help students turn their international education dreams into reality through expert guidance, personalized counselling, and end-to-end overseas education support.
           </p>
           <p style={styles.introPara}>
-            With deep expertise in international education counselling and a trusted network of university partners across the globe, we help students navigate the complex journey of studying abroad — from selecting the right programme to stepping foot on campus.
+            From selecting the right university to visa processing and post-arrival assistance, we simplify every step of your study abroad journey with transparency, professionalism, and student-first support.
           </p>
           <p style={styles.introPara}>
-            We understand that studying abroad is not just about getting a degree in another country. It is about personal growth, global exposure, and building a career that transcends borders. Every student's journey is unique, and we personalise our support to match individual goals, budgets, and aspirations.
+            ✓ University Admissions &nbsp;&nbsp; ✓ Career Counselling &nbsp;&nbsp; ✓ Visa Assistance<br />
+            ✓ SOP / LOR / Resume Guidance &nbsp;&nbsp; ✓ Scholarships & Education Loans &nbsp;&nbsp; ✓ Pre & Post Departure Support
           </p>
           <p style={styles.introPara}>
-            From Ivy League aspirations to specialised technical programmes, our counsellors have the expertise and the relationships to help you get there. Let us make your global education happen.
+            Helping students build successful global careers with confidence.
           </p>
         </div>
       </section>
 
-      {/* ── SERVICE CARDS ── */}
+      {/* ── ABOUT US SECTION ── */}
       <section style={styles.cardsSection}>
         <h2 style={styles.sectionHeading}>
-          Making <em style={styles.sectionHeadingItalic}>seamless global education happen</em>
+          About <em style={styles.sectionHeadingItalic}>Us</em>
+        </h2>
+        <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+          <p style={styles.introPara}>
+            Data Artisans is a professional overseas education consultancy dedicated to helping students achieve their academic and career goals abroad. We guide aspiring students through every stage of the international education process — from choosing the right destination and university to visa approval and settlement support.
+          </p>
+          <p style={styles.introPara}>
+            Our experienced counselors work closely with students and parents to understand academic backgrounds, career aspirations, financial plans, and future goals before recommending suitable universities and programs.
+          </p>
+          <p style={styles.introPara}>
+            We believe that studying abroad is not just about earning a degree — it is about creating global exposure, developing international skills, and unlocking better career opportunities. Our mission is to make global education accessible, transparent, and stress-free for every student.
+          </p>
+          <p style={styles.introPara}>
+            With a student-centric approach and strong partnerships with international institutions, we ensure every student receives reliable guidance and complete support throughout the process. Inspired by leading overseas education consultancy platforms, our approach focuses on transparency, personalized counselling, and long-term student success.
+          </p>
+        </div>
+      </section>
+
+      {/* ── SERVICES CARDS ── */}
+      <section style={{ background: "#fff", padding: "60px 60px" }}>
+        <h2 style={styles.sectionHeading}>
+          Our <em style={styles.sectionHeadingItalic}>Services</em>
         </h2>
         <div style={styles.cardsGrid}>
           {[
-            { icon: "🎓", title: "University Selection & Application", body: "Our counsellors analyse your academic profile, career goals, and budget to identify the best-fit universities and programmes across the US, UK, Canada, Australia, Europe, and beyond. We manage the entire application process from start to finish." },
-            { icon: "📝", title: "SOP, LOR & Essay Support", body: "Your Statement of Purpose and application essays are your first impression on an admissions committee. Our writing experts help you craft compelling, authentic narratives that reflect your unique story and maximise your chances of admission." },
-            { icon: "🛂", title: "Visa Guidance & Documentation", body: "Navigating student visa processes can be overwhelming. Our visa experts guide you through the documentation requirements, application procedures, and interview preparation for student visas across all major study destinations." },
-            { icon: "🏠", title: "Pre-Departure & Settlement Support", body: "Leaving for a new country is a big step. We provide comprehensive pre-departure briefings covering accommodation options, travel arrangements, health insurance, banking, and cultural orientation so you arrive fully prepared." },
+            { icon: "🎓", title: "Career Counselling", body: "Our experienced counselors provide personalized guidance to help students choose the right career path, country, university, and course based on academic profile, interests, and future goals." },
+            { icon: "🏛️", title: "University & Course Selection", body: "We help students shortlist top universities and programs that match their educational background, budget, and long-term career aspirations." },
+            { icon: "📊", title: "Profile Evaluation", body: "Complete profile assessment to identify the best possible study opportunities and improve admission success rates." },
+            { icon: "📄", title: "Documentation Assistance", body: "We provide complete support for preparing and organizing academic documents, application forms, financial records, and verification documents required for international admissions." },
+            { icon: "✍️", title: "SOP / Resume / LOR Support", body: "Our experts assist students in creating impactful Statements of Purpose (SOP), resumes, and Letters of Recommendation (LOR) that strengthen university applications." },
+            { icon: "📬", title: "Application Submission", body: "Dedicated application support to ensure accurate and timely submission to universities and colleges." },
+            { icon: "💰", title: "Scholarship Assistance", body: "We help students identify scholarship opportunities, grants, and tuition fee benefits available across universities worldwide." },
+            { icon: "🏦", title: "Education Loan Assistance", body: "Guidance for securing education loans through trusted financial institutions with simplified documentation support." },
+            { icon: "🛂", title: "Visa Assistance", body: "Expert support for visa filing, documentation, interview preparation, and application processing to improve visa success rates." },
+            { icon: "📝", title: "IELTS / PTE / TOEFL Guidance", body: "Support for standardized test preparation and booking assistance for international admission requirements." },
+            { icon: "✈️", title: "Foreign Exchange & Travel Assistance", body: "Assistance with forex services, travel planning, accommodation guidance, and student settlement support." },
+            { icon: "🏠", title: "Pre-Departure & Post-Arrival Support", body: "From travel preparation to accommodation assistance and international student orientation, we ensure a smooth transition abroad." },
           ].map((c) => (
             <div key={c.title} style={styles.card}>
               <div style={styles.cardIcon}>{c.icon}</div>
@@ -342,17 +406,21 @@ const StudyAbroadPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ── DESTINATION CARDS (unique section for Study Abroad) ── */}
+      {/* ── DESTINATION CARDS ── */}
       <section style={styles.destinationsSection}>
         <h2 style={styles.sectionHeading}>
-          Making <em style={styles.sectionHeadingItalic}>global destinations happen</em>
+          Study <em style={styles.sectionHeadingItalic}>Destinations</em>
         </h2>
         <div style={styles.destGrid}>
           {[
-            { flag: "🇺🇸", country: "United States", desc: "Home to the world's top-ranked universities. We partner with institutions across the Ivy League, Big Ten, and leading state universities." },
-            { flag: "🇬🇧", country: "United Kingdom", desc: "World-class education with shorter course durations. We guide students to Oxford, Cambridge, Russell Group, and leading business schools." },
-            { flag: "🇨🇦", country: "Canada", desc: "Affordable education, excellent quality of life, and post-study work opportunities. We connect students with top Canadian universities nationwide." },
-            { flag: "🇦🇺", country: "Australia", desc: "Globally recognised degrees in a multicultural environment. Our partners include the Group of Eight universities and leading institutes across major cities." },
+            { flag: "🇺🇸", country: "USA", desc: "World-class universities across 50 states with diverse program offerings and cutting-edge research opportunities." },
+            { flag: "🇨🇦", country: "Canada", desc: "Affordable education with high quality of life and excellent post-study work and immigration pathways." },
+            { flag: "🇬🇧", country: "United Kingdom", desc: "Globally recognized degrees with shorter course durations and strong industry connections." },
+            { flag: "🇦🇺", country: "Australia", desc: "Multicultural environment with globally ranked universities and strong student support systems." },
+            { flag: "🇩🇪", country: "Germany", desc: "Affordable or tuition-free education with strong engineering, technology, and research focus." },
+            { flag: "🇮🇪", country: "Ireland", desc: "Growing hub for technology and pharmaceutical industries with excellent post-study work options." },
+            { flag: "🇳🇿", country: "New Zealand", desc: "High-quality education in a safe, welcoming environment with great work-life balance." },
+            { flag: "🇪🇺", country: "Europe", desc: "Diverse study options across multiple countries with rich cultural experiences and affordable tuition." },
           ].map((d) => (
             <div key={d.country} style={styles.destCard}>
               <div style={styles.destCardTop}>{d.flag}</div>
@@ -363,90 +431,80 @@ const StudyAbroadPage: React.FC = () => {
             </div>
           ))}
         </div>
+        <p style={{ textAlign: "center", marginTop: 32, fontSize: 14, color: "#555" }}>
+          We help students explore globally recognized universities and career-focused programs across the world's top education destinations.
+        </p>
       </section>
 
-      {/* ── GOLD BANNER ── */}
-      <section style={styles.goldBanner}>
-        <div style={styles.goldBannerText}>
-          <p style={styles.goldBannerPara}>
-            Students rely on trusted guidance to make one of the most important decisions of their lives. The right university, in the right country, with the right support can define the trajectory of an entire career.
-          </p>
-          <p style={styles.goldBannerPara}>
-            Our vast network of students, alumni, and international university partners allows us to provide guidance that is genuinely personalised. Whether you are targeting a top-10 university or seeking the best value for your investment, we make it happen.
-          </p>
-          <p style={styles.goldBannerPara}>
-            We span the complete study abroad journey — from profile evaluation and university shortlisting to application submission, visa support, and post-arrival settlement — ensuring you are never alone at any stage.
-          </p>
-          <p style={styles.goldBannerPara}>Here's how we are able to do that:</p>
-        </div>
-        <div style={styles.goldBannerImageBox}>
-          <p style={{ fontFamily: "'Georgia',serif", fontStyle: "italic", fontSize: 30, fontWeight: 700, lineHeight: 1.3, margin: 0, padding: 20 }}>
-            Making<br />global<br />education<br />from India<br />happen
-          </p>
-        </div>
-      </section>
-
-      {/* ── ICON ROW ── */}
-      <div style={styles.iconRow}>
-        {[
-          { icon: "🏛️", label: "Our extensive network of 500+ university partnerships across the globe." },
-          { icon: "🧑‍🎓", label: "Our access to students across academic profiles and study interests." },
-          { icon: "⭐", label: "Our experience with successful placements at top 100 global universities." },
-          { icon: "🌐", label: "Our network spanning the US, UK, Canada, Australia, Europe, and beyond." },
-          { icon: "🎯", label: "Our ability to become your one-stop study abroad guidance partner." },
-          { icon: "🧭", label: "Our unbiased counselling so students navigate global education opportunities better." },
-        ].map((item, i) => (
-          <div key={i} style={styles.iconCell}>
-            <div style={styles.iconCircle}>{item.icon}</div>
-            <p style={styles.iconLabel}>{item.label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* ── TECH SECTION ── */}
-      <section style={styles.techSection}>
-        <div style={styles.techImageBox}>
-          <p style={styles.techImageText}>Making<br />AI powered<br />university<br />matching<br />happen</p>
-        </div>
-        <div style={styles.techBody}>
-          <p style={styles.techPara}>
-            Study abroad counselling in the past relied on brochures, college fairs, and limited information. We have evolved alongside the industry to bring data, technology, and personalisation at the centre of every student guidance journey we undertake.
-          </p>
-          <p style={styles.techPara}>
-            We have seen how international education counselling has shifted from one-size-fits-all advice to AI-powered profile matching and personalised university recommendations. That evolution gives us the tools to help students make better decisions, faster.
-          </p>
-          <p style={styles.techPara}>
-            Our technology platform analyses student profiles, academic records, test scores, and career goals to generate precise university shortlists with admission probability scores — removing guesswork and maximising the efficiency of every application.
-          </p>
-          <p style={styles.techPara}>
-            Our internal processes leverage data analytics and operational automation to deliver real-time application tracking, document management, visa status updates, and post-admission support — all in one seamless digital experience.
-          </p>
-        </div>
-      </section>
-
-      {/* ── FEATURE CARDS ── */}
-      <section style={styles.featureSection}>
-        <div style={styles.featureGrid}>
+      {/* ── WHY CHOOSE US ── */}
+      <section style={{ background: "#F7F7F7", padding: "60px 60px" }}>
+        <h2 style={styles.sectionHeading}>
+          Why <em style={styles.sectionHeadingItalic}>Choose Us</em>
+        </h2>
+        <div style={styles.whyChooseGrid}>
           {[
-            { icon: "🖥️", title: "End to end virtual counselling", body: "From initial profile evaluation to final visa approval — fully virtual consultations available from anywhere in India." },
-            { icon: "📊", title: "AI-powered university matching", body: "Intelligent shortlisting based on your academic profile, test scores, financial parameters, and career objectives." },
-            { icon: "📄", title: "Application & essay support", body: "Expert assistance with applications, SOPs, LORs, and scholarship essays that maximise admission chances." },
-            { icon: "🛂", title: "Seamless visa processing", body: "Fully guided student visa application process with documentation support, interview coaching, and status tracking." },
-            { icon: "⚙️", title: "Complete process automation", body: "Automated deadline reminders, document checklists, application trackers, and communication management." },
-            { icon: "🏠", title: "Pre-departure & post-arrival support", body: "Expert guidance on accommodation, travel, health insurance, banking, and cultural transition for a smooth start." },
-          ].map((f) => (
-            <div key={f.title} style={styles.featureCard}>
-              <div style={styles.featureIcon}>{f.icon}</div>
-              <h4 style={styles.featureTitle}>{f.title}</h4>
-              <p style={styles.featureBody}>{f.body}</p>
+            "Personalized Student Guidance",
+            "Transparent Process",
+            "Experienced Counsellors",
+            "High Visa Success Support",
+            "Global University Network",
+            "End-to-End Assistance",
+            "Affordable & Reliable Services",
+            "Student-Focused Approach",
+          ].map((item) => (
+            <div key={item} style={styles.whyCard}>
+              <div style={styles.whyIcon}>✓</div>
+              <div style={styles.whyText}>{item}</div>
+            </div>
+          ))}
+        </div>
+        <p style={{ textAlign: "center", marginTop: 32, fontSize: 14, color: "#555" }}>
+          Our goal is to make the overseas education process simple, transparent, and successful for every student. We focus on building trust, providing genuine guidance, and helping students achieve global academic opportunities with confidence.
+        </p>
+      </section>
+
+      {/* ── OUR PROCESS ── */}
+      <section style={styles.processSection}>
+        <h2 style={styles.sectionHeading}>
+          Our <em style={styles.sectionHeadingItalic}>Process</em>
+        </h2>
+        <p style={{ textAlign: "center", fontSize: 18, marginBottom: 20, color: "#1e3a8a", fontWeight: 600 }}>
+          Simple & Structured Process
+        </p>
+        <div style={styles.processGrid}>
+          {[
+            { step: "1", title: "Free Counselling", desc: "Understanding student profile, interests, and career goals." },
+            { step: "2", title: "University Shortlisting", desc: "Selecting suitable universities and courses based on eligibility." },
+            { step: "3", title: "Documentation", desc: "Preparing SOPs, resumes, academic records, and applications." },
+            { step: "4", title: "Application Submission", desc: "Applying to universities with complete support." },
+            { step: "5", title: "Visa Processing", desc: "Visa filing, documentation, and interview preparation." },
+            { step: "6", title: "Pre-Departure Guidance", desc: "Travel, accommodation, and student settlement assistance." },
+          ].map((p) => (
+            <div key={p.step} style={styles.processCard}>
+              <div style={styles.processNumber}>{p.step}</div>
+              <h4 style={styles.processTitle}>{p.title}</h4>
+              <p style={styles.processDesc}>{p.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
+      {/* ── TESTIMONIAL SECTION ── */}
+      <section style={{ background: "#fff", padding: "60px 60px", textAlign: "center" }}>
+        <h2 style={styles.sectionHeading}>
+          Trusted By <em style={styles.sectionHeadingItalic}>Students & Parents</em>
+        </h2>
+        <p style={{ maxWidth: 800, margin: "0 auto", fontSize: 15, lineHeight: 1.8, color: "#555" }}>
+          We are proud to support students in achieving admissions to globally recognized universities and building successful international careers.
+        </p>
+        <p style={{ maxWidth: 800, margin: "20px auto 0", fontSize: 15, lineHeight: 1.8, color: "#555" }}>
+          Our commitment to transparency, personalized support, and quality guidance has helped students confidently pursue higher education abroad.
+        </p>
+      </section>
+
       {/* ── CTA ── */}
       <div style={styles.ctaBanner}>
-        Begin your global journey — speak with a <span style={styles.ctaSpan}>Study Abroad</span> expert today.
+        Start Your Global Journey Today — speak with a <span style={styles.ctaSpan}>Study Abroad</span> expert.
       </div>
     </div>
   );

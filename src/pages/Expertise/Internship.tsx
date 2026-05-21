@@ -9,13 +9,16 @@ const styles: Record<string, React.CSSProperties> = {
     overflowX: "hidden",
   },
   hero: {
-    background: "linear-gradient(135deg, #C8102E 0%, #8B0000 100%)",
+    background: "linear-gradient(135deg, rgba(25,118,210,0.85) 0%, rgba(13,71,161,0.85) 100%), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     color: "#fff",
     padding: "80px 60px",
     display: "flex",
     alignItems: "center",
-    justifyContent: "space-between",
-    minHeight: 320,
+    justifyContent: "center",
+    textAlign: "center" as const,
+    minHeight: 420,
     position: "relative",
     overflow: "hidden",
   },
@@ -39,27 +42,17 @@ const styles: Record<string, React.CSSProperties> = {
     background: "rgba(255,255,255,0.05)",
     pointerEvents: "none",
   },
-  heroText: { maxWidth: 480, zIndex: 1 },
+  heroText: { maxWidth: 700, zIndex: 1, margin: "0 auto" },
   heroHeading: {
     fontFamily: "'Georgia', 'Times New Roman', serif",
     fontStyle: "italic",
-    fontSize: 52,
+    fontSize: 56,
     fontWeight: 700,
-    lineHeight: 1.15,
+    lineHeight: 1.2,
     margin: 0,
   },
   heroImagePlaceholder: {
-    width: 340,
-    height: 280,
-    borderRadius: 12,
-    background: "rgba(255,255,255,0.15)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "rgba(255,255,255,0.6)",
-    fontSize: 16,
-    zIndex: 1,
-    flexShrink: 0,
+    display: "none",
   },
   introSection: {
     display: "flex",
@@ -73,7 +66,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 360,
     height: 340,
     borderRadius: 16,
-    background: "linear-gradient(145deg, #F5A800 60%, #C8102E 100%)",
+    background: "linear-gradient(145deg, #1976D2 60%, #0D47A1 100%)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -101,7 +94,7 @@ const styles: Record<string, React.CSSProperties> = {
     color: "#1A1A1A",
     marginBottom: 48,
   },
-  sectionHeadingItalic: { fontStyle: "italic", color: "#C8102E" },
+  sectionHeadingItalic: { fontStyle: "italic", color: "#1976D2" },
   cardsSection: { background: "#F7F7F7", padding: "60px 60px" },
   cardsGrid: {
     display: "grid",
@@ -120,7 +113,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 64,
     height: 64,
     borderRadius: "50%",
-    background: "linear-gradient(135deg, #F5A800, #C8102E)",
+    background: "linear-gradient(135deg, #1976D2, #0D47A1)",
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
@@ -132,30 +125,30 @@ const styles: Record<string, React.CSSProperties> = {
     fontStyle: "italic",
     fontSize: 18,
     fontWeight: 700,
-    color: "#C8102E",
+    color: "#1976D2",
     marginBottom: 8,
     marginTop: 0,
   },
   cardBody: { fontSize: 14, lineHeight: 1.7, color: "#444", margin: 0 },
   goldBanner: {
-    background: "#F5A800",
+    background: "#1976D2",
     padding: "70px 60px",
     display: "flex",
     alignItems: "center",
     gap: 60,
   },
-  goldBannerText: { flex: 1, color: "#1A1A1A" },
+  goldBannerText: { flex: 1, color: "#fff" },
   goldBannerPara: {
     fontSize: 15,
     lineHeight: 1.75,
     marginBottom: 16,
-    color: "#1A1A1A",
+    color: "#fff",
   },
   goldBannerImageBox: {
     width: 340,
     height: 380,
     borderRadius: 12,
-    background: "linear-gradient(145deg, #C8102E 0%, #8B0000 100%)",
+    background: "linear-gradient(145deg, #0D47A1 0%, #0A3A8A 100%)",
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
@@ -165,7 +158,7 @@ const styles: Record<string, React.CSSProperties> = {
     textAlign: "center" as const,
   },
   iconRow: {
-    background: "#F5A800",
+    background: "#1976D2",
     padding: "0 60px 70px",
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
@@ -187,7 +180,7 @@ const styles: Record<string, React.CSSProperties> = {
     justifyContent: "center",
     fontSize: 32,
   },
-  iconLabel: { fontSize: 14, lineHeight: 1.6, color: "#1A1A1A", fontWeight: 500 },
+  iconLabel: { fontSize: 14, lineHeight: 1.6, color: "#fff", fontWeight: 500 },
   techSection: {
     background: "#fff",
     padding: "70px 60px",
@@ -199,7 +192,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 340,
     height: 360,
     borderRadius: 12,
-    background: "linear-gradient(135deg, #C8102E 0%, #F5A800 100%)",
+    background: "linear-gradient(135deg, #1976D2 0%, #0D47A1 100%)",
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
@@ -233,7 +226,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 56,
     height: 56,
     borderRadius: "50%",
-    background: "linear-gradient(135deg, #C8102E, #F5A800)",
+    background: "linear-gradient(135deg, #1976D2, #0D47A1)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -245,38 +238,122 @@ const styles: Record<string, React.CSSProperties> = {
     fontStyle: "italic",
     fontSize: 16,
     fontWeight: 700,
-    color: "#C8102E",
+    color: "#1976D2",
     marginBottom: 8,
     marginTop: 0,
   },
   featureBody: { fontSize: 13, lineHeight: 1.65, color: "#555", margin: 0 },
   ctaBanner: {
-    background: "#1A1A2E",
+    background: "#1976D2",
     color: "#fff",
     textAlign: "center" as const,
     padding: "48px 60px",
     fontSize: 22,
     fontWeight: 700,
   },
-  ctaSpan: { color: "#F5A800" },
+  ctaSpan: { color: "#64B5F6" },
   footer: {
-    background: "#111827",
+    background: "#0D47A1",
     color: "#fff",
     padding: "50px 60px 30px",
     display: "grid",
     gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr",
     gap: 32,
   },
-  footerBrand: { fontSize: 24, fontWeight: 800, color: "#C8102E", marginBottom: 12 },
-  footerAddress: { fontSize: 13, lineHeight: 1.8, color: "#aaa" },
+  footerBrand: { fontSize: 24, fontWeight: 800, color: "#64B5F6", marginBottom: 12 },
+  footerAddress: { fontSize: 13, lineHeight: 1.8, color: "#BBDEFB" },
   footerColTitle: { fontSize: 12, fontWeight: 700, letterSpacing: 1, color: "#fff", marginBottom: 12, textTransform: "uppercase" as const },
-  footerLink: { display: "block", fontSize: 13, color: "#C8102E", marginBottom: 6, textDecoration: "none" },
+  footerLink: { display: "block", fontSize: 13, color: "#64B5F6", marginBottom: 6, textDecoration: "none" },
   footerBottom: {
-    background: "#0d1117",
-    color: "#666",
+    background: "#0A3A8A",
+    color: "#BBDEFB",
     textAlign: "center" as const,
     padding: "16px 60px",
     fontSize: 12,
+  },
+  // NEW STYLES FOR DATA ARTISANS CONTENT
+  dataArtisansSection: {
+    background: "#fff",
+    padding: "70px 60px",
+  },
+  dataArtisansHeading: {
+    fontSize: 42,
+    fontWeight: 800,
+    color: "#1A1A1A",
+    marginBottom: 16,
+    textAlign: "center" as const,
+  },
+  dataArtisansSubheading: {
+    fontSize: 20,
+    color: "#1976D2",
+    textAlign: "center" as const,
+    marginBottom: 48,
+  },
+  expertiseGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gap: 32,
+    marginTop: 40,
+  },
+  expertiseCard: {
+    background: "#F7F7F7",
+    padding: "28px",
+    borderRadius: 16,
+  },
+  expertiseTitle: {
+    fontSize: 22,
+    fontWeight: 700,
+    color: "#1976D2",
+    marginBottom: 16,
+  },
+  expertiseList: {
+    listStyle: "none",
+    padding: 0,
+    margin: 0,
+  },
+  expertiseListItem: {
+    fontSize: 14,
+    lineHeight: 1.8,
+    color: "#333",
+    paddingLeft: 20,
+    position: "relative" as const,
+  },
+  aboutInternshipBox: {
+    background: "linear-gradient(135deg, #1976D2 0%, #0D47A1 100%)",
+    borderRadius: 20,
+    padding: "48px",
+    marginTop: 48,
+    color: "#fff",
+  },
+  processGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: 24,
+    marginTop: 32,
+  },
+  processStep: {
+    background: "#fff",
+    color: "#1A1A1A",
+    padding: "24px",
+    borderRadius: 12,
+    textAlign: "center" as const,
+    boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+  },
+  whoCanApply: {
+    background: "#1976D2",
+    color: "#fff",
+    padding: "48px",
+    borderRadius: 16,
+    marginTop: 48,
+    textAlign: "center" as const,
+  },
+  ctaSimple: {
+    background: "#0D47A1",
+    color: "#fff",
+    textAlign: "center" as const,
+    padding: "40px",
+    borderRadius: 12,
+    marginTop: 48,
   },
 };
 
@@ -426,6 +503,161 @@ const InternshipPage: React.FC = () => {
       <div style={styles.ctaBanner}>
         Visit <span style={styles.ctaSpan}>HirePro</span> to explore a whole new world of internship automation.
       </div>
+
+      {/* ── NEW: DATA ARTISANS INTERNSHIPS EXPERTISE SECTION ── */}
+      <section style={styles.dataArtisansSection}>
+        <h1 style={styles.dataArtisansHeading}>INTERNSHIPS EXPERTISE</h1>
+        <h2 style={styles.dataArtisansSubheading}>Launch Your Career With Industry-Focused Internships</h2>
+        
+        <p style={styles.introPara}>
+          At Data Artisans, we help students and graduates gain practical industry exposure through structured 
+          internship programs designed to build real-world skills, technical expertise, and professional 
+          confidence.
+        </p>
+        <p style={styles.introPara}>
+          Our internships are focused on hands-on learning, live project exposure, mentorship, and career 
+          development to help students bridge the gap between academics and industry expectations.
+        </p>
+        <p style={styles.introPara}>
+          We provide internship opportunities across India and the UK in trending technologies, business 
+          domains, analytics, cloud computing, AI, software development, and enterprise solutions.
+        </p>
+
+        <div style={{ display: "flex", gap: 16, flexWrap: "wrap", margin: "24px 0" }}>
+          {["✔ Real-Time Projects", "✔ Industry Mentorship", "✔ Practical Learning", "✔ Internship Certification", "✔ Career Guidance", "✔ Placement-Focused Training"].map(item => (
+            <span key={item} style={{ background: "#1976D2", color: "#fff", padding: "8px 16px", borderRadius: 24, fontSize: 14, fontWeight: 500 }}>{item}</span>
+          ))}
+        </div>
+
+        <p style={styles.introPara}><strong>Helping students gain practical experience for successful global careers.</strong></p>
+
+        {/* ABOUT INTERNSHIPS */}
+        <div style={styles.aboutInternshipBox}>
+          <h3 style={{ fontSize: 28, marginBottom: 16 }}>ABOUT INTERNSHIPS</h3>
+          <h4 style={{ fontSize: 20, marginBottom: 16 }}>Practical Learning Beyond Classrooms</h4>
+          <p style={{ fontSize: 15, lineHeight: 1.7, marginBottom: 16 }}>
+            At Data Artisans, we believe internships are the foundation for building successful careers. Our 
+            programs are designed to provide practical exposure, professional work environments, and industry-oriented learning experiences.
+          </p>
+          <p style={{ fontSize: 15, lineHeight: 1.7, marginBottom: 16 }}>
+            Students get an opportunity to work on real-time projects, understand industry workflows, 
+            collaborate with mentors, and develop technical as well as communication skills required in modern workplaces.
+          </p>
+          <p style={{ fontSize: 15, lineHeight: 1.7 }}>
+            Our internship programs are suitable for students, freshers, career switchers, and professionals 
+            looking to gain practical experience in high-demand technologies and business domains.
+          </p>
+        </div>
+
+        {/* INTERNSHIP PROGRAMS */}
+        <h2 style={{ ...styles.sectionHeading, marginTop: 48 }}>INTERNSHIP PROGRAMS</h2>
+        <h3 style={{ fontSize: 24, color: "#1976D2", marginBottom: 24 }}>Internship Domains</h3>
+
+        <div style={styles.expertiseGrid}>
+          <div style={styles.expertiseCard}>
+            <h4 style={styles.expertiseTitle}>Software Development Internships</h4>
+            <p>Hands-on experience in Python, Java, Full Stack Development, APIs, databases, and web application development.</p>
+          </div>
+          <div style={styles.expertiseCard}>
+            <h4 style={styles.expertiseTitle}>Data Analytics Internships</h4>
+            <p>Practical exposure to Excel, SQL, Power BI, Tableau, Python, reporting, and dashboard creation.</p>
+          </div>
+          <div style={styles.expertiseCard}>
+            <h4 style={styles.expertiseTitle}>AI & Machine Learning Internships</h4>
+            <p>Learn Machine Learning, Generative AI, Agentic AI, automation workflows, and AI implementation projects.</p>
+          </div>
+          <div style={styles.expertiseCard}>
+            <h4 style={styles.expertiseTitle}>Cloud & DevOps Internships</h4>
+            <p>Gain practical knowledge in AWS, Azure, CI/CD pipelines, Docker, Kubernetes, and cloud infrastructure.</p>
+          </div>
+          <div style={styles.expertiseCard}>
+            <h4 style={styles.expertiseTitle}>Business & Management Internships</h4>
+            <p>Internship opportunities in HR, operations, recruitment, finance, and business coordination.</p>
+          </div>
+          <div style={styles.expertiseCard}>
+            <h4 style={styles.expertiseTitle}>Cyber Security Internships</h4>
+            <p>Exposure to security practices, vulnerability assessment, ethical hacking concepts, and security monitoring.</p>
+          </div>
+        </div>
+
+        {/* INTERNSHIPS IN INDIA */}
+        <h2 style={{ ...styles.sectionHeading, marginTop: 48 }}>INTERNSHIPS IN INDIA</h2>
+        <h3 style={{ fontSize: 24, color: "#1976D2", marginBottom: 16 }}>Industry-Focused Internship Opportunities Across India</h3>
+        <p style={styles.introPara}>
+          Our India internship programs are designed for students and fresh graduates who want to gain 
+          practical exposure and improve employability through real-time project experience.
+        </p>
+        <p style={styles.introPara}>
+          We collaborate with industry professionals and growing organizations to provide internship 
+          opportunities in various technical and non-technical domains.
+        </p>
+        <h4 style={{ fontSize: 18, fontWeight: 700, marginTop: 24 }}>Benefits of India Internships</h4>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 12, margin: "16px 0" }}>
+          {["✔ Real-Time Project Experience", "✔ Flexible Online & Offline Modes", "✔ Internship Completion Certificates", "✔ Technical Mentorship", "✔ Resume Building Support", "✔ Placement Assistance"].map(b => (
+            <span key={b} style={{ background: "#F7F7F7", padding: "6px 12px", borderRadius: 8, fontSize: 13 }}>{b}</span>
+          ))}
+        </div>
+
+        {/* INTERNSHIPS IN UK */}
+        <h2 style={{ ...styles.sectionHeading, marginTop: 48 }}>INTERNSHIPS IN UK</h2>
+        <h3 style={{ fontSize: 24, color: "#1976D2", marginBottom: 16 }}>International Internship Opportunities In The UK</h3>
+        <p style={styles.introPara}>
+          Data Artisans also supports students and professionals looking for international internship 
+          opportunities in the United Kingdom.
+        </p>
+        <p style={styles.introPara}>
+          Our UK internship support programs help candidates gain global exposure, international work 
+          experience, and professional development opportunities in modern business environments.
+        </p>
+        <h4 style={{ fontSize: 18, fontWeight: 700, marginTop: 24 }}>Benefits of UK Internships</h4>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 12, margin: "16px 0" }}>
+          {["✔ International Work Exposure", "✔ Professional Skill Development", "✔ Global Networking Opportunities", "✔ Industry-Oriented Learning", "✔ Career Advancement Support", "✔ International Experience Certification"].map(b => (
+            <span key={b} style={{ background: "#F7F7F7", padding: "6px 12px", borderRadius: 8, fontSize: 13 }}>{b}</span>
+          ))}
+        </div>
+
+        {/* WHY CHOOSE */}
+        <h2 style={{ ...styles.sectionHeading, marginTop: 48 }}>WHY CHOOSE DATA ARTISANS</h2>
+        <h3 style={{ fontSize: 20, marginBottom: 24 }}>Why Students Prefer Our Internship Programs</h3>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+          {["✔ Industry-Relevant Training", "✔ Real-Time Practical Exposure", "✔ Experienced Mentors", "✔ Career-Oriented Learning", "✔ Flexible Learning Models", "✔ Professional Guidance", "✔ Internship Certification", "✔ Placement-Focused Support"].map(w => (
+            <div key={w} style={{ background: "#1976D2", color: "#fff", padding: "12px", borderRadius: 8, fontSize: 13, fontWeight: 500, textAlign: "center" }}>{w}</div>
+          ))}
+        </div>
+
+        {/* OUR PROCESS */}
+        <h2 style={{ ...styles.sectionHeading, marginTop: 48 }}>OUR PROCESS</h2>
+        <h3 style={{ fontSize: 20, marginBottom: 24 }}>How Our Internship Program Works</h3>
+        <div style={styles.processGrid}>
+          <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>1. Profile Evaluation</strong><br />Understanding student interests, skills, and career goals.</div>
+          <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>2. Domain Selection</strong><br />Choosing suitable internship programs based on career interests.</div>
+          <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>3. Training & Project Assignment</strong><br />Hands-on learning with real-time projects and mentorship.</div>
+          <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>4. Practical Implementation</strong><br />Working on assignments, case studies, and project execution.</div>
+          <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>5. Certification</strong><br />Internship completion certification and performance evaluation.</div>
+          <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>6. Career Support</strong><br />Resume guidance, interview preparation, and placement assistance.</div>
+        </div>
+
+        {/* WHO CAN APPLY */}
+        <div style={styles.whoCanApply}>
+          <h3 style={{ fontSize: 28, marginBottom: 24 }}>WHO CAN APPLY</h3>
+          <div style={{ display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap" }}>
+            {["🎓 Students", "👨‍🎓 Freshers", "💻 Career Switchers", "🎓 Graduates", "🌍 International Aspirants", "⚙️ Tech Enthusiasts"].map(w => (
+              <span key={w} style={{ fontSize: 18 }}>{w}</span>
+            ))}
+          </div>
+          <p style={{ marginTop: 24, fontSize: 14 }}>Whether you are starting your career or upgrading your practical skills, our internship programs are designed to help you gain real-world industry exposure.</p>
+        </div>
+
+        {/* CALL TO ACTION */}
+        <div style={styles.ctaSimple}>
+          <h3 style={{ fontSize: 28, marginBottom: 16 }}>Start Your Internship Journey Today</h3>
+          <p style={{ fontSize: 16, marginBottom: 24 }}>Build practical skills, gain industry exposure, and strengthen your career with Data Artisans internship programs in India and the UK.</p>
+          <p>📞 +91 XXXXX XXXXX</p>
+          <p>📧 info@dataartisans.com</p>
+          <p>🌐 www.dataartisans.com</p>
+          <p style={{ marginTop: 20, fontWeight: 700 }}>Learn. Practice. Grow Professionally.</p>
+        </div>
+      </section>
     </div>
   );
 };

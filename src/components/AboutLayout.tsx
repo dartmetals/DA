@@ -22,32 +22,32 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ children }) => {
   const getHeroContent = () => {
     if (pathname === '/overview') {
       return {
-        heading: 'Tech for tomorrow.',
-        subheading: 'Empowering businesses with cutting-edge solutions',
+        heading: 'Tech for tomorrow',
+        subheading: 'Empowering businesses with cutting-edge solutions.',
         bgImage: '/overview-bg.jpg'
       }
     } else if (pathname === '/whydataartisans') {
       return {
-        heading: 'Making great teams.',
+        heading: 'Making great teams',
         subheading: 'Choose us for reliable & secure software.',
         bgImage: '/overview-bg.jpg'
       }
     } else if (pathname === '/ourjourney') {
       return {
-        heading: 'From vision to innovation.',
-        subheading: 'A journey of progress, powered by technology and passion',
+        heading: 'From vision to innovation',
+        subheading: 'A journey of progress, powered by technology and passion.',
         bgImage: '/overview-bg.jpg'
       }
     } else if (pathname === '/locations') {
       return {
         heading: 'Our Global Presence',
-        subheading: 'Serving businesses across the world with excellence',
+        subheading: 'Serving businesses across the world with excellence.',
         bgImage: '/overview-bg.jpg'
       }
     }
     return {
-      heading: 'Tech for tomorrow.',
-      subheading: 'Empowering businesses with cutting-edge solutions',
+      heading: 'Tech for tomorrow',
+      subheading: 'Empowering businesses with cutting-edge solutions.',
       bgImage: '/overview-bg.jpg'
     }
   }
@@ -76,20 +76,20 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ children }) => {
           background: 'linear-gradient(135deg, rgba(15,32,68,0.6) 0%, rgba(26,53,102,0.6) 40%, rgba(13,48,96,0.6) 70%, rgba(7,29,69,0.6) 100%)',
         }} />
         {/* Tech pattern overlay */}
-        <div style={{
+        {/* <div style={{
           position: 'absolute', inset: 0, opacity: 0.08,
           backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.3) 40px, rgba(255,255,255,0.3) 41px),
             repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.3) 40px, rgba(255,255,255,0.3) 41px)`,
-        }} />
+        }} /> */}
         {/* Decorative circles */}
-        {[350, 500, 650].map((x, i) => (
+        {/* {[350, 500, 650].map((x, i) => (
           <div key={i} style={{
             position: 'absolute', right: `${x - 300}px`, top: '-40px',
             width: `${140 + i * 60}px`, height: `${140 + i * 60}px`,
             borderRadius: '50%',
             border: '1px solid rgba(255,255,255,0.08)',
           }} />
-        ))}
+        ))} */}
 
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '1200px', margin: '0 auto', padding: '0 40px', width: '100%' }}>
           {/* Breadcrumb */}

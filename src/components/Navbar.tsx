@@ -42,10 +42,13 @@ const Navbar: React.FC = () => {
       { label: 'Locations', href: '/locations' },
     ],
     'EXPERTISE': [
-      { label: 'Training', href: 'training' },
-      { label: 'Internship', href: 'internship' },
+      { label: 'Software Training', href: 'training' },
+      { label: 'Internships', href: 'internship' },
       { label: 'Job Placement Support', href: 'jobplacementsupport' },
       { label: 'Study Abroad', href: 'studyabroad' },
+      { label: 'Industries', href: 'industries' },
+      { label: 'AI Powered Hiring', href: 'ai-powered-hiring' },
+      { label: 'Application Development', href: 'application-development' },
     ],
     'SOLUTIONS': [
       { label: 'Hiring', href: 'hiring' },
@@ -64,7 +67,7 @@ const Navbar: React.FC = () => {
   return (
     <nav
       style={{
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         left: 0,
         right: 0,

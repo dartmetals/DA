@@ -9,7 +9,7 @@ const styles: Record<string, React.CSSProperties> = {
     overflowX: "hidden",
   },
   hero: {
-    background: "linear-gradient(135deg, #C8102E 0%, #8B0000 100%)",
+    background: "linear-gradient(135deg, #1E3A5F 0%, #0D2137 100%)",
     color: "#fff",
     padding: "80px 60px",
     display: "flex",
@@ -73,7 +73,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 360,
     height: 340,
     borderRadius: 16,
-    background: "linear-gradient(145deg, #F5A800 60%, #C8102E 100%)",
+    background: "linear-gradient(145deg, #3B82F6 60%, #1E3A5F 100%)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -91,7 +91,7 @@ const styles: Record<string, React.CSSProperties> = {
   introBody: { flex: 1 },
   introPara: { fontSize: 15, lineHeight: 1.75, color: "#333", marginBottom: 18 },
   sectionHeading: { fontSize: 36, fontWeight: 700, color: "#1A1A1A", marginBottom: 48 },
-  sectionHeadingItalic: { fontStyle: "italic", color: "#C8102E" },
+  sectionHeadingItalic: { fontStyle: "italic", color: "#2563EB" },
   cardsSection: { background: "#F7F7F7", padding: "60px 60px" },
   cardsGrid: { display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 32 },
   card: {
@@ -106,7 +106,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 64,
     height: 64,
     borderRadius: "50%",
-    background: "linear-gradient(135deg, #F5A800, #C8102E)",
+    background: "linear-gradient(135deg, #3B82F6, #1E3A5F)",
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
@@ -118,13 +118,13 @@ const styles: Record<string, React.CSSProperties> = {
     fontStyle: "italic",
     fontSize: 18,
     fontWeight: 700,
-    color: "#C8102E",
+    color: "#2563EB",
     marginBottom: 8,
     marginTop: 0,
   },
   cardBody: { fontSize: 14, lineHeight: 1.7, color: "#444", margin: 0 },
   goldBanner: {
-    background: "#F5A800",
+    background: "#EFF6FF",
     padding: "70px 60px",
     display: "flex",
     alignItems: "center",
@@ -136,7 +136,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 340,
     height: 380,
     borderRadius: 12,
-    background: "linear-gradient(145deg, #C8102E 0%, #8B0000 100%)",
+    background: "linear-gradient(145deg, #1E3A5F 0%, #0D2137 100%)",
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
@@ -145,7 +145,7 @@ const styles: Record<string, React.CSSProperties> = {
     textAlign: "center" as const,
   },
   iconRow: {
-    background: "#F5A800",
+    background: "#2563EB",
     padding: "0 60px 70px",
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
@@ -162,7 +162,7 @@ const styles: Record<string, React.CSSProperties> = {
     justifyContent: "center",
     fontSize: 32,
   },
-  iconLabel: { fontSize: 14, lineHeight: 1.6, color: "#1A1A1A", fontWeight: 500 },
+  iconLabel: { fontSize: 14, lineHeight: 1.6, color: "#fff", fontWeight: 500 },
   techSection: {
     background: "#fff",
     padding: "70px 60px",
@@ -174,7 +174,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 340,
     height: 360,
     borderRadius: 12,
-    background: "linear-gradient(135deg, #C8102E 0%, #F5A800 100%)",
+    background: "linear-gradient(135deg, #1E3A5F 0%, #3B82F6 100%)",
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
@@ -204,7 +204,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 56,
     height: 56,
     borderRadius: "50%",
-    background: "linear-gradient(135deg, #C8102E, #F5A800)",
+    background: "linear-gradient(135deg, #1E3A5F, #3B82F6)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -216,35 +216,166 @@ const styles: Record<string, React.CSSProperties> = {
     fontStyle: "italic",
     fontSize: 16,
     fontWeight: 700,
-    color: "#C8102E",
+    color: "#2563EB",
     marginBottom: 8,
     marginTop: 0,
   },
   featureBody: { fontSize: 13, lineHeight: 1.65, color: "#555", margin: 0 },
   ctaBanner: {
-    background: "#1A1A2E",
+    background: "#1E3A5F",
     color: "#fff",
     textAlign: "center" as const,
     padding: "48px 60px",
     fontSize: 22,
     fontWeight: 700,
   },
-  ctaSpan: { color: "#F5A800" },
+  ctaSpan: { color: "#3B82F6" },
+  // New styles for added content
+  expertiseSection: {
+    background: "#fff",
+    padding: "60px 60px",
+  },
+  expertiseHeading: {
+    fontSize: 28,
+    fontWeight: 700,
+    color: "#2563EB",
+    marginBottom: 12,
+    textAlign: "center" as const,
+  },
+  expertiseSubheading: {
+    fontSize: 20,
+    fontWeight: 600,
+    color: "#1A1A1A",
+    marginBottom: 32,
+    textAlign: "center" as const,
+  },
+  expertiseText: {
+    fontSize: 15,
+    lineHeight: 1.75,
+    color: "#333",
+    marginBottom: 24,
+  },
+  expertiseList: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gap: 12,
+    margin: "24px 0",
+  },
+  expertiseListItem: {
+    fontSize: 14,
+    color: "#444",
+    paddingLeft: 24,
+    position: "relative" as const,
+  },
+  serviceHeading: {
+    fontSize: 22,
+    fontWeight: 700,
+    color: "#1A1A1A",
+    margin: "32px 0 20px",
+  },
+  serviceSubheading: {
+    fontSize: 18,
+    fontWeight: 600,
+    color: "#2563EB",
+    margin: "28px 0 16px",
+  },
+  serviceGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: 24,
+    marginBottom: 32,
+  },
+  serviceItem: {
+    background: "#F7F7F7",
+    borderRadius: 10,
+    padding: "20px",
+  },
+  serviceItemTitle: {
+    fontFamily: "'Georgia', serif",
+    fontStyle: "italic",
+    fontSize: 16,
+    fontWeight: 700,
+    color: "#2563EB",
+    marginBottom: 10,
+  },
+  serviceItemDesc: {
+    fontSize: 13,
+    lineHeight: 1.65,
+    color: "#555",
+  },
+  processGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: 24,
+    margin: "32px 0",
+  },
+  processStep: {
+    background: "#F7F7F7",
+    borderRadius: 10,
+    padding: "20px",
+    textAlign: "center" as const,
+  },
+  processNumber: {
+    width: 40,
+    height: 40,
+    borderRadius: "50%",
+    background: "linear-gradient(135deg, #1E3A5F, #3B82F6)",
+    color: "#fff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    margin: "0 auto 12px",
+  },
+  whoList: {
+    display: "flex",
+    flexWrap: "wrap" as const,
+    gap: 12,
+    margin: "20px 0",
+  },
+  whoItem: {
+    background: "linear-gradient(135deg, #3B82F6, #1E3A5F)",
+    color: "#fff",
+    padding: "8px 20px",
+    borderRadius: 30,
+    fontSize: 14,
+    fontWeight: 500,
+  },
+  ctaSmall: {
+    background: "#1E3A5F",
+    color: "#fff",
+    textAlign: "center" as const,
+    padding: "32px",
+    borderRadius: 12,
+    marginTop: 32,
+  },
+  ctaSmallText: {
+    fontSize: 18,
+    fontWeight: 600,
+    marginBottom: 16,
+  },
+  contactInfo: {
+    display: "flex",
+    justifyContent: "center",
+    gap: 32,
+    fontSize: 14,
+  },
   footer: {
-    background: "#111827",
+    background: "#0F172A",
     color: "#fff",
     padding: "50px 60px 30px",
     display: "grid",
     gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr",
     gap: 32,
   },
-  footerBrand: { fontSize: 24, fontWeight: 800, color: "#C8102E", marginBottom: 12 },
-  footerAddress: { fontSize: 13, lineHeight: 1.8, color: "#aaa" },
+  footerBrand: { fontSize: 24, fontWeight: 800, color: "#3B82F6", marginBottom: 12 },
+  footerAddress: { fontSize: 13, lineHeight: 1.8, color: "#94A3B8" },
   footerColTitle: { fontSize: 12, fontWeight: 700, letterSpacing: 1, color: "#fff", marginBottom: 12, textTransform: "uppercase" as const },
-  footerLink: { display: "block", fontSize: 13, color: "#C8102E", marginBottom: 6, textDecoration: "none" },
+  footerLink: { display: "block", fontSize: 13, color: "#3B82F6", marginBottom: 6, textDecoration: "none" },
   footerBottom: {
-    background: "#0d1117",
-    color: "#666",
+    background: "#020617",
+    color: "#64748B",
     textAlign: "center" as const,
     padding: "16px 60px",
     fontSize: 12,
@@ -398,6 +529,305 @@ const JobPlacementSupportPage: React.FC = () => {
         Visit <span style={styles.ctaSpan}>HirePro</span> to explore a whole new world of placement automation.
       </div>
 
+      {/* ── NEW JOB PLACEMENT SUPPORT EXPERTISE SECTION ── */}
+      <section style={styles.expertiseSection}>
+        <h2 style={styles.expertiseHeading}>JOB PLACEMENT SUPPORT EXPERTISE</h2>
+        <p style={styles.expertiseSubheading}>Empowering Careers Through Placement Support & Global Opportunities</p>
+        
+        <p style={styles.expertiseText}>
+          At Data Artisans, we help students, freshers, and working professionals achieve successful careers 
+          through dedicated job placement support, outsourcing solutions, CV marketing services, and 
+          professional career guidance.
+        </p>
+        
+        <p style={styles.expertiseText}>
+          Our goal is to bridge the gap between talent and industry by providing practical career support, 
+          professional mentoring, and access to opportunities across India and international markets.
+        </p>
+        
+        <p style={styles.expertiseText}>
+          We work closely with hiring partners, recruiters, consulting firms, and industry professionals to help 
+          candidates improve employability, build strong professional profiles, and secure career opportunities 
+          in competitive job markets.
+        </p>
+        
+        <div style={styles.expertiseList}>
+          <div style={styles.expertiseListItem}>✔ Placement Assistance</div>
+          <div style={styles.expertiseListItem}>✔ CV Marketing Services</div>
+          <div style={styles.expertiseListItem}>✔ Outsourcing Support</div>
+          <div style={styles.expertiseListItem}>✔ Interview Preparation</div>
+          <div style={styles.expertiseListItem}>✔ Resume Optimization</div>
+          <div style={styles.expertiseListItem}>✔ Career Mentorship</div>
+        </div>
+        
+        <p style={styles.expertiseText}>
+          Helping candidates build successful careers with confidence and industry readiness.
+        </p>
+
+        <h3 style={styles.serviceHeading}>ABOUT OUR SERVICES</h3>
+        <h4 style={styles.serviceSubheading}>Career-Focused Placement Solutions</h4>
+        
+        <p style={styles.expertiseText}>
+          At Data Artisans, we understand that building a successful career requires more than technical skills. 
+          Candidates need the right guidance, professional presentation, interview preparation, and industry 
+          exposure to secure opportunities in today's competitive market.
+        </p>
+        
+        <p style={styles.expertiseText}>
+          Our placement support services are designed to help candidates identify suitable career 
+          opportunities, strengthen professional profiles, and improve hiring success rates through structured 
+          career guidance and industry-focused support.
+        </p>
+        
+        <p style={styles.expertiseText}>
+          We provide personalized assistance for freshers, experienced professionals, career switchers, and 
+          international job aspirants looking to explore opportunities across various industries and 
+          technologies.
+        </p>
+
+        <h3 style={styles.serviceHeading}>OUR SERVICES</h3>
+        <h4 style={styles.serviceSubheading}>End-To-End Career Support Services</h4>
+        
+        <div style={styles.serviceGrid}>
+          <div style={styles.serviceItem}>
+            <div style={styles.serviceItemTitle}>Job Placement Support</div>
+            <div style={styles.serviceItemDesc}>Comprehensive placement assistance for IT and Non-IT candidates through industry-focused preparation and opportunity mapping.</div>
+          </div>
+          <div style={styles.serviceItem}>
+            <div style={styles.serviceItemTitle}>CV Marketing Services</div>
+            <div style={styles.serviceItemDesc}>Professional resume marketing services to help candidates increase visibility among recruiters, consulting firms, and hiring companies.</div>
+          </div>
+          <div style={styles.serviceItem}>
+            <div style={styles.serviceItemTitle}>Resume Building & Optimization</div>
+            <div style={styles.serviceItemDesc}>Creating ATS-friendly, professionally structured resumes that highlight skills, projects, experience, and achievements effectively.</div>
+          </div>
+          <div style={styles.serviceItem}>
+            <div style={styles.serviceItemTitle}>LinkedIn Profile Optimization</div>
+            <div style={styles.serviceItemDesc}>Professional LinkedIn enhancement to improve recruiter visibility and networking opportunities.</div>
+          </div>
+          <div style={styles.serviceItem}>
+            <div style={styles.serviceItemTitle}>Outsourcing Services</div>
+            <div style={styles.serviceItemDesc}>Providing outsourcing support solutions for businesses and professionals across technical and operational domains.</div>
+          </div>
+          <div style={styles.serviceItem}>
+            <div style={styles.serviceItemTitle}>Interview Preparation</div>
+            <div style={styles.serviceItemDesc}>Mock interviews, technical interview guidance, HR preparation, and communication skill development.</div>
+          </div>
+          <div style={styles.serviceItem}>
+            <div style={styles.serviceItemTitle}>Career Guidance & Mentorship</div>
+            <div style={styles.serviceItemDesc}>Personalized career counselling to help candidates choose the right technology, domain, and career path based on market demand and future growth.</div>
+          </div>
+          <div style={styles.serviceItem}>
+            <div style={styles.serviceItemTitle}>International Job Guidance</div>
+            <div style={styles.serviceItemDesc}>Support for candidates exploring overseas opportunities, global career planning, and international professional growth.</div>
+          </div>
+        </div>
+
+        <h3 style={styles.serviceHeading}>OUTSOURCING SERVICES</h3>
+        <h4 style={styles.serviceSubheading}>Professional Outsourcing Solutions</h4>
+        
+        <p style={styles.expertiseText}>
+          Data Artisans provides outsourcing support services for businesses seeking reliable professionals and 
+          scalable workforce solutions.
+        </p>
+        
+        <p style={styles.expertiseText}>
+          We assist organizations with talent sourcing, technical resource support, operational staffing, and 
+          project-based workforce requirements across multiple domains.
+        </p>
+        
+        <div style={styles.expertiseList}>
+          <div style={styles.expertiseListItem}>✔ Technical Resource Support</div>
+          <div style={styles.expertiseListItem}>✔ Contract Staffing Assistance</div>
+          <div style={styles.expertiseListItem}>✔ Remote Workforce Solutions</div>
+          <div style={styles.expertiseListItem}>✔ Project-Based Hiring Support</div>
+          <div style={styles.expertiseListItem}>✔ Business Operations Assistance</div>
+          <div style={styles.expertiseListItem}>✔ Flexible Staffing Models</div>
+        </div>
+        
+        <p style={styles.expertiseText}>
+          Our outsourcing services help businesses improve productivity, optimize operational efficiency, and 
+          access skilled professionals quickly.
+        </p>
+
+        <h3 style={styles.serviceHeading}>CV MARKETING SERVICES</h3>
+        <h4 style={styles.serviceSubheading}>Professional CV Marketing & Profile Branding</h4>
+        
+        <p style={styles.expertiseText}>
+          Our CV marketing services are designed to increase candidate visibility and improve job search 
+          effectiveness.
+        </p>
+        
+        <p style={styles.expertiseText}>
+          We help candidates professionally present their skills, experience, certifications, and project 
+          expertise to recruiters and hiring organizations.
+        </p>
+        
+        <div style={styles.expertiseList}>
+          <div style={styles.expertiseListItem}>✔ ATS-Friendly Resume Preparation</div>
+          <div style={styles.expertiseListItem}>✔ Professional Profile Enhancement</div>
+          <div style={styles.expertiseListItem}>✔ LinkedIn Optimization</div>
+          <div style={styles.expertiseListItem}>✔ Job Portal Profile Management</div>
+          <div style={styles.expertiseListItem}>✔ Recruiter Outreach Support</div>
+          <div style={styles.expertiseListItem}>✔ Career Positioning Guidance</div>
+        </div>
+        
+        <p style={styles.expertiseText}>
+          We focus on creating strong professional branding that helps candidates stand out in competitive job 
+          markets.
+        </p>
+
+        <h3 style={styles.serviceHeading}>PLACEMENT GUIDANCE</h3>
+        <h4 style={styles.serviceSubheading}>Complete Career Guidance & Placement Assistance</h4>
+        
+        <p style={styles.expertiseText}>
+          At Data Artisans, we provide strategic career support to help candidates confidently prepare for 
+          interviews and placement opportunities.
+        </p>
+        
+        <div style={styles.expertiseList}>
+          <div style={styles.expertiseListItem}>✔ Career Roadmap Planning</div>
+          <div style={styles.expertiseListItem}>✔ Technology & Domain Guidance</div>
+          <div style={styles.expertiseListItem}>✔ Resume & Portfolio Support</div>
+          <div style={styles.expertiseListItem}>✔ Mock Interviews</div>
+          <div style={styles.expertiseListItem}>✔ HR Interview Preparation</div>
+          <div style={styles.expertiseListItem}>✔ Communication Skill Development</div>
+          <div style={styles.expertiseListItem}>✔ Job Search Strategy Guidance</div>
+          <div style={styles.expertiseListItem}>✔ Professional Mentorship</div>
+        </div>
+        
+        <p style={styles.expertiseText}>
+          Our placement-focused approach helps candidates improve confidence, technical readiness, and 
+          interview performance.
+        </p>
+
+        <h3 style={styles.serviceHeading}>WHY CHOOSE DATA ARTISANS</h3>
+        <h4 style={styles.serviceSubheading}>Why Candidates Trust Us</h4>
+        
+        <div style={styles.expertiseList}>
+          <div style={styles.expertiseListItem}>✔ Industry-Focused Career Support</div>
+          <div style={styles.expertiseListItem}>✔ Experienced Mentorship</div>
+          <div style={styles.expertiseListItem}>✔ Placement-Oriented Guidance</div>
+          <div style={styles.expertiseListItem}>✔ Professional CV Marketing</div>
+          <div style={styles.expertiseListItem}>✔ Real-Time Career Assistance</div>
+          <div style={styles.expertiseListItem}>✔ Flexible Support Models</div>
+          <div style={styles.expertiseListItem}>✔ Personalized Career Planning</div>
+          <div style={styles.expertiseListItem}>✔ End-To-End Professional Guidance</div>
+        </div>
+        
+        <p style={styles.expertiseText}>
+          We focus on helping candidates build strong professional profiles and achieve sustainable long-term 
+          career growth.
+        </p>
+
+        <h3 style={styles.serviceHeading}>WHO CAN BENEFIT</h3>
+        <h4 style={styles.serviceSubheading}>Designed For</h4>
+        
+        <div style={styles.whoList}>
+          <span style={styles.whoItem}>Freshers</span>
+          <span style={styles.whoItem}>Experienced Professionals</span>
+          <span style={styles.whoItem}>IT & Non-IT Candidates</span>
+          <span style={styles.whoItem}>Career Switchers</span>
+          <span style={styles.whoItem}>International Job Aspirants</span>
+          <span style={styles.whoItem}>Professionals Seeking Career Growth</span>
+        </div>
+        
+        <p style={styles.expertiseText}>
+          Whether you are starting your career or planning your next professional move, our services are 
+          designed to help you achieve your career goals effectively.
+        </p>
+
+        <h3 style={styles.serviceHeading}>OUR PROCESS</h3>
+        <h4 style={styles.serviceSubheading}>How We Support Candidates</h4>
+        
+        <div style={styles.processGrid}>
+          <div style={styles.processStep}>
+            <div style={styles.processNumber}>1</div>
+            <div style={styles.serviceItemTitle}>Profile Evaluation</div>
+            <div style={styles.serviceItemDesc}>Understanding skills, experience, and career objectives.</div>
+          </div>
+          <div style={styles.processStep}>
+            <div style={styles.processNumber}>2</div>
+            <div style={styles.serviceItemTitle}>Career Consultation</div>
+            <div style={styles.serviceItemDesc}>Identifying suitable opportunities and career paths.</div>
+          </div>
+          <div style={styles.processStep}>
+            <div style={styles.processNumber}>3</div>
+            <div style={styles.serviceItemTitle}>Resume & Profile Enhancement</div>
+            <div style={styles.serviceItemDesc}>Professional CV optimization and branding support.</div>
+          </div>
+          <div style={styles.processStep}>
+            <div style={styles.processNumber}>4</div>
+            <div style={styles.serviceItemTitle}>Placement Preparation</div>
+            <div style={styles.serviceItemDesc}>Interview guidance, technical preparation, and mentorship.</div>
+          </div>
+          <div style={styles.processStep}>
+            <div style={styles.processNumber}>5</div>
+            <div style={styles.serviceItemTitle}>Opportunity Support</div>
+            <div style={styles.serviceItemDesc}>Connecting candidates with relevant hiring opportunities.</div>
+          </div>
+          <div style={styles.processStep}>
+            <div style={styles.processNumber}>6</div>
+            <div style={styles.serviceItemTitle}>Career Growth Assistance</div>
+            <div style={styles.serviceItemDesc}>Continuous guidance for long-term professional development.</div>
+          </div>
+        </div>
+
+        <div style={styles.ctaSmall}>
+          <div style={styles.ctaSmallText}>Take The Next Step In Your Career</div>
+          <p style={{ fontSize: 14, marginBottom: 20 }}>
+            Build a strong professional future with expert placement support, CV marketing services, outsourcing 
+            solutions, and career guidance from Data Artisans.
+          </p>
+          <div style={styles.contactInfo}>
+            <span>📞 +91 XXXXX XXXXX</span>
+            <span>✉️ info@dataartisans.com</span>
+            <span>🌐 www.dataartisans.com</span>
+          </div>
+          <p style={{ fontSize: 13, marginTop: 20, fontStyle: "italic" }}>
+            Build Skills. Create Opportunities. Achieve Career Success.
+          </p>
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer>
+        <div style={styles.footer}>
+          <div>
+            <div style={styles.footerBrand}>Data Artisans</div>
+            <div style={styles.footerAddress}>Making the right career move happen</div>
+          </div>
+          <div>
+            <div style={styles.footerColTitle}>Quick Links</div>
+            <a href="#" style={styles.footerLink}>Home</a>
+            <a href="#" style={styles.footerLink}>About</a>
+            <a href="#" style={styles.footerLink}>Services</a>
+            <a href="#" style={styles.footerLink}>Contact</a>
+          </div>
+          <div>
+            <div style={styles.footerColTitle}>Support</div>
+            <a href="#" style={styles.footerLink}>Placement Support</a>
+            <a href="#" style={styles.footerLink}>CV Marketing</a>
+            <a href="#" style={styles.footerLink}>Outsourcing</a>
+            <a href="#" style={styles.footerLink}>Interview Prep</a>
+          </div>
+          <div>
+            <div style={styles.footerColTitle}>Resources</div>
+            <a href="#" style={styles.footerLink}>Blog</a>
+            <a href="#" style={styles.footerLink}>FAQs</a>
+            <a href="#" style={styles.footerLink}>Career Guides</a>
+          </div>
+          <div>
+            <div style={styles.footerColTitle}>Connect</div>
+            <a href="#" style={styles.footerLink}>LinkedIn</a>
+            <a href="#" style={styles.footerLink}>Twitter</a>
+            <a href="#" style={styles.footerLink}>Facebook</a>
+          </div>
+        </div>
+        <div style={styles.footerBottom}>
+          © 2024 Data Artisans. All rights reserved.
+        </div>
+      </footer>
     </div>
   );
 };
