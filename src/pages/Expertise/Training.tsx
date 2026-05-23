@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { motion, useAnimation } from "framer-motion";
 
 // ─── Theme tokens ────────────────────────────────────────────────────────────
 // Primary blue : #2563eb
@@ -27,43 +28,23 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center" as const,
-    minHeight: 620,
+    minHeight: 520,
     position: "relative",
     overflow: "hidden",
-    backgroundImage: 'url("/training.jpg")',
+    backgroundImage: 'url("/training-bg.jpg")',
     backgroundSize: "cover",
-    backgroundPosition: "center",
+    backgroundPosition: "top",
     backgroundRepeat: "no-repeat",
   },
-  heroOverlay: {
-    position: "absolute",
-    top: -80,
-    right: -60,
-    width: 420,
-    height: 420,
-    borderRadius: "50%",
-    background: "rgba(255,255,255,0.07)",
-    pointerEvents: "none",
-  },
-  heroOverlay2: {
-    position: "absolute",
-    bottom: -100,
-    left: "35%",
-    width: 300,
-    height: 300,
-    borderRadius: "50%",
-    background: "rgba(255,255,255,0.05)",
-    pointerEvents: "none",
-  },
   heroText: {
-    maxWidth: 800,
+    maxWidth: 900,
     zIndex: 1,
     margin: "0 auto",
   },
   heroHeading: {
     fontFamily: "'Georgia', 'Times New Roman', serif",
     fontStyle: "italic",
-    fontSize: 52,
+    fontSize: 42,
     fontWeight: 700,
     lineHeight: 1.15,
     margin: 0,
@@ -72,6 +53,15 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: 18,
     marginTop: 20,
     opacity: 0.9,
+  },
+  heroDescription: {
+    fontSize: 16,
+    marginTop: 16,
+    opacity: 0.85,
+    lineHeight: 1.5,
+    maxWidth: 600,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   heroImagePlaceholder: {
     display: "none",
@@ -82,7 +72,7 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     alignItems: "center",
     gap: 60,
-    padding: "70px 60px",
+    padding: "70px 60px 16px",
     background: "#fff",
   },
   introImageBox: {
@@ -110,7 +100,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: 15,
     lineHeight: 1.75,
     color: "#333",
-    marginBottom: 18,
+    marginBottom: 16,
   },
 
   // ── Section heading ─────────────────────────────────────────────────────
@@ -128,7 +118,7 @@ const styles: Record<string, React.CSSProperties> = {
   // ── Cards grid ──────────────────────────────────────────────────────────
   cardsSection: {
     background: "#F7F7F7",
-    padding: "60px 60px",
+    padding: "30px 60px",
   },
   cardsGrid: {
     display: "grid",
@@ -401,6 +391,20 @@ techPara: {
     fontWeight: 700,
   },
   ctaSpan: { color: "#60a5fa" },
+  ctaButton: {
+    display: "inline-block",
+    background: "#60a5fa",
+    color: "#1e3a8a",
+    border: "none",
+    borderRadius: 30,
+    padding: "12px 28px",
+    fontSize: 16,
+    fontWeight: 600,
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+    marginTop: 24,
+    textDecoration: "none",
+  },
 
   // ── Footer ───────────────────────────────────────────────────────────────
   footer: {
@@ -427,8 +431,265 @@ techPara: {
 // ─── Component ───────────────────────────────────────────────────────────────
 
 const TrainingPage: React.FC = () => {
-  const [hoveredCard, setHoveredCard] = React.useState<number | null>(null);
-  const [hoveredFeatureCard, setHoveredFeatureCard] = React.useState<number | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [hoveredFeatureCard, setHoveredFeatureCard] = useState<number | null>(null);
+
+  // Individual animation controls for each section
+  const heroControls = useAnimation();
+  const introImageControls = useAnimation();
+  const introParaControls = useAnimation();
+  const cardsControls = useAnimation();
+  const whyChooseControls = useAnimation();
+  const methodologyControls = useAnimation();
+  const programImageControls = useAnimation();
+  const programContentControls = useAnimation();
+  const careerSupportControls = useAnimation();
+  const ctaControls = useAnimation();
+
+  const heroRef = useRef<HTMLElement>(null);
+  const introRef = useRef<HTMLElement>(null);
+  const cardsRef = useRef<HTMLElement>(null);
+  const whyChooseRef = useRef<HTMLDivElement>(null);
+  const methodologyRef = useRef<HTMLDivElement>(null);
+  const programRef = useRef<HTMLElement>(null);
+  const careerSupportRef = useRef<HTMLElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  // Animation variants (using as const for type safety)
+  const imageFromLeft = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  } as const;
+
+  const textFromBottom = {
+    hidden: { opacity: 0, y: 100 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  } as const;
+
+  const paraStagger = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2 }
+    }
+  } as const;
+
+  const paraItem = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  } as const;
+
+  const cardFromBottom = {
+    hidden: { opacity: 0, y: 80 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, delay: i * 0.1 }
+    })
+  } as const;
+
+  const cardContentStagger = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 }
+    }
+  } as const;
+
+  const cardContentItem = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  } as const;
+
+  const listFromLeft = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  } as const;
+
+  const listItem = {
+    hidden: { opacity: 0, x: -50 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
+  } as const;
+
+  const listFromRight = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  } as const;
+
+  const listItemRight = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
+  } as const;
+
+  const imageFromRight = {
+    hidden: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  } as const;
+
+  const contentFromLeft = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  } as const;
+
+  const ctaStagger = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 }
+    }
+  } as const;
+
+  const ctaItem = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
+  } as const;
+
+  // Intersection Observer setup
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    // Hero section
+    if (heroRef.current) {
+      const heroObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            heroControls.start("visible");
+          } else {
+            heroControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      heroObserver.observe(heroRef.current);
+      observers.push(heroObserver);
+    }
+
+    // Intro section
+    if (introRef.current) {
+      const introObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            introImageControls.start("visible");
+            introParaControls.start("visible");
+          } else {
+            introImageControls.set("hidden");
+            introParaControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      introObserver.observe(introRef.current);
+      observers.push(introObserver);
+    }
+
+    // Cards section
+    if (cardsRef.current) {
+      const cardsObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            cardsControls.start("visible");
+          } else {
+            cardsControls.set("hidden");
+          }
+        },
+        { threshold: 0.2 }
+      );
+      cardsObserver.observe(cardsRef.current);
+      observers.push(cardsObserver);
+    }
+
+    // Why Choose section
+    if (whyChooseRef.current) {
+      const whyChooseObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            whyChooseControls.start("visible");
+          } else {
+            whyChooseControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      whyChooseObserver.observe(whyChooseRef.current);
+      observers.push(whyChooseObserver);
+    }
+
+    // Methodology section
+    if (methodologyRef.current) {
+      const methodologyObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            methodologyControls.start("visible");
+          } else {
+            methodologyControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      methodologyObserver.observe(methodologyRef.current);
+      observers.push(methodologyObserver);
+    }
+
+    // Program Designed section
+    if (programRef.current) {
+      const programObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            programImageControls.start("visible");
+            programContentControls.start("visible");
+          } else {
+            programImageControls.set("hidden");
+            programContentControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      programObserver.observe(programRef.current);
+      observers.push(programObserver);
+    }
+
+    // Career Support section
+    if (careerSupportRef.current) {
+      const careerObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            careerSupportControls.start("visible");
+          } else {
+            careerSupportControls.set("hidden");
+          }
+        },
+        { threshold: 0.2 }
+      );
+      careerObserver.observe(careerSupportRef.current);
+      observers.push(careerObserver);
+    }
+
+    // CTA section
+    if (ctaRef.current) {
+      const ctaObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            ctaControls.start("visible");
+          } else {
+            ctaControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      ctaObserver.observe(ctaRef.current);
+      observers.push(ctaObserver);
+    }
+
+    return () => {
+      observers.forEach(observer => observer.disconnect());
+    };
+  }, []);
 
   const trainingPrograms = [
     { icon: "☁️", title: "Azure Data Engineer", body: "Learn Azure Data Factory, Databricks, Synapse Analytics, Data Lakes, and enterprise cloud data engineering solutions." },
@@ -481,31 +742,51 @@ const TrainingPage: React.FC = () => {
     return index === 0;
   };
 
+  // Contact Us button click handler
+  const handleContactClick = () => {
+    window.location.href = "/contact-us";
+  };
+
   return (
     <div style={styles.page}>
 
       {/* ── HERO ── */}
-      <section style={styles.hero}>
-        <div style={styles.heroOverlay} />
-        <div style={styles.heroOverlay2} />
-        <div style={styles.heroText}>
+      <motion.section
+        ref={heroRef}
+        style={styles.hero}
+        initial="hidden"
+        animate={heroControls}
+        variants={imageFromLeft}
+      >
+        <motion.div
+          style={styles.heroText}
+          variants={textFromBottom}
+          initial="hidden"
+          animate={heroControls}
+        >
           <h1 style={styles.heroHeading}>
-            Build Your Future<br />
-            with Industry-Focused<br />
+            Build Your Future
+            with Industry-Focused
             Software Training
           </h1>
-          <p style={styles.heroSubheading}>
-            Practical Learning. Real Careers.
+          <p style={styles.heroDescription}>
+            Master in-demand tech skills with hands-on training, live projects, and expert mentorship.
+            Start your journey to become an industry-ready professional today.
           </p>
-        </div>
+        </motion.div>
         <div style={styles.heroImagePlaceholder}>
           [ Software Training Hero Image ]
         </div>
-      </section>
+      </motion.section>
 
       {/* ── INTRO TWO-COL ── */}
-      <section style={styles.introSection}>
-        <div style={styles.introImageBox}>
+      <section ref={introRef} style={styles.introSection}>
+        <motion.div
+          style={styles.introImageBox}
+          variants={imageFromLeft}
+          initial="hidden"
+          animate={introImageControls}
+        >
           <img 
             src="/training-img1.jpg" 
             alt="Software Training"
@@ -516,39 +797,59 @@ const TrainingPage: React.FC = () => {
               borderRadius: 16,
             }}
           />
-        </div>
-        <div style={styles.introBody}>
-          <p style={styles.introPara}>
+        </motion.div>
+        <motion.div
+          style={styles.introBody}
+          variants={paraStagger}
+          initial="hidden"
+          animate={introParaControls}
+        >
+          <motion.p variants={paraItem} style={styles.introPara}>
             At Data Artisans, we empower students, freshers, and working professionals with industry-ready 
             technical skills through advanced software training programs designed for real-world careers.
-          </p>
-          <p style={styles.introPara}>
+          </motion.p>
+          <motion.p variants={paraItem} style={styles.introPara}>
             Our training programs are carefully structured to bridge the gap between academic learning and 
             industry requirements by combining practical training, live projects, expert mentorship, and 
             placement-focused learning.
-          </p>
-          <p style={styles.introPara}>
+          </motion.p>
+          <motion.p variants={paraItem} style={styles.introPara}>
             We help learners gain hands-on experience in trending technologies, cloud platforms, data 
             engineering, analytics, AI, software development, DevOps, ERP solutions, and enterprise tools.
-          </p>
-          <p style={styles.introPara}>
+          </motion.p>
+          <motion.p variants={paraItem} style={styles.introPara}>
             Inspired by modern IT training platforms, our focus is on practical learning, industry relevance, and 
             career transformation.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       </section>
 
       {/* ── OUR TRAINING PROGRAMS SECTION ── */}
-      <section style={styles.cardsSection}>
-        <h2 style={styles.sectionHeading}>
+      <motion.section
+        ref={cardsRef}
+        style={styles.cardsSection}
+        initial="hidden"
+        animate={cardsControls}
+      >
+        <motion.h2
+          variants={textFromBottom}
+          style={styles.sectionHeading}
+        >
           Our <em style={styles.sectionHeadingItalic}>Training Programs</em>
-        </h2>
-        <div style={styles.cardsGrid}>
+        </motion.h2>
+        <motion.div
+          style={styles.cardsGrid}
+          variants={cardContentStagger}
+          initial="hidden"
+          animate={cardsControls}
+        >
           {trainingPrograms.map((c, index) => {
             const isBlue = isCardBlue(index);
             return (
-              <div 
-                key={c.title} 
+              <motion.div
+                key={c.title}
+                custom={index}
+                variants={cardFromBottom}
                 style={{
                   ...styles.card,
                   ...(isBlue ? styles.cardBlue : styles.cardDefault)
@@ -556,7 +857,7 @@ const TrainingPage: React.FC = () => {
                 onMouseEnter={() => setHoveredCard(index)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <div>
+                <motion.div variants={cardContentItem}>
                   <h3 style={{
                     ...styles.cardTitle,
                     ...(isBlue ? styles.cardTitleWhite : styles.cardTitleBlue)
@@ -565,91 +866,159 @@ const TrainingPage: React.FC = () => {
                     ...styles.cardBody,
                     ...(isBlue ? styles.cardBodyWhite : styles.cardBodyDark)
                   }}>{c.body}</p>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             );
           })}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* ── 2 COLUMN SECTION: WHY CHOOSE + TRAINING METHODOLOGY ── */}
       <section style={styles.twoColumnSection}>
         <div style={styles.twoColumnGrid}>
           {/* Left Column - Why Choose Data Artisans */}
-          <div style={styles.leftColumn}>
-            <h2 style={styles.goldBannerHeading}>Why Choose Data Artisans</h2>
-            <p style={{ fontSize: 15, lineHeight: 1.75, marginBottom: 20, color: "#1A1A1A" }}>
+          <div ref={whyChooseRef} style={styles.leftColumn}>
+            <motion.h2
+              variants={textFromBottom}
+              initial="hidden"
+              animate={whyChooseControls}
+              style={styles.goldBannerHeading}
+            >
+              Why Choose Data Artisans
+            </motion.h2>
+            <motion.p
+              variants={textFromBottom}
+              initial="hidden"
+              animate={whyChooseControls}
+              style={{ fontSize: 15, lineHeight: 1.75, marginBottom: 20, color: "#1A1A1A" }}
+            >
               <strong>Practical Learning. Real Careers.</strong>
-            </p>
-            <ul style={styles.whyChooseList}>
+            </motion.p>
+            <motion.ul
+              style={styles.whyChooseList}
+              variants={listFromLeft}
+              initial="hidden"
+              animate={whyChooseControls}
+            >
               {whyChoosePoints.map((point, index) => (
-                <li key={index} style={styles.whyChooseItem}>
+                <motion.li key={index} variants={listItem} style={styles.whyChooseItem}>
                   <span style={{ color: "#2563eb", fontSize: 18 }}>✔</span> {point}
-                </li>
+                </motion.li>
               ))}
-            </ul>
-            <p style={{ fontSize: 14, lineHeight: 1.75, marginTop: 20, color: "#1A1A1A" }}>
+            </motion.ul>
+            <motion.p
+              variants={textFromBottom}
+              initial="hidden"
+              animate={whyChooseControls}
+              style={{ fontSize: 14, lineHeight: 1.75, marginTop: 20, color: "#1A1A1A" }}
+            >
               Our programs are designed to provide practical exposure and real-world implementation experience 
               so learners can confidently transition into successful IT careers.
-            </p>
+            </motion.p>
           </div>
 
-          {/* Right Column - Training Methodology (Single column with icon beside text) */}
-          <div style={styles.rightColumn}>
-            <h2 style={styles.goldBannerHeading}>Training Methodology</h2>
-            <div style={styles.iconList}>
+          {/* Right Column - Training Methodology */}
+          <div ref={methodologyRef} style={styles.rightColumn}>
+            <motion.h2
+              variants={textFromBottom}
+              initial="hidden"
+              animate={methodologyControls}
+              style={styles.goldBannerHeading}
+            >
+              Training Methodology
+            </motion.h2>
+            <motion.div
+              style={styles.iconList}
+              variants={listFromRight}
+              initial="hidden"
+              animate={methodologyControls}
+            >
               {trainingMethodologies.map((item, i) => (
-                <div key={i} style={styles.iconListItem}>
+                <motion.div key={i} variants={listItemRight} style={styles.iconListItem}>
                   <div style={styles.iconCircleSmall}>{item.icon}</div>
                   <p style={styles.iconLabelText}>{item.label}</p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-{/* ── WHO CAN JOIN SECTION ── */}
-<section style={styles.techSection}>
-  <div style={styles.techImageBox}>
-    <img 
-      src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=360&fit=crop"
-      alt="Students learning together - Diverse group studying"
-      style={{
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        borderRadius: 12,
-      }}
-    />
-  </div>
-  <div style={styles.techBody}>
-    <p style={styles.techPara}>
-      <strong>Programs Designed For:</strong>
-    </p>
-    <p style={styles.techPara}>
-      🎓 Freshers &nbsp;&nbsp;|&nbsp;&nbsp; 💼 Working Professionals &nbsp;&nbsp;|&nbsp;&nbsp; 🔄 Career Switchers<br />
-      💻 Non-IT Professionals &nbsp;&nbsp;|&nbsp;&nbsp; ☁️ Cloud & DevOps Aspirants &nbsp;&nbsp;|&nbsp;&nbsp; 🤖 AI & Data Enthusiasts
-    </p>
-    <p style={styles.techPara}>
-      Whether you are starting your career or upgrading your technical skills, our programs are tailored to 
-      help you achieve your professional goals.
-    </p>
-  </div>
-</section>
+      {/* ── WHO CAN JOIN SECTION ── */}
+      <motion.section
+        ref={programRef}
+        style={styles.techSection}
+        initial="hidden"
+        animate={programImageControls}
+      >
+        <motion.div
+          style={styles.techImageBox}
+          variants={imageFromRight}
+          initial="hidden"
+          animate={programImageControls}
+        >
+          <img 
+            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=360&fit=crop"
+            alt="Students learning together - Diverse group studying"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              borderRadius: 12,
+            }}
+          />
+        </motion.div>
+        <motion.div
+          style={styles.techBody}
+          variants={contentFromLeft}
+          initial="hidden"
+          animate={programContentControls}
+        >
+          <motion.p variants={paraItem} style={styles.techPara}>
+            <strong>Programs Designed For:</strong>
+          </motion.p>
+          <motion.p variants={paraItem} style={styles.techPara}>
+            🎓 Freshers <br/>
+            💼 Working Professionals <br/> 🔄 Career Switchers<br />
+            💻 Non-IT Professionals <br/> ☁️ Cloud & DevOps Aspirants <br/> 🤖 AI & Data Enthusiasts
+          </motion.p>
+          <motion.p variants={paraItem} style={styles.techPara}>
+            Whether you are starting your career or upgrading your technical skills, our programs are tailored to 
+            help you achieve your professional goals.
+          </motion.p>
+        </motion.div>
+      </motion.section>
 
       {/* ── CAREER SUPPORT FEATURE CARDS ── */}
-      <section style={styles.featureSection}>
-        <h2 style={styles.sectionHeading}>
+      <motion.section
+        ref={careerSupportRef}
+        style={styles.featureSection}
+        initial="hidden"
+        animate={careerSupportControls}
+      >
+        <motion.h2
+          variants={textFromBottom}
+          style={styles.sectionHeading}
+        >
           Career <em style={styles.sectionHeadingItalic}>Support</em>
-        </h2>
-        <p style={{ fontSize: 16, color: "#555", marginBottom: 32, textAlign: "left", marginTop: -32 }}>
+        </motion.h2>
+        <motion.p
+          variants={textFromBottom}
+          style={{ fontSize: 16, color: "#555", marginBottom: 32, textAlign: "left", marginTop: -32 }}
+        >
           End-To-End Placement Assistance
-        </p>
-        <div style={styles.featureGrid}>
+        </motion.p>
+        <motion.div
+          style={styles.featureGrid}
+          variants={cardContentStagger}
+          initial="hidden"
+          animate={careerSupportControls}
+        >
           {careerSupportFeatures.map((f, index) => (
-            <div 
-              key={f.title} 
+            <motion.div
+              key={f.title}
+              custom={index}
+              variants={cardFromBottom}
               style={{
                 ...styles.featureCard,
                 ...(hoveredFeatureCard === index ? styles.featureCardHover : {})
@@ -657,32 +1026,50 @@ const TrainingPage: React.FC = () => {
               onMouseEnter={() => setHoveredFeatureCard(index)}
               onMouseLeave={() => setHoveredFeatureCard(null)}
             >
-              <div style={{
-                ...styles.featureIcon,
-                ...(hoveredFeatureCard === index ? styles.featureIconHover : {})
-              }}>{f.icon}</div>
-              <h4 style={{
-                ...styles.featureTitle,
-                ...(hoveredFeatureCard === index ? styles.featureTitleHover : {})
-              }}>{f.title}</h4>
-              <p style={{
-                ...styles.featureBody,
-                ...(hoveredFeatureCard === index ? styles.featureBodyHover : {})
-              }}>{f.body}</p>
-            </div>
+              <motion.div variants={cardContentItem}>
+                <div style={{
+                  ...styles.featureIcon,
+                  ...(hoveredFeatureCard === index ? styles.featureIconHover : {})
+                }}>{f.icon}</div>
+                <h4 style={{
+                  ...styles.featureTitle,
+                  ...(hoveredFeatureCard === index ? styles.featureTitleHover : {})
+                }}>{f.title}</h4>
+                <p style={{
+                  ...styles.featureBody,
+                  ...(hoveredFeatureCard === index ? styles.featureBodyHover : {})
+                }}>{f.body}</p>
+              </motion.div>
+            </motion.div>
           ))}
-        </div>
-        <p style={{ fontSize: 14, color: "#555", marginTop: 32, textAlign: "center" }}>
+        </motion.div>
+        <motion.p
+          variants={textFromBottom}
+          style={{ fontSize: 14, color: "#555", marginTop: 32, textAlign: "center" }}
+        >
           Our objective is to help learners become industry-ready professionals equipped with practical skills and confidence.
-        </p>
-      </section>
+        </motion.p>
+      </motion.section>
 
-      {/* ── CTA ── */}
-      <div style={styles.ctaBanner}>
-        <span style={styles.ctaSpan}>Start Your Tech Journey With Data Artisans</span><br />
-        Upgrade your skills with industry-focused software training programs designed for real-world success.<br /><br />
-        📞 +91 XXXXX XXXXX &nbsp;&nbsp;|&nbsp;&nbsp; ✉️ info@dataartisans.com &nbsp;&nbsp;|&nbsp;&nbsp; 🌐 www.dataartisans.com
-      </div>
+      {/* ── CTA with Contact Us Button ── */}
+      <motion.div
+        ref={ctaRef}
+        style={styles.ctaBanner}
+        variants={ctaStagger}
+        initial="hidden"
+        animate={ctaControls}
+      >
+        <motion.span variants={ctaItem} style={styles.ctaSpan}>Start Your Tech Journey With Data Artisans</motion.span>
+        <motion.div variants={ctaItem}>Upgrade your skills with industry-focused software training programs designed for real-world success.</motion.div>
+        <motion.div variants={ctaItem}>
+          <button onClick={handleContactClick} style={styles.ctaButton}>
+            Contact Us
+          </button>
+        </motion.div>
+        <motion.div variants={ctaItem} style={{ marginTop: 20 }}>
+          📞 +91 XXXXX XXXXX &nbsp;&nbsp;|&nbsp;&nbsp; ✉️ info@dataartisans.com &nbsp;&nbsp;|&nbsp;&nbsp; 🌐 www.dataartisans.com
+        </motion.div>
+      </motion.div>
 
     </div>
   );
