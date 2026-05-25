@@ -805,7 +805,7 @@ const TrainingPage: React.FC = () => {
 
   // FIXED: Using marginLeft and marginRight to center the content
   const getIntroParaStyle = (): React.CSSProperties => {
-    if (isMobile) return { ...styles.introPara, fontSize: 13, textAlign: "left", marginLeft: "16px", marginRight: "16px" };
+    if (isMobile) return { ...styles.introPara, fontSize: 13, textAlign: "left", marginLeft: "120px", marginRight: "-70px", marginTop: "-16px" };
     return styles.introPara;
   };
 
