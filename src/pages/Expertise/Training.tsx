@@ -1,14 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 
-// ─── Theme tokens ────────────────────────────────────────────────────────────
-// Primary blue : #2563eb
-// Light blue   : #3b82f6
-// Dark blue    : #1e3a8a
-// White        : #FFFFFF
-// Light grey bg: #F7F7F7
-// ─────────────────────────────────────────────────────────────────────────────
-
 const styles: Record<string, React.CSSProperties> = {
   // ── Global ──────────────────────────────────────────────────────────────
   page: {
@@ -433,6 +425,19 @@ techPara: {
 const TrainingPage: React.FC = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [hoveredFeatureCard, setHoveredFeatureCard] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   // Individual animation controls for each section
   const heroControls = useAnimation();
@@ -747,6 +752,48 @@ const TrainingPage: React.FC = () => {
     window.location.href = "/contact-us";
   };
 
+  // Get responsive grid columns
+  const getCardsGridColumns = () => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(4, 1fr)";
+  };
+
+  const getFeatureGridColumns = () => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(3, 1fr)";
+  };
+
+  // Get responsive styles for sections
+  const getHeroHeadingStyle = () => {
+    if (isMobile) return { ...styles.heroHeading, fontSize: 28 };
+    if (isTablet) return { ...styles.heroHeading, fontSize: 36 };
+    return styles.heroHeading;
+  };
+
+  const getHeroDescriptionStyle = () => {
+    if (isMobile) return { ...styles.heroDescription, fontSize: 14 };
+    if (isTablet) return { ...styles.heroDescription, fontSize: 15 };
+    return styles.heroDescription;
+  };
+
+  const getSectionHeadingStyle = () => {
+    if (isMobile) return { ...styles.sectionHeading, fontSize: 28 };
+    if (isTablet) return { ...styles.sectionHeading, fontSize: 32 };
+    return styles.sectionHeading;
+  };
+
+  const getIntroParaStyle = () => {
+    if (isMobile) return { ...styles.introPara, fontSize: 13 };
+    return styles.introPara;
+  };
+
+  const getTechParaStyle = () => {
+    if (isMobile) return { ...styles.techPara, fontSize: 13 };
+    return styles.techPara;
+  };
+
   return (
     <div style={styles.page}>
 
@@ -764,12 +811,12 @@ const TrainingPage: React.FC = () => {
           initial="hidden"
           animate={heroControls}
         >
-          <h1 style={styles.heroHeading}>
+          <h1 style={getHeroHeadingStyle()}>
             Build Your Future
             with Industry-Focused
             Software Training
           </h1>
-          <p style={styles.heroDescription}>
+          <p style={getHeroDescriptionStyle()}>
             Master in-demand tech skills with hands-on training, live projects, and expert mentorship.
             Start your journey to become an industry-ready professional today.
           </p>
@@ -779,49 +826,97 @@ const TrainingPage: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* ── INTRO TWO-COL ── */}
-      <section ref={introRef} style={styles.introSection}>
-        <motion.div
-          style={styles.introImageBox}
-          variants={imageFromLeft}
-          initial="hidden"
-          animate={introImageControls}
-        >
-          <img 
-            src="/training-img1.jpg" 
-            alt="Software Training"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: 16,
-            }}
-          />
-        </motion.div>
-        <motion.div
-          style={styles.introBody}
-          variants={paraStagger}
-          initial="hidden"
-          animate={introParaControls}
-        >
-          <motion.p variants={paraItem} style={styles.introPara}>
-            At Data Artisans, we empower students, freshers, and working professionals with industry-ready 
-            technical skills through advanced software training programs designed for real-world careers.
-          </motion.p>
-          <motion.p variants={paraItem} style={styles.introPara}>
-            Our training programs are carefully structured to bridge the gap between academic learning and 
-            industry requirements by combining practical training, live projects, expert mentorship, and 
-            placement-focused learning.
-          </motion.p>
-          <motion.p variants={paraItem} style={styles.introPara}>
-            We help learners gain hands-on experience in trending technologies, cloud platforms, data 
-            engineering, analytics, AI, software development, DevOps, ERP solutions, and enterprise tools.
-          </motion.p>
-          <motion.p variants={paraItem} style={styles.introPara}>
-            Inspired by modern IT training platforms, our focus is on practical learning, industry relevance, and 
-            career transformation.
-          </motion.p>
-        </motion.div>
+      {/* ── INTRO TWO-COL (Mobile: Content first, then Image) ── */}
+      <section ref={introRef} style={{ ...styles.introSection, flexDirection: isMobile || isTablet ? "column" : "row" }}>
+        {isMobile || isTablet ? (
+          <>
+            <motion.div
+              style={styles.introBody}
+              variants={paraStagger}
+              initial="hidden"
+              animate={introParaControls}
+            >
+              <motion.p variants={paraItem} style={getIntroParaStyle()}>
+                At Data Artisans, we empower students, freshers, and working professionals with industry-ready 
+                technical skills through advanced software training programs designed for real-world careers.
+              </motion.p>
+              <motion.p variants={paraItem} style={getIntroParaStyle()}>
+                Our training programs are carefully structured to bridge the gap between academic learning and 
+                industry requirements by combining practical training, live projects, expert mentorship, and 
+                placement-focused learning.
+              </motion.p>
+              <motion.p variants={paraItem} style={getIntroParaStyle()}>
+                We help learners gain hands-on experience in trending technologies, cloud platforms, data 
+                engineering, analytics, AI, software development, DevOps, ERP solutions, and enterprise tools.
+              </motion.p>
+              <motion.p variants={paraItem} style={getIntroParaStyle()}>
+                Inspired by modern IT training platforms, our focus is on practical learning, industry relevance, and 
+                career transformation.
+              </motion.p>
+            </motion.div>
+            <motion.div
+              style={styles.introImageBox}
+              variants={imageFromLeft}
+              initial="hidden"
+              animate={introImageControls}
+            >
+              <img 
+                src="/training-img1.jpg" 
+                alt="Software Training"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  borderRadius: 16,
+                }}
+              />
+            </motion.div>
+          </>
+        ) : (
+          <>
+            <motion.div
+              style={styles.introImageBox}
+              variants={imageFromLeft}
+              initial="hidden"
+              animate={introImageControls}
+            >
+              <img 
+                src="/training-img1.jpg" 
+                alt="Software Training"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: 16,
+                }}
+              />
+            </motion.div>
+            <motion.div
+              style={styles.introBody}
+              variants={paraStagger}
+              initial="hidden"
+              animate={introParaControls}
+            >
+              <motion.p variants={paraItem} style={styles.introPara}>
+                At Data Artisans, we empower students, freshers, and working professionals with industry-ready 
+                technical skills through advanced software training programs designed for real-world careers.
+              </motion.p>
+              <motion.p variants={paraItem} style={styles.introPara}>
+                Our training programs are carefully structured to bridge the gap between academic learning and 
+                industry requirements by combining practical training, live projects, expert mentorship, and 
+                placement-focused learning.
+              </motion.p>
+              <motion.p variants={paraItem} style={styles.introPara}>
+                We help learners gain hands-on experience in trending technologies, cloud platforms, data 
+                engineering, analytics, AI, software development, DevOps, ERP solutions, and enterprise tools.
+              </motion.p>
+              <motion.p variants={paraItem} style={styles.introPara}>
+                Inspired by modern IT training platforms, our focus is on practical learning, industry relevance, and 
+                career transformation.
+              </motion.p>
+            </motion.div>
+          </>
+        )}
       </section>
 
       {/* ── OUR TRAINING PROGRAMS SECTION ── */}
@@ -833,12 +928,12 @@ const TrainingPage: React.FC = () => {
       >
         <motion.h2
           variants={textFromBottom}
-          style={styles.sectionHeading}
+          style={getSectionHeadingStyle()}
         >
           Our <em style={styles.sectionHeadingItalic}>Training Programs</em>
         </motion.h2>
         <motion.div
-          style={styles.cardsGrid}
+          style={{ ...styles.cardsGrid, gridTemplateColumns: getCardsGridColumns() }}
           variants={cardContentStagger}
           initial="hidden"
           animate={cardsControls}
@@ -873,51 +968,10 @@ const TrainingPage: React.FC = () => {
         </motion.div>
       </motion.section>
 
-      {/* ── 2 COLUMN SECTION: WHY CHOOSE + TRAINING METHODOLOGY ── */}
+      {/* ── 2 COLUMN SECTION: WHY CHOOSE + TRAINING METHODOLOGY (Stacked on Mobile/Tablet) ── */}
       <section style={styles.twoColumnSection}>
-        <div style={styles.twoColumnGrid}>
-          {/* Left Column - Why Choose Data Artisans */}
-          <div ref={whyChooseRef} style={styles.leftColumn}>
-            <motion.h2
-              variants={textFromBottom}
-              initial="hidden"
-              animate={whyChooseControls}
-              style={styles.goldBannerHeading}
-            >
-              Why Choose Data Artisans
-            </motion.h2>
-            <motion.p
-              variants={textFromBottom}
-              initial="hidden"
-              animate={whyChooseControls}
-              style={{ fontSize: 15, lineHeight: 1.75, marginBottom: 20, color: "#1A1A1A" }}
-            >
-              <strong>Practical Learning. Real Careers.</strong>
-            </motion.p>
-            <motion.ul
-              style={styles.whyChooseList}
-              variants={listFromLeft}
-              initial="hidden"
-              animate={whyChooseControls}
-            >
-              {whyChoosePoints.map((point, index) => (
-                <motion.li key={index} variants={listItem} style={styles.whyChooseItem}>
-                  <span style={{ color: "#2563eb", fontSize: 18 }}>✔</span> {point}
-                </motion.li>
-              ))}
-            </motion.ul>
-            <motion.p
-              variants={textFromBottom}
-              initial="hidden"
-              animate={whyChooseControls}
-              style={{ fontSize: 14, lineHeight: 1.75, marginTop: 20, color: "#1A1A1A" }}
-            >
-              Our programs are designed to provide practical exposure and real-world implementation experience 
-              so learners can confidently transition into successful IT careers.
-            </motion.p>
-          </div>
-
-          {/* Right Column - Training Methodology */}
+        <div style={{ ...styles.twoColumnGrid, display: isMobile || isTablet ? "flex" : "grid", flexDirection: "column", gap: 48 }}>
+          {/* Right Column First on Mobile/Tablet - Training Methodology */}
           <div ref={methodologyRef} style={styles.rightColumn}>
             <motion.h2
               variants={textFromBottom}
@@ -941,52 +995,136 @@ const TrainingPage: React.FC = () => {
               ))}
             </motion.div>
           </div>
+
+          {/* Left Column - Why Choose Data Artisans */}
+          <div ref={whyChooseRef} style={styles.leftColumn}>
+            <motion.h2
+              variants={textFromBottom}
+              initial="hidden"
+              animate={whyChooseControls}
+              style={styles.goldBannerHeading}
+            >
+              Why Choose Data Artisans
+            </motion.h2>
+            <motion.p
+              variants={textFromBottom}
+              initial="hidden"
+              animate={whyChooseControls}
+              style={{ fontSize: isMobile ? 14 : 15, lineHeight: 1.75, marginBottom: 20, color: "#1A1A1A" }}
+            >
+              <strong>Practical Learning. Real Careers.</strong>
+            </motion.p>
+            <motion.ul
+              style={styles.whyChooseList}
+              variants={listFromLeft}
+              initial="hidden"
+              animate={whyChooseControls}
+            >
+              {whyChoosePoints.map((point, index) => (
+                <motion.li key={index} variants={listItem} style={{ ...styles.whyChooseItem, fontSize: isMobile ? 13 : 14 }}>
+                  <span style={{ color: "#2563eb", fontSize: 18 }}>✔</span> {point}
+                </motion.li>
+              ))}
+            </motion.ul>
+            <motion.p
+              variants={textFromBottom}
+              initial="hidden"
+              animate={whyChooseControls}
+              style={{ fontSize: isMobile ? 13 : 14, lineHeight: 1.75, marginTop: 20, color: "#1A1A1A" }}
+            >
+              Our programs are designed to provide practical exposure and real-world implementation experience 
+              so learners can confidently transition into successful IT careers.
+            </motion.p>
+          </div>
         </div>
       </section>
 
-      {/* ── WHO CAN JOIN SECTION ── */}
+      {/* ── WHO CAN JOIN SECTION (Mobile: Content first, then Image) ── */}
       <motion.section
         ref={programRef}
-        style={styles.techSection}
+        style={{ ...styles.techSection, flexDirection: isMobile || isTablet ? "column" : "row" }}
         initial="hidden"
         animate={programImageControls}
       >
-        <motion.div
-          style={styles.techImageBox}
-          variants={imageFromRight}
-          initial="hidden"
-          animate={programImageControls}
-        >
-          <img 
-            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=360&fit=crop"
-            alt="Students learning together - Diverse group studying"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              borderRadius: 12,
-            }}
-          />
-        </motion.div>
-        <motion.div
-          style={styles.techBody}
-          variants={contentFromLeft}
-          initial="hidden"
-          animate={programContentControls}
-        >
-          <motion.p variants={paraItem} style={styles.techPara}>
-            <strong>Programs Designed For:</strong>
-          </motion.p>
-          <motion.p variants={paraItem} style={styles.techPara}>
-            🎓 Freshers <br/>
-            💼 Working Professionals <br/> 🔄 Career Switchers<br />
-            💻 Non-IT Professionals <br/> ☁️ Cloud & DevOps Aspirants <br/> 🤖 AI & Data Enthusiasts
-          </motion.p>
-          <motion.p variants={paraItem} style={styles.techPara}>
-            Whether you are starting your career or upgrading your technical skills, our programs are tailored to 
-            help you achieve your professional goals.
-          </motion.p>
-        </motion.div>
+        {isMobile || isTablet ? (
+          <>
+            <motion.div
+              style={styles.techBody}
+              variants={contentFromLeft}
+              initial="hidden"
+              animate={programContentControls}
+            >
+              <motion.p variants={paraItem} style={getTechParaStyle()}>
+                <strong>Programs Designed For:</strong>
+              </motion.p>
+              <motion.p variants={paraItem} style={getTechParaStyle()}>
+                🎓 Freshers <br/>
+                💼 Working Professionals <br/> 🔄 Career Switchers<br />
+                💻 Non-IT Professionals <br/> ☁️ Cloud & DevOps Aspirants <br/> 🤖 AI & Data Enthusiasts
+              </motion.p>
+              <motion.p variants={paraItem} style={getTechParaStyle()}>
+                Whether you are starting your career or upgrading your technical skills, our programs are tailored to 
+                help you achieve your professional goals.
+              </motion.p>
+            </motion.div>
+            <motion.div
+              style={styles.techImageBox}
+              variants={imageFromRight}
+              initial="hidden"
+              animate={programImageControls}
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=360&fit=crop"
+                alt="Students learning together - Diverse group studying"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  borderRadius: 12,
+                }}
+              />
+            </motion.div>
+          </>
+        ) : (
+          <>
+            <motion.div
+              style={styles.techImageBox}
+              variants={imageFromRight}
+              initial="hidden"
+              animate={programImageControls}
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=360&fit=crop"
+                alt="Students learning together - Diverse group studying"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: 12,
+                }}
+              />
+            </motion.div>
+            <motion.div
+              style={styles.techBody}
+              variants={contentFromLeft}
+              initial="hidden"
+              animate={programContentControls}
+            >
+              <motion.p variants={paraItem} style={styles.techPara}>
+                <strong>Programs Designed For:</strong>
+              </motion.p>
+              <motion.p variants={paraItem} style={styles.techPara}>
+                🎓 Freshers <br/>
+                💼 Working Professionals <br/> 🔄 Career Switchers<br />
+                💻 Non-IT Professionals <br/> ☁️ Cloud & DevOps Aspirants <br/> 🤖 AI & Data Enthusiasts
+              </motion.p>
+              <motion.p variants={paraItem} style={styles.techPara}>
+                Whether you are starting your career or upgrading your technical skills, our programs are tailored to 
+                help you achieve your professional goals.
+              </motion.p>
+            </motion.div>
+          </>
+        )}
       </motion.section>
 
       {/* ── CAREER SUPPORT FEATURE CARDS ── */}
@@ -998,18 +1136,18 @@ const TrainingPage: React.FC = () => {
       >
         <motion.h2
           variants={textFromBottom}
-          style={styles.sectionHeading}
+          style={getSectionHeadingStyle()}
         >
           Career <em style={styles.sectionHeadingItalic}>Support</em>
         </motion.h2>
         <motion.p
           variants={textFromBottom}
-          style={{ fontSize: 16, color: "#555", marginBottom: 32, textAlign: "left", marginTop: -32 }}
+          style={{ fontSize: isMobile ? 14 : 16, color: "#555", marginBottom: 32, textAlign: "left", marginTop: -32 }}
         >
           End-To-End Placement Assistance
         </motion.p>
         <motion.div
-          style={styles.featureGrid}
+          style={{ ...styles.featureGrid, gridTemplateColumns: getFeatureGridColumns() }}
           variants={cardContentStagger}
           initial="hidden"
           animate={careerSupportControls}
@@ -1045,29 +1183,31 @@ const TrainingPage: React.FC = () => {
         </motion.div>
         <motion.p
           variants={textFromBottom}
-          style={{ fontSize: 14, color: "#555", marginTop: 32, textAlign: "center" }}
+          style={{ fontSize: isMobile ? 12 : 14, color: "#555", marginTop: 32, textAlign: "center" }}
         >
           Our objective is to help learners become industry-ready professionals equipped with practical skills and confidence.
         </motion.p>
       </motion.section>
 
-      {/* ── CTA with Contact Us Button ── */}
+      {/* ── CTA with Contact Us Button (Icon and title in one row on mobile) ── */}
       <motion.div
         ref={ctaRef}
-        style={styles.ctaBanner}
+        style={{ ...styles.ctaBanner, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}
         variants={ctaStagger}
         initial="hidden"
         animate={ctaControls}
       >
         <motion.span variants={ctaItem} style={styles.ctaSpan}>Start Your Tech Journey With Data Artisans</motion.span>
-        <motion.div variants={ctaItem}>Upgrade your skills with industry-focused software training programs designed for real-world success.</motion.div>
+        <motion.div variants={ctaItem} style={{ fontSize: isMobile ? 16 : 18, marginTop: 8 }}>Upgrade your skills with industry-focused software training programs designed for real-world success.</motion.div>
         <motion.div variants={ctaItem}>
-          <button onClick={handleContactClick} style={styles.ctaButton}>
+          <button onClick={handleContactClick} style={{ ...styles.ctaButton, marginTop: isMobile ? 16 : 24 }}>
             Contact Us
           </button>
         </motion.div>
-        <motion.div variants={ctaItem} style={{ marginTop: 20 }}>
-          📞 +91 XXXXX XXXXX &nbsp;&nbsp;|&nbsp;&nbsp; ✉️ info@dataartisans.com &nbsp;&nbsp;|&nbsp;&nbsp; 🌐 www.dataartisans.com
+        <motion.div variants={ctaItem} style={{ marginTop: 20, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: isMobile ? 8 : 16, fontSize: isMobile ? 12 : 14 }}>
+          <span>📞 +91 XXXXX XXXXX</span>
+          <span>✉️ info@dataartisans.com</span>
+          <span>🌐 www.dataartisans.com</span>
         </motion.div>
       </motion.div>
 
