@@ -765,53 +765,56 @@ const TrainingPage: React.FC = () => {
     return "repeat(3, 1fr)";
   };
 
-  // Get responsive styles for sections
-  const getHeroHeadingStyle = () => {
-    if (isMobile) return { ...styles.heroHeading, fontSize: 24, width: "90%", margin: "0 auto", wordBreak: "break-word" };
-    if (isTablet) return { ...styles.heroHeading, fontSize: 36 };
+  // Get responsive styles for sections - using spread operator to create new objects
+  const getHeroHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.heroHeading, fontSize: 24, width: "90%", margin: "0 auto", wordBreak: "break-word" };
+    }
+    if (isTablet) {
+      return { ...styles.heroHeading, fontSize: 36 };
+    }
     return styles.heroHeading;
   };
 
   // For mobile: hide the description paragraph
-  const getHeroDescriptionStyle = () => {
+  const getHeroDescriptionStyle = (): React.CSSProperties => {
     if (isMobile) return { ...styles.heroDescription, display: "none" };
     if (isTablet) return { ...styles.heroDescription, fontSize: 15 };
     return styles.heroDescription;
   };
 
-  const getHeroBackgroundStyle = () => {
+  const getHeroBackgroundStyle = (): React.CSSProperties => {
     if (isMobile) {
       return { ...styles.hero, backgroundSize: "contain", backgroundPosition: "center", padding: "40px 20px 0px 20px", minHeight: 400 };
     }
     return styles.hero;
   };
 
-  const getHeroTextStyle = () => {
+  const getHeroTextStyle = (): React.CSSProperties => {
     if (isMobile) {
       return { ...styles.heroText, marginBottom: 0, paddingBottom: 0 };
     }
     return styles.heroText;
   };
 
-  const getSectionHeadingStyle = () => {
+  const getSectionHeadingStyle = (): React.CSSProperties => {
     if (isMobile) return { ...styles.sectionHeading, fontSize: 28 };
     if (isTablet) return { ...styles.sectionHeading, fontSize: 32 };
     return styles.sectionHeading;
   };
 
-  // FIXED: Using marginLeft and marginRight to center the content instead of padding
-  const getIntroParaStyle = () => {
-    if (isMobile) return { ...styles.introPara, fontSize: 13, textAlign: "left", marginLeft: "116px", marginRight: "-70px", marginTop: "-16px" };
+  // FIXED: Using marginLeft and marginRight to center the content
+  const getIntroParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.introPara, fontSize: 13, textAlign: "left", marginLeft: "16px", marginRight: "16px" };
     return styles.introPara;
   };
 
-  const getTechParaStyle = () => {
+  const getTechParaStyle = (): React.CSSProperties => {
     if (isMobile) return { ...styles.techPara, fontSize: 13 };
     return styles.techPara;
   };
 
-  // FIXED: Container padding
-  const getIntroSectionStyle = () => {
+  const getIntroSectionStyle = (): React.CSSProperties => {
     if (isMobile) {
       return { ...styles.introSection, padding: "10px 0", gap: 30 };
     }
@@ -821,15 +824,14 @@ const TrainingPage: React.FC = () => {
     return styles.introSection;
   };
 
-  // FIXED: Intro body with full width
-  const getIntroBodyStyle = () => {
+  const getIntroBodyStyle = (): React.CSSProperties => {
     if (isMobile) {
       return { ...styles.introBody, padding: "0", width: "100%" };
     }
     return styles.introBody;
   };
 
-  const getCardsSectionStyle = () => {
+  const getCardsSectionStyle = (): React.CSSProperties => {
     if (isMobile) {
       return { ...styles.cardsSection, padding: "40px 16px" };
     }
@@ -839,7 +841,7 @@ const TrainingPage: React.FC = () => {
     return styles.cardsSection;
   };
 
-  const getTwoColumnSectionStyle = () => {
+  const getTwoColumnSectionStyle = (): React.CSSProperties => {
     if (isMobile) {
       return { ...styles.twoColumnSection, padding: "40px 16px" };
     }
@@ -849,7 +851,7 @@ const TrainingPage: React.FC = () => {
     return styles.twoColumnSection;
   };
 
-  const getTechSectionStyle = () => {
+  const getTechSectionStyle = (): React.CSSProperties => {
     if (isMobile) {
       return { ...styles.techSection, padding: "40px 16px", gap: 30 };
     }
@@ -859,7 +861,7 @@ const TrainingPage: React.FC = () => {
     return styles.techSection;
   };
 
-  const getFeatureSectionStyle = () => {
+  const getFeatureSectionStyle = (): React.CSSProperties => {
     if (isMobile) {
       return { ...styles.featureSection, padding: "40px 16px" };
     }
@@ -869,7 +871,7 @@ const TrainingPage: React.FC = () => {
     return styles.featureSection;
   };
 
-  const getCtaBannerStyle = () => {
+  const getCtaBannerStyle = (): React.CSSProperties => {
     if (isMobile) {
       return { ...styles.ctaBanner, padding: "40px 16px", fontSize: 18 };
     }
@@ -901,7 +903,6 @@ const TrainingPage: React.FC = () => {
             with Industry-Focused
             Software Training
           </h1>
-          {/* This paragraph is hidden on mobile via getHeroDescriptionStyle display:"none" */}
           <p style={getHeroDescriptionStyle()}>
             Master in-demand tech skills with hands-on training, live projects, and expert mentorship.
             Start your journey to become an industry-ready professional today.
@@ -1012,7 +1013,8 @@ const TrainingPage: React.FC = () => {
         initial="hidden"
         animate={cardsControls}
       >
-        <motion.h2          variants={textFromBottom}
+        <motion.h2
+          variants={textFromBottom}
           style={getSectionHeadingStyle()}
         >
           Our <em style={styles.sectionHeadingItalic}>Training Programs</em>
@@ -1056,7 +1058,6 @@ const TrainingPage: React.FC = () => {
       {/* ── 2 COLUMN SECTION: WHY CHOOSE + TRAINING METHODOLOGY (Stacked on Mobile/Tablet) ── */}
       <section style={getTwoColumnSectionStyle()}>
         <div style={{ ...styles.twoColumnGrid, display: isMobile || isTablet ? "flex" : "grid", flexDirection: "column", gap: 48 }}>
-          {/* Right Column First on Mobile/Tablet - Training Methodology */}
           <div ref={methodologyRef} style={styles.rightColumn}>
             <motion.h2
               variants={textFromBottom}
@@ -1081,7 +1082,6 @@ const TrainingPage: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Left Column - Why Choose Data Artisans */}
           <div ref={whyChooseRef} style={styles.leftColumn}>
             <motion.h2
               variants={textFromBottom}
@@ -1274,7 +1274,7 @@ const TrainingPage: React.FC = () => {
         </motion.p>
       </motion.section>
 
-      {/* ── CTA with Contact Us Button (Icon and title in one row on mobile) ── */}
+      {/* ── CTA with Contact Us Button ── */}
       <motion.div
         ref={ctaRef}
         style={{ ...getCtaBannerStyle(), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}
@@ -1285,7 +1285,7 @@ const TrainingPage: React.FC = () => {
         <motion.span variants={ctaItem} style={styles.ctaSpan}>Start Your Tech Journey With Data Artisans</motion.span>
         <motion.div variants={ctaItem} style={{ fontSize: isMobile ? 16 : 18, marginTop: 8 }}>Upgrade your skills with industry-focused software training programs designed for real-world success.</motion.div>
         <motion.div variants={ctaItem}>
-          <button onClick={handleContactClick} style={{ ...styles.ctaButton, marginTop: isMobile ? 16 : 24 }}>
+          <button onClick={handleContactClick} style={styles.ctaButton}>
             Contact Us
           </button>
         </motion.div>
