@@ -63,7 +63,7 @@ const styles: Record<string, React.CSSProperties> = {
   introSection: {
     display: "flex",
     alignItems: "center",
-    gap: 60,
+    gap:60,
     padding: "70px 60px 16px",
     background: "#fff",
   },
@@ -767,15 +767,22 @@ const TrainingPage: React.FC = () => {
 
   // Get responsive styles for sections
   const getHeroHeadingStyle = () => {
-    if (isMobile) return { ...styles.heroHeading, fontSize: 28 };
+    if (isMobile) return { ...styles.heroHeading, fontSize: 28, width: "90%", margin: "0 auto" };
     if (isTablet) return { ...styles.heroHeading, fontSize: 36 };
     return styles.heroHeading;
   };
 
   const getHeroDescriptionStyle = () => {
-    if (isMobile) return { ...styles.heroDescription, fontSize: 14 };
+    if (isMobile) return { ...styles.heroDescription, fontSize: 14, width: "90%", margin: "16px auto 0" };
     if (isTablet) return { ...styles.heroDescription, fontSize: 15 };
     return styles.heroDescription;
+  };
+
+  const getHeroBackgroundStyle = () => {
+    if (isMobile) {
+      return { ...styles.hero, backgroundSize: "contain", backgroundPosition: "center" };
+    }
+    return styles.hero;
   };
 
   const getSectionHeadingStyle = () => {
@@ -794,13 +801,74 @@ const TrainingPage: React.FC = () => {
     return styles.techPara;
   };
 
+  // Get responsive section padding
+  const getIntroSectionStyle = () => {
+    if (isMobile) {
+      return { ...styles.introSection, padding: "40px 20px", gap: 30 };
+    }
+    if (isTablet) {
+      return { ...styles.introSection, padding: "50px 30px", gap: 40 };
+    }
+    return styles.introSection;
+  };
+
+  const getCardsSectionStyle = () => {
+    if (isMobile) {
+      return { ...styles.cardsSection, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.cardsSection, padding: "50px 30px" };
+    }
+    return styles.cardsSection;
+  };
+
+  const getTwoColumnSectionStyle = () => {
+    if (isMobile) {
+      return { ...styles.twoColumnSection, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.twoColumnSection, padding: "50px 30px" };
+    }
+    return styles.twoColumnSection;
+  };
+
+  const getTechSectionStyle = () => {
+    if (isMobile) {
+      return { ...styles.techSection, padding: "40px 20px", gap: 30 };
+    }
+    if (isTablet) {
+      return { ...styles.techSection, padding: "50px 30px", gap: 40 };
+    }
+    return styles.techSection;
+  };
+
+  const getFeatureSectionStyle = () => {
+    if (isMobile) {
+      return { ...styles.featureSection, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.featureSection, padding: "50px 30px" };
+    }
+    return styles.featureSection;
+  };
+
+  const getCtaBannerStyle = () => {
+    if (isMobile) {
+      return { ...styles.ctaBanner, padding: "40px 20px", fontSize: 18 };
+    }
+    if (isTablet) {
+      return { ...styles.ctaBanner, padding: "48px 30px", fontSize: 20 };
+    }
+    return styles.ctaBanner;
+  };
+
   return (
     <div style={styles.page}>
 
       {/* ── HERO ── */}
       <motion.section
         ref={heroRef}
-        style={styles.hero}
+        style={getHeroBackgroundStyle()}
         initial="hidden"
         animate={heroControls}
         variants={imageFromLeft}
@@ -827,7 +895,7 @@ const TrainingPage: React.FC = () => {
       </motion.section>
 
       {/* ── INTRO TWO-COL (Mobile: Content first, then Image) ── */}
-      <section ref={introRef} style={{ ...styles.introSection, flexDirection: isMobile || isTablet ? "column" : "row" }}>
+      <section ref={introRef} style={{ ...getIntroSectionStyle(), flexDirection: isMobile || isTablet ? "column" : "row" }}>
         {isMobile || isTablet ? (
           <>
             <motion.div
@@ -855,7 +923,7 @@ const TrainingPage: React.FC = () => {
               </motion.p>
             </motion.div>
             <motion.div
-              style={styles.introImageBox}
+              style={{ ...styles.introImageBox, width: isMobile ? "100%" : "100%", height: isMobile ? "auto" : "auto", minHeight: isMobile ? 250 : 300 }}
               variants={imageFromLeft}
               initial="hidden"
               animate={introImageControls}
@@ -922,7 +990,7 @@ const TrainingPage: React.FC = () => {
       {/* ── OUR TRAINING PROGRAMS SECTION ── */}
       <motion.section
         ref={cardsRef}
-        style={styles.cardsSection}
+        style={getCardsSectionStyle()}
         initial="hidden"
         animate={cardsControls}
       >
@@ -969,7 +1037,7 @@ const TrainingPage: React.FC = () => {
       </motion.section>
 
       {/* ── 2 COLUMN SECTION: WHY CHOOSE + TRAINING METHODOLOGY (Stacked on Mobile/Tablet) ── */}
-      <section style={styles.twoColumnSection}>
+      <section style={getTwoColumnSectionStyle()}>
         <div style={{ ...styles.twoColumnGrid, display: isMobile || isTablet ? "flex" : "grid", flexDirection: "column", gap: 48 }}>
           {/* Right Column First on Mobile/Tablet - Training Methodology */}
           <div ref={methodologyRef} style={styles.rightColumn}>
@@ -1042,7 +1110,7 @@ const TrainingPage: React.FC = () => {
       {/* ── WHO CAN JOIN SECTION (Mobile: Content first, then Image) ── */}
       <motion.section
         ref={programRef}
-        style={{ ...styles.techSection, flexDirection: isMobile || isTablet ? "column" : "row" }}
+        style={{ ...getTechSectionStyle(), flexDirection: isMobile || isTablet ? "column" : "row" }}
         initial="hidden"
         animate={programImageControls}
       >
@@ -1068,7 +1136,7 @@ const TrainingPage: React.FC = () => {
               </motion.p>
             </motion.div>
             <motion.div
-              style={styles.techImageBox}
+              style={{ ...styles.techImageBox, width: isMobile ? "100%" : "100%", height: isMobile ? "auto" : "auto", minHeight: isMobile ? 250 : 300 }}
               variants={imageFromRight}
               initial="hidden"
               animate={programImageControls}
@@ -1130,7 +1198,7 @@ const TrainingPage: React.FC = () => {
       {/* ── CAREER SUPPORT FEATURE CARDS ── */}
       <motion.section
         ref={careerSupportRef}
-        style={styles.featureSection}
+        style={getFeatureSectionStyle()}
         initial="hidden"
         animate={careerSupportControls}
       >
@@ -1192,7 +1260,7 @@ const TrainingPage: React.FC = () => {
       {/* ── CTA with Contact Us Button (Icon and title in one row on mobile) ── */}
       <motion.div
         ref={ctaRef}
-        style={{ ...styles.ctaBanner, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}
+        style={{ ...getCtaBannerStyle(), display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}
         variants={ctaStagger}
         initial="hidden"
         animate={ctaControls}
