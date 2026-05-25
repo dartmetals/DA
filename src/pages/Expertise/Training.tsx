@@ -767,22 +767,30 @@ const TrainingPage: React.FC = () => {
 
   // Get responsive styles for sections
   const getHeroHeadingStyle = () => {
-    if (isMobile) return { ...styles.heroHeading, fontSize: 28, width: "90%", margin: "0 auto" };
+    if (isMobile) return { ...styles.heroHeading, fontSize: 24, width: "90%", margin: "0 auto", wordBreak: "break-word" };
     if (isTablet) return { ...styles.heroHeading, fontSize: 36 };
     return styles.heroHeading;
   };
 
+  // For mobile: hide the description paragraph
   const getHeroDescriptionStyle = () => {
-    if (isMobile) return { ...styles.heroDescription, fontSize: 14, width: "90%", margin: "16px auto 0" };
+    if (isMobile) return { ...styles.heroDescription, display: "none" };
     if (isTablet) return { ...styles.heroDescription, fontSize: 15 };
     return styles.heroDescription;
   };
 
   const getHeroBackgroundStyle = () => {
     if (isMobile) {
-      return { ...styles.hero, backgroundSize: "contain", backgroundPosition: "center" };
+      return { ...styles.hero, backgroundSize: "contain", backgroundPosition: "center", padding: "40px 20px 0px 20px", minHeight: 400 };
     }
     return styles.hero;
+  };
+
+  const getHeroTextStyle = () => {
+    if (isMobile) {
+      return { ...styles.heroText, marginBottom: 0, paddingBottom: 0 };
+    }
+    return styles.heroText;
   };
 
   const getSectionHeadingStyle = () => {
@@ -791,8 +799,9 @@ const TrainingPage: React.FC = () => {
     return styles.sectionHeading;
   };
 
+  // FIXED: Using marginLeft and marginRight to center the content instead of padding
   const getIntroParaStyle = () => {
-    if (isMobile) return { ...styles.introPara, fontSize: 13 };
+    if (isMobile) return { ...styles.introPara, fontSize: 13, textAlign: "left", marginLeft: "116px", marginRight: "-70px", marginTop: "-16px" };
     return styles.introPara;
   };
 
@@ -801,10 +810,10 @@ const TrainingPage: React.FC = () => {
     return styles.techPara;
   };
 
-  // Get responsive section padding
+  // FIXED: Container padding
   const getIntroSectionStyle = () => {
     if (isMobile) {
-      return { ...styles.introSection, padding: "40px 20px", gap: 30 };
+      return { ...styles.introSection, padding: "10px 0", gap: 30 };
     }
     if (isTablet) {
       return { ...styles.introSection, padding: "50px 30px", gap: 40 };
@@ -812,9 +821,17 @@ const TrainingPage: React.FC = () => {
     return styles.introSection;
   };
 
+  // FIXED: Intro body with full width
+  const getIntroBodyStyle = () => {
+    if (isMobile) {
+      return { ...styles.introBody, padding: "0", width: "100%" };
+    }
+    return styles.introBody;
+  };
+
   const getCardsSectionStyle = () => {
     if (isMobile) {
-      return { ...styles.cardsSection, padding: "40px 20px" };
+      return { ...styles.cardsSection, padding: "40px 16px" };
     }
     if (isTablet) {
       return { ...styles.cardsSection, padding: "50px 30px" };
@@ -824,7 +841,7 @@ const TrainingPage: React.FC = () => {
 
   const getTwoColumnSectionStyle = () => {
     if (isMobile) {
-      return { ...styles.twoColumnSection, padding: "40px 20px" };
+      return { ...styles.twoColumnSection, padding: "40px 16px" };
     }
     if (isTablet) {
       return { ...styles.twoColumnSection, padding: "50px 30px" };
@@ -834,7 +851,7 @@ const TrainingPage: React.FC = () => {
 
   const getTechSectionStyle = () => {
     if (isMobile) {
-      return { ...styles.techSection, padding: "40px 20px", gap: 30 };
+      return { ...styles.techSection, padding: "40px 16px", gap: 30 };
     }
     if (isTablet) {
       return { ...styles.techSection, padding: "50px 30px", gap: 40 };
@@ -844,7 +861,7 @@ const TrainingPage: React.FC = () => {
 
   const getFeatureSectionStyle = () => {
     if (isMobile) {
-      return { ...styles.featureSection, padding: "40px 20px" };
+      return { ...styles.featureSection, padding: "40px 16px" };
     }
     if (isTablet) {
       return { ...styles.featureSection, padding: "50px 30px" };
@@ -854,7 +871,7 @@ const TrainingPage: React.FC = () => {
 
   const getCtaBannerStyle = () => {
     if (isMobile) {
-      return { ...styles.ctaBanner, padding: "40px 20px", fontSize: 18 };
+      return { ...styles.ctaBanner, padding: "40px 16px", fontSize: 18 };
     }
     if (isTablet) {
       return { ...styles.ctaBanner, padding: "48px 30px", fontSize: 20 };
@@ -874,7 +891,7 @@ const TrainingPage: React.FC = () => {
         variants={imageFromLeft}
       >
         <motion.div
-          style={styles.heroText}
+          style={getHeroTextStyle()}
           variants={textFromBottom}
           initial="hidden"
           animate={heroControls}
@@ -884,6 +901,7 @@ const TrainingPage: React.FC = () => {
             with Industry-Focused
             Software Training
           </h1>
+          {/* This paragraph is hidden on mobile via getHeroDescriptionStyle display:"none" */}
           <p style={getHeroDescriptionStyle()}>
             Master in-demand tech skills with hands-on training, live projects, and expert mentorship.
             Start your journey to become an industry-ready professional today.
@@ -899,7 +917,7 @@ const TrainingPage: React.FC = () => {
         {isMobile || isTablet ? (
           <>
             <motion.div
-              style={styles.introBody}
+              style={getIntroBodyStyle()}
               variants={paraStagger}
               initial="hidden"
               animate={introParaControls}
@@ -994,8 +1012,7 @@ const TrainingPage: React.FC = () => {
         initial="hidden"
         animate={cardsControls}
       >
-        <motion.h2
-          variants={textFromBottom}
+        <motion.h2          variants={textFromBottom}
           style={getSectionHeadingStyle()}
         >
           Our <em style={styles.sectionHeadingItalic}>Training Programs</em>
