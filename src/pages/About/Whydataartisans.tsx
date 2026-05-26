@@ -142,6 +142,21 @@ const BuildingCard: React.FC<{ title: string; description: string }> = ({ title,
 const WhyDataArtisans: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
+  
+  // State for responsive layout
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect() } }, { threshold: 0.1 })
@@ -149,62 +164,135 @@ const WhyDataArtisans: React.FC = () => {
     return () => obs.disconnect()
   }, [])
 
+  // Responsive style functions
+  const getAboutWhyGridStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { display: 'flex', flexDirection: 'column', gap: '30px', marginBottom: '50px' };
+    }
+    return { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginBottom: '50px' };
+  };
+
+  const getFeatureGridStyle = (): React.CSSProperties => {
+    if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '24px', marginBottom: '50px' };
+    if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginBottom: '50px' };
+    return { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginBottom: '50px' };
+  };
+
+  const getBuildingGridStyle = (): React.CSSProperties => {
+    if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '20px', marginBottom: '40px' };
+    if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginBottom: '40px' };
+    return { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginBottom: '40px' };
+  };
+
+  const getChooseSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return {
+        backgroundColor: '#f0f4ff',
+        padding: '24px 16px',
+        borderRadius: '16px',
+        marginBottom: '50px',
+        textAlign: 'center'
+      };
+    }
+    if (isTablet) {
+      return {
+        backgroundColor: '#f0f4ff',
+        padding: '32px 24px',
+        borderRadius: '16px',
+        marginBottom: '50px',
+        textAlign: 'center'
+      };
+    }
+    return {
+      backgroundColor: '#f0f4ff',
+      padding: '40px',
+      borderRadius: '12px',
+      marginBottom: '50px',
+      textAlign: 'center'
+    };
+  };
+
+  const getDifferentiatorGridStyle = (): React.CSSProperties => {
+    if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '24px', paddingBottom: '60px' };
+    if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', paddingBottom: '60px' };
+    return { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', paddingBottom: '60px' };
+  };
+
+  const getStatsGridStyle = (): React.CSSProperties => {
+    if (isMobile) return { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', border: '1px solid #ddd' };
+    if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', border: '1px solid #ddd' };
+    return { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', border: '1px solid #ddd' };
+  };
+
+  const getStatsItemBorderRight = (index: number, total: number, isHighlight: boolean): string => {
+    if (isMobile) {
+      // For mobile (2 columns): remove border-right for even indices (1st, 3rd, 5th...)
+      return (index + 1) % 2 !== 0 ? `1px solid ${isHighlight ? 'rgba(255,255,255,0.2)' : '#ddd'}` : 'none';
+    }
+    if (isTablet) {
+      // For tablet (3 columns): remove border-right for indices that are multiples of 3
+      return (index + 1) % 3 !== 0 ? `1px solid ${isHighlight ? 'rgba(255,255,255,0.2)' : '#ddd'}` : 'none';
+    }
+    // For desktop (3 columns)
+    return (index + 1) % 3 !== 0 ? `1px solid ${isHighlight ? 'rgba(255,255,255,0.2)' : '#ddd'}` : 'none';
+  };
+
+  const getStatsItemBorderBottom = (index: number, total: number, isHighlight: boolean): string => {
+    if (isMobile) {
+      // For mobile (2 columns): show border-bottom for all except last two items
+      return index < total - 2 ? `1px solid ${isHighlight ? 'rgba(255,255,255,0.2)' : '#ddd'}` : 'none';
+    }
+    if (isTablet) {
+      // For tablet (3 columns): show border-bottom for all except last three items
+      return index < total - 3 ? `1px solid ${isHighlight ? 'rgba(255,255,255,0.2)' : '#ddd'}` : 'none';
+    }
+    // For desktop (3 columns)
+    return index < total - 3 ? `1px solid ${isHighlight ? 'rgba(255,255,255,0.2)' : '#ddd'}` : 'none';
+  };
+
   return (
     <AboutLayout title="Why Data Artisans">
       {/* ── New Hero Section ── */}
       <div style={{ backgroundColor: '#fff', padding: '50px 0 0' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
-          {/* <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: '800', color: '#1a1a1a', marginBottom: '16px' }}>
-              Making great teams.
-            </h1>
-            <p style={{ fontSize: '18px', color: '#2563eb', fontWeight: '500', marginBottom: '12px' }}>
-              Choose us for reliable & secure software.
-            </p>
-            <div style={{ width: '60px', height: '3px', backgroundColor: '#2563eb', margin: '0 auto' }} />
-          </div>
-
-          <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.85, marginBottom: '40px', textAlign: 'center', maxWidth: '800px', margin: '0 auto 40px' }}>
-            Tech excellence for a smarter future.
-          </p> */}
-
-          <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.85, marginBottom: '40px' }}>
+          <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#555', lineHeight: 1.85, marginBottom: '40px' }}>
             At Data Artisans, we are committed to delivering cutting-edge, technology-driven solutions that empower businesses to succeed in today's dynamic landscape. Our expertise spans across multiple domains, ensuring innovation, efficiency, and reliability in every service we offer. With a team of highly skilled professionals, we leverage the latest technologies to develop customized solutions that address unique business challenges. Our commitment to continuous innovation enables us to stay ahead in a competitive market.
           </p>
 
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', marginBottom: '8px' }}>Why Data Artisans Private Limited</h2>
-            <p style={{ fontSize: '16px', color: '#2563eb', fontWeight: '500' }}>Innovation, reliability, excellence.</p>
+            <h2 style={{ fontSize: isMobile ? '22px' : '24px', fontWeight: '700', color: '#1a1a1a', marginBottom: '8px' }}>Why Data Artisans Private Limited</h2>
+            <p style={{ fontSize: '14px', color: '#2563eb', fontWeight: '500' }}>Innovation, reliability, excellence.</p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginBottom: '50px' }}>
+          {/* About Data Artisans + Why Data Artisans - Stacked on mobile/tablet */}
+          <div style={getAboutWhyGridStyle()}>
             <div>
               <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#2563eb', marginBottom: '12px' }}>About Data Artisans</h3>
-              <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.85 }}>
+              <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#555', lineHeight: 1.85 }}>
                 Redefining business success through innovation & strategy. Quality, consistency, and integrity define our work. We take pride in maintaining the highest standards in service delivery, ensuring our clients achieve sustainable growth and long-term success.
               </p>
             </div>
             <div>
               <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#2563eb', marginBottom: '12px' }}>Why Data Artisans</h3>
-              <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.85 }}>
+              <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#555', lineHeight: 1.85 }}>
                 Partner with Data Artisans Private Limited and experience the future of technology-driven business solutions. Let us help you scale, innovate, and transform your business for lasting success.
               </p>
             </div>
           </div>
 
           <div style={{ textAlign: 'center', margin: '50px 0 30px' }}>
-            <h2 style={{ fontSize: '28px', fontWeight: '700', color: '#1a1a1a', marginBottom: '16px' }}>
+            <h2 style={{ fontSize: isMobile ? '24px' : '28px', fontWeight: '700', color: '#1a1a1a', marginBottom: '16px' }}>
               Building exceptional teams for success.
             </h2>
-            <p style={{ fontSize: '16px', color: '#2563eb', fontWeight: '500' }}>Revolutionizing talent acquisition.</p>
+            <p style={{ fontSize: '14px', color: '#2563eb', fontWeight: '500' }}>Revolutionizing talent acquisition.</p>
           </div>
 
-          <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.85, marginBottom: '40px' }}>
+          <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#555', lineHeight: 1.85, marginBottom: '40px' }}>
             We have witnessed the evolution of talent acquisition in the country and adapted to changing recruitment trends. This transformation has enabled us to continuously innovate our solutions to meet our clients' needs effectively.
           </p>
 
           {/* Feature Grid - 7 features */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginBottom: '50px' }}>
+          <div style={getFeatureGridStyle()}>
             <FeatureCard 
               title="Fulfilling talent needs across all industries"
               description="Over the years, we have collaborated with businesses of all sizes, from traditional brick-and-mortar companies to dynamic startups. Whether it's sourcing the right talent across functions or serving diverse industry verticals."
@@ -237,11 +325,11 @@ const WhyDataArtisans: React.FC = () => {
 
           {/* Building Exception Section - 9 items */}
           <div style={{ marginBottom: '60px' }}>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#1a1a1a', marginBottom: '30px', textAlign: 'center' }}>
+            <h2 style={{ fontSize: isMobile ? '20px' : '24px', fontWeight: '700', color: '#1a1a1a', marginBottom: '30px', textAlign: 'center' }}>
               Transforming businesses with cutting-edge technology, strategic talent solutions, and innovation-driven growth.
             </h2>
             
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginBottom: '40px' }}>
+            <div style={getBuildingGridStyle()}>
               <BuildingCard 
                 title="Innovation-Driven Growth"
                 description="We deliver innovative, technology-driven solutions tailored to business needs."
@@ -281,24 +369,18 @@ const WhyDataArtisans: React.FC = () => {
             </div>
           </div>
 
-          {/* Choose Data Artisans Section */}
-          <div style={{ 
-            backgroundColor: '#f0f4ff', 
-            padding: '40px', 
-            borderRadius: '12px', 
-            marginBottom: '50px',
-            textAlign: 'center'
-          }}>
-            <h2 style={{ fontSize: '28px', fontWeight: '800', color: '#1a1a1a', marginBottom: '20px' }}>
+          {/* Choose Data Artisans Section - Full width with border radius */}
+          <div style={getChooseSectionStyle()}>
+            <h2 style={{ fontSize: isMobile ? '22px' : '28px', fontWeight: '800', color: '#1a1a1a', marginBottom: '20px' }}>
               Choose Data Artisans - where technology meets talent, and ideas turn into success.
             </h2>
-            <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.85, marginBottom: '20px', textAlign: 'left' }}>
+            <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#555', lineHeight: 1.85, marginBottom: '20px', textAlign: 'left' }}>
               At Data Artisans, we don't just provide solutions - we create experiences that drive business success. Our approach blends innovation, technology, and expertise to deliver seamless, scalable, and future-ready services. We specialize in recruitment, workforce solutions, and digital transformation, ensuring that businesses find the right talent while optimizing their operations. With AI-driven automation, data intelligence, and strategic execution, we help companies stay ahead in a fast-changing world.
             </p>
-            <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.85, marginBottom: '20px', textAlign: 'left' }}>
+            <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#555', lineHeight: 1.85, marginBottom: '20px', textAlign: 'left' }}>
               What sets us apart? Our client-first mindset, risk-reward partnerships, and commitment to excellence. Whether you're a startup or an enterprise, we tailor our services to maximize efficiency, minimize risk, and fuel growth. With a vast network of professionals and institutions, we connect organizations with the best talent, helping them build high-performing teams. Our technology-driven approach ensures speed, accuracy, and reliability in every process.
             </p>
-            <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.85, textAlign: 'left' }}>
+            <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#555', lineHeight: 1.85, textAlign: 'left' }}>
               At Data Artisans, we believe in empowering businesses through smart solutions and forward-thinking strategies. Our passion for excellence drives us to constantly innovate, evolve, and transform the way businesses operate.
             </p>
           </div>
@@ -309,10 +391,10 @@ const WhyDataArtisans: React.FC = () => {
               <span style={{ color: '#2563eb', fontSize: '12px', fontWeight: '600', letterSpacing: '2px' }}>WHY CHOOSE US</span>
               <span style={{ display: 'block', width: '40px', height: '2px', backgroundColor: '#2563eb' }} />
             </div>
-            <h2 style={{ fontSize: 'clamp(22px, 3.5vw, 32px)', fontWeight: '700', color: '#1a1a1a', lineHeight: 1.4, marginBottom: '18px', textAlign: 'center' }}>
+            <h2 style={{ fontSize: isMobile ? '22px' : 'clamp(22px, 3.5vw, 32px)', fontWeight: '700', color: '#1a1a1a', lineHeight: 1.4, marginBottom: '18px', textAlign: 'center' }}>
               What makes Data Artisans<br />your ideal data partner?
             </h2>
-            <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.9, textAlign: 'center' }}>
+            <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#666', lineHeight: 1.9, textAlign: 'center' }}>
               We combine deep technical expertise with domain knowledge to deliver data
               solutions that drive real business impact. Here are six reasons why the
               world's leading enterprises choose Data Artisans.
@@ -320,7 +402,7 @@ const WhyDataArtisans: React.FC = () => {
           </div>
 
           {/* ── 6 Differentiator Cards ── */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '24px', paddingBottom: '60px' }}>
+          <div style={getDifferentiatorGridStyle()}>
             {differentiators.map((d, i) => (
               <div key={i} style={{
                 border: '1px solid #ebebeb', borderRadius: '6px', padding: '32px 28px',
@@ -351,21 +433,21 @@ const WhyDataArtisans: React.FC = () => {
       {/* ── Stats Grid ── */}
       <div ref={ref} style={{ padding: '0 0 80px', backgroundColor: '#f5f5f5' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '50px 40px 0' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: '700', color: '#1a1a1a', textAlign: 'center', marginBottom: '40px' }}>
+          <h2 style={{ fontSize: isMobile ? '24px' : '28px', fontWeight: '700', color: '#1a1a1a', textAlign: 'center', marginBottom: '40px' }}>
             Data Artisans by Numbers
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', border: '1px solid #ddd' }}>
+          <div style={getStatsGridStyle()}>
             {statsData.map((s, i) => (
               <div key={i} style={{
                 backgroundColor: s.highlight ? '#2563eb' : '#fff',
                 color: s.highlight ? '#fff' : '#333',
-                padding: '30px 24px',
+                padding: isMobile ? '20px 12px' : '30px 24px',
                 textAlign: 'center',
-                fontSize: '15px',
+                fontSize: isMobile ? '12px' : '15px',
                 fontWeight: '600',
                 lineHeight: 1.5,
-                borderRight: (i + 1) % 3 !== 0 ? `1px solid ${s.highlight ? 'rgba(255,255,255,0.2)' : '#ddd'}` : 'none',
-                borderBottom: i < statsData.length - 3 ? `1px solid ${s.highlight ? 'rgba(255,255,255,0.2)' : '#ddd'}` : 'none',
+                borderRight: getStatsItemBorderRight(i, statsData.length, s.highlight),
+                borderBottom: getStatsItemBorderBottom(i, statsData.length, s.highlight),
                 opacity: visible ? 1 : 0,
                 transform: visible ? 'none' : 'translateY(20px)',
                 transition: `opacity 0.5s ease ${i * 60}ms, transform 0.5s ease ${i * 60}ms`,
