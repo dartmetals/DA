@@ -491,7 +491,7 @@ const AIPoweredHiring: React.FC = () => {
     if (isTablet) {
       return { 
         ...styles.hero, 
-        backgroundSize: "contain", 
+        backgroundSize: "cover", 
         backgroundPosition: "center", 
         backgroundRepeat: "no-repeat",
         minHeight: 450,

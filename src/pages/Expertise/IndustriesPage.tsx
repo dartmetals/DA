@@ -22,6 +22,7 @@ const styles: Record<string, React.CSSProperties> = {
     minHeight: 520,
     position: "relative",
     overflow: "hidden",
+    backgroundRepeat: "no-repeat",
   },
   heroText: { maxWidth: 700, zIndex: 1, margin: "0 auto" },
   heroHeading: {
@@ -281,6 +282,29 @@ const styles: Record<string, React.CSSProperties> = {
     marginTop: 0,
   },
   featureBody: { fontSize: 13, lineHeight: 1.65, color: "#555", margin: 0 },
+  statsSection: {
+    background: "#1e3a8a",
+    padding: "60px 60px",
+    display: "grid",
+    gridTemplateColumns: "repeat(4, 1fr)",
+    gap: 40,
+    textAlign: "center" as const,
+  },
+  statItem: {
+    textAlign: "center" as const,
+  },
+  statNumber: {
+    fontSize: 48,
+    fontWeight: 800,
+    color: "#fff",
+    marginBottom: 8,
+  },
+  statLabel: {
+    fontSize: 14,
+    color: "rgba(255,255,255,0.8)",
+    textTransform: "uppercase" as const,
+    letterSpacing: 1,
+  },
   ctaBanner: {
     background: "#1E3A5F",
     color: "#fff",
@@ -328,6 +352,19 @@ const styles: Record<string, React.CSSProperties> = {
 const IndustriesPage: React.FC = () => {
   // State for hovered icon
   const [hoveredIcon, setHoveredIcon] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   // Animation controls
   const heroImageControls = useAnimation();
@@ -335,6 +372,7 @@ const IndustriesPage: React.FC = () => {
   const introImageControls = useAnimation();
   const introContentControls = useAnimation();
   const cardsControls = useAnimation();
+  const statsControls = useAnimation();  // Separate control for stats
   const goldBannerContentControls = useAnimation();
   const goldBannerImageControls = useAnimation();
   const iconRowControls = useAnimation();
@@ -346,6 +384,7 @@ const IndustriesPage: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null);
   const introRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);  // Separate ref for stats
   const goldBannerRef = useRef<HTMLElement>(null);
   const iconRowRef = useRef<HTMLDivElement>(null);
   const techRef = useRef<HTMLElement>(null);
@@ -430,12 +469,217 @@ const IndustriesPage: React.FC = () => {
     }
   } as const;
 
-  // const fromBottomItem = {
-  //   hidden: { opacity: 0, y: 50 },
-  //   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-  // } as const;
+  // Responsive style functions
+  const getHeroBackgroundStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { 
+        ...styles.hero, 
+        backgroundSize: "contain", 
+        backgroundPosition: "center", 
+        backgroundRepeat: "no-repeat",
+        minHeight: 320,
+        padding: "40px 20px"
+      };
+    }
+    if (isTablet) {
+      return { 
+        ...styles.hero, 
+        backgroundSize: "cover", 
+        backgroundPosition: "center", 
+        backgroundRepeat: "no-repeat"
+      };
+    }
+    return styles.hero;
+  };
 
-  // Intersection Observer setup (removed triggerOnce which was causing errors)
+  const getHeroHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroHeading, fontSize: 32 };
+    if (isTablet) return { ...styles.heroHeading, fontSize: 42 };
+    return styles.heroHeading;
+  };
+
+  const getHeroDescriptionStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroDescription, display: "none" };
+    if (isTablet) return { ...styles.heroDescription, fontSize: 14 };
+    return styles.heroDescription;
+  };
+
+  const getIntroSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.introSection, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.introSection;
+  };
+
+  const getIntroBodyStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.introBody;
+  };
+
+  const getIntroImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.introImageBox;
+  };
+
+  const getCardsGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(6, 1fr)";
+  };
+
+  const getCardsSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.cardsSection, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.cardsSection, padding: "50px 30px" };
+    }
+    return styles.cardsSection;
+  };
+
+  const getStatsSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.statsSection, padding: "40px 20px", gap: 30 };
+    }
+    if (isTablet) {
+      return { ...styles.statsSection, padding: "50px 30px", gap: 30 };
+    }
+    return styles.statsSection;
+  };
+
+  const getStatsGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(4, 1fr)";
+  };
+
+  const getStatNumberStyle = (): React.CSSProperties => {
+    if (isMobile) return { fontSize: 36 };
+    if (isTablet) return { fontSize: 42 };
+    return { fontSize: 48 };
+  };
+
+  const getStatLabelStyle = (): React.CSSProperties => {
+    if (isMobile) return { fontSize: 11 };
+    if (isTablet) return { fontSize: 12 };
+    return { fontSize: 14 };
+  };
+
+  const getGoldBannerStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.goldBanner, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.goldBanner;
+  };
+
+  const getGoldBannerTextStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.goldBannerText;
+  };
+
+  const getGoldBannerImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.goldBannerImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.goldBannerImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.goldBannerImageBox;
+  };
+
+  const getIconGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    return "repeat(2, 1fr)";
+  };
+
+  const getIconRowStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.iconRow, padding: "0 20px 40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.iconRow, padding: "0 30px 50px 30px" };
+    }
+    return styles.iconRow;
+  };
+
+  const getTechSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.techSection, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.techSection;
+  };
+
+  const getTechBodyStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.techBody;
+  };
+
+  const getTechImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.techImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.techImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.techImageBox;
+  };
+
+  const getFeatureGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(3, 1fr)";
+  };
+
+  const getFeatureSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.featureSection, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.featureSection, padding: "50px 30px" };
+    }
+    return styles.featureSection;
+  };
+
+  const getCtaBannerStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.ctaBanner, padding: "40px 20px", fontSize: 18 };
+    }
+    if (isTablet) {
+      return { ...styles.ctaBanner, padding: "48px 30px", fontSize: 20 };
+    }
+    return styles.ctaBanner;
+  };
+
+  const getIntroParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.introPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.introPara, fontSize: 14, textAlign: "center" };
+    return styles.introPara;
+  };
+
+  const getSectionHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.sectionHeading, fontSize: 28 };
+    if (isTablet) return { ...styles.sectionHeading, fontSize: 32 };
+    return styles.sectionHeading;
+  };
+
+  const getTechParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.techPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.techPara, fontSize: 14, textAlign: "center" };
+    return styles.techPara;
+  };
+
+  // Intersection Observer setup
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
@@ -471,6 +715,21 @@ const IndustriesPage: React.FC = () => {
       );
       introObserver.observe(introRef.current);
       observers.push(introObserver);
+    }
+
+    if (statsRef.current) {
+      const statsObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            statsControls.start("visible");
+          } else {
+            statsControls.set("hidden");
+          }
+        },
+        { threshold: 0.2 }
+      );
+      statsObserver.observe(statsRef.current);
+      observers.push(statsObserver);
     }
 
     if (cardsRef.current) {
@@ -575,6 +834,13 @@ const IndustriesPage: React.FC = () => {
     { icon: "🔄", label: "Continuous support and innovation help our clients stay future-ready." },
   ];
 
+  const statsData = [
+    { number: "1452+", label: "Happy Clients" },
+    { number: "2195+", label: "Completed Projects" },
+    { number: "100+", label: "Outsourcing Partners" },
+    { number: "150+", label: "Professional Team" },
+  ];
+
   // Contact Us button click handler
   const handleContactClick = () => {
     window.location.href = "/contact-us";
@@ -586,7 +852,7 @@ const IndustriesPage: React.FC = () => {
       {/* ── HERO ── */}
       <motion.section
         ref={heroRef}
-        style={styles.hero}
+        style={getHeroBackgroundStyle()}
         initial="hidden"
         animate={heroImageControls}
         variants={imageFromRight}
@@ -597,12 +863,11 @@ const IndustriesPage: React.FC = () => {
           initial="hidden"
           animate={heroTextControls}
         >
-          <h1 style={styles.heroHeading}>
+          <h1 style={getHeroHeadingStyle()}>
             Solutions built
             for scale.
           </h1>
-          {/* <p style={styles.heroSubText}>Scalable software for diverse industry needs.</p> */}
-          <p style={styles.heroDescription}>
+          <p style={getHeroDescriptionStyle()}>
             Empowering businesses with innovative digital solutions, 
             cutting-edge technology, and industry expertise.
           </p>
@@ -611,9 +876,27 @@ const IndustriesPage: React.FC = () => {
       </motion.section>
 
       {/* ── INTRO ── */}
-      <section ref={introRef} style={styles.introSection}>
+      <section ref={introRef} style={getIntroSectionStyle()}>
         <motion.div
-          style={styles.introImageBox}
+          style={getIntroBodyStyle()}
+          variants={contentFromBottom}
+          initial="hidden"
+          animate={introContentControls}
+        >
+          <p style={getIntroParaStyle()}>
+            Data Artisans we are here to find the best solution for your IT problems. Experience excellence with our top-tier services tailored just for you. From meticulous attention to detail to unparalleled customer satisfaction, we are committed to delivering the best. Elevate your experience and success with our dedicated and reliable service offerings.
+          </p>
+          <p style={getIntroParaStyle()}>
+            <strong>01 Data Artisans Services</strong>:  Delivers innovative IT solutions and comprehensive technical support.<br />
+            <strong>02 Engagement Models</strong>:  Outline collaboration structures between service providers and clients.<br />
+            <strong>03 Technology Expertise</strong>: Expertise powers innovative solutions and transforms digital landscapes.
+          </p>
+          <p style={getIntroParaStyle()}>
+            <strong>1452+ Happy Clients</strong> | <strong>2195+ Completed Projects</strong> | <strong>100+ Outsourcing Partners</strong> | <strong>150+ Professional Team</strong>
+          </p>
+        </motion.div>
+        <motion.div
+          style={getIntroImageBoxStyle()}
           variants={imageFromLeft}
           initial="hidden"
           animate={introImageControls}
@@ -624,38 +907,43 @@ const IndustriesPage: React.FC = () => {
             style={styles.introImage}
           />
         </motion.div>
-        <motion.div
-          style={styles.introBody}
-          variants={contentFromBottom}
-          initial="hidden"
-          animate={introContentControls}
-        >
-          <p style={styles.introPara}>
-            Data Artisans we are here to find the best solution for your IT problems. Experience excellence with our top-tier services tailored just for you. From meticulous attention to detail to unparalleled customer satisfaction, we are committed to delivering the best. Elevate your experience and success with our dedicated and reliable service offerings.
-          </p>
-          <p style={styles.introPara}>
-            <strong>01 Data Artisans Services</strong>:  Delivers innovative IT solutions and comprehensive technical support.<br />
-            <strong>02 Engagement Models</strong>:  Outline collaboration structures between service providers and clients.<br />
-            <strong>03 Technology Expertise</strong>: Expertise powers innovative solutions and transforms digital landscapes.
-          </p>
-          <p style={styles.introPara}>
-            <strong>1452+ Happy Clients</strong> | <strong>2195+ Completed Projects</strong> | <strong>100+ Outsourcing Partners</strong> | <strong>150+ Professional Team</strong>
-          </p>
-        </motion.div>
       </section>
+
+      {/* ── STATS SECTION (Fixed - Now using statsRef and statsControls) ── */}
+      <motion.div
+        ref={statsRef}
+        style={{ ...getStatsSectionStyle(), gridTemplateColumns: getStatsGridColumns() }}
+        variants={fromBottomStagger}
+        initial="hidden"
+        animate={statsControls}
+      >
+        {statsData.map((stat, idx) => (
+          <motion.div
+            key={idx}
+            custom={idx}
+            variants={cardFromBottom}
+            style={styles.statItem}
+          >
+            <motion.div variants={cardContentItem}>
+              <div style={{ ...styles.statNumber, ...getStatNumberStyle() }}>{stat.number}</div>
+              <div style={{ ...styles.statLabel, ...getStatLabelStyle() }}>{stat.label}</div>
+            </motion.div>
+          </motion.div>
+        ))}
+      </motion.div>
 
       {/* ── CARDS (6 cards in one row with different colors) ── */}
       <motion.section
         ref={cardsRef}
-        style={styles.cardsSection}
+        style={getCardsSectionStyle()}
         initial="hidden"
         animate={cardsControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Tech that <em style={styles.sectionHeadingItalic}>transforms industries</em>
         </motion.h2>
         <motion.div
-          style={styles.cardsGrid}
+          style={{ ...styles.cardsGrid, gridTemplateColumns: getCardsGridColumns() }}
           variants={cardContentStagger}
           initial="hidden"
           animate={cardsControls}
@@ -680,9 +968,9 @@ const IndustriesPage: React.FC = () => {
       </motion.section>
 
       {/* ── GOLD BANNER (Image on Right, Content on Left) ── */}
-      <section ref={goldBannerRef} style={styles.goldBanner}>
+      <section ref={goldBannerRef} style={getGoldBannerStyle()}>
         <motion.div
-          style={styles.goldBannerText}
+          style={getGoldBannerTextStyle()}
           variants={contentFromLeft}
           initial="hidden"
           animate={goldBannerContentControls}
@@ -699,7 +987,7 @@ const IndustriesPage: React.FC = () => {
           <p style={styles.goldBannerPara}>Empowering industries through technology, one solution at a time.</p>
         </motion.div>
         <motion.div
-          style={styles.goldBannerImageBox}
+          style={getGoldBannerImageBoxStyle()}
           variants={imageFromRight}
           initial="hidden"
           animate={goldBannerImageControls}
@@ -715,12 +1003,12 @@ const IndustriesPage: React.FC = () => {
       {/* ── ICON ROW (2 columns, hover effect, same bg as gold banner) ── */}
       <motion.div
         ref={iconRowRef}
-        style={styles.iconRow}
+        style={getIconRowStyle()}
         variants={listFromRight}
         initial="hidden"
         animate={iconRowControls}
       >
-        <div style={styles.iconGrid}>
+        <div style={{ ...styles.iconGrid, gridTemplateColumns: getIconGridColumns() }}>
           {iconItems.map((item, i) => (
             <motion.div
               key={i}
@@ -752,12 +1040,37 @@ const IndustriesPage: React.FC = () => {
       {/* ── TECH SECTION (Image on Left, Content on Right) ── */}
       <motion.section
         ref={techRef}
-        style={styles.techSection}
+        style={getTechSectionStyle()}
         initial="hidden"
         animate={techImageControls}
       >
         <motion.div
-          style={styles.techImageBox}
+          style={getTechBodyStyle()}
+          variants={contentFromBottom}
+          initial="hidden"
+          animate={techContentControls}
+        >
+          <p style={getTechParaStyle()}>
+            <strong>Industry Specific Expertise :</strong> We understand the unique workflows, compliance requirements, and digital goals of each industry we serve. Our domain experts work alongside our tech teams to design solutions that solve real problems.
+          </p>
+          <p style={getTechParaStyle()}>
+            <strong>Customized Software Development :</strong> Whether it's a customer-facing platform, an enterprise application, or a backend system, we develop custom software tailored to your specific use case and business model.
+          </p>
+          <p style={getTechParaStyle()}>
+            <strong>Seamless Integration :</strong> We ensure that our solutions integrate smoothly with your existing systems, minimizing disruption and maximizing productivity from day one.
+          </p>
+          <p style={getTechParaStyle()}>
+            <strong>Scalable and Future Ready Solutions :</strong> As your business grows, so do our solutions. We build with scalability in mind, allowing you to evolve without technical limitations.
+          </p>
+          <p style={getTechParaStyle()}>
+            <strong>Data Driven Insights :</strong> We empower industries with analytics and intelligent dashboards, helping stakeholders make informed decisions faster and with greater accuracy.
+          </p>
+          <p style={getTechParaStyle()}>
+            <strong>Ongoing Support and Optimization :</strong> Our job doesn't end at deployment. We continue to monitor, maintain, and improve our systems so they remain efficient, secure, and aligned with your business goals.
+          </p>
+        </motion.div>
+        <motion.div
+          style={getTechImageBoxStyle()}
           variants={imageFromLeft}
           initial="hidden"
           animate={techImageControls}
@@ -768,45 +1081,20 @@ const IndustriesPage: React.FC = () => {
             style={styles.techImage}
           />
         </motion.div>
-        <motion.div
-          style={styles.techBody}
-          variants={contentFromBottom}
-          initial="hidden"
-          animate={techContentControls}
-        >
-          <p style={styles.techPara}>
-            <strong>Industry Specific Expertise :</strong> We understand the unique workflows, compliance requirements, and digital goals of each industry we serve. Our domain experts work alongside our tech teams to design solutions that solve real problems.
-          </p>
-          <p style={styles.techPara}>
-            <strong>Customized Software Development :</strong> Whether it's a customer-facing platform, an enterprise application, or a backend system, we develop custom software tailored to your specific use case and business model.
-          </p>
-          <p style={styles.techPara}>
-            <strong>Seamless Integration :</strong> We ensure that our solutions integrate smoothly with your existing systems, minimizing disruption and maximizing productivity from day one.
-          </p>
-          <p style={styles.techPara}>
-            <strong>Scalable and Future Ready Solutions :</strong> As your business grows, so do our solutions. We build with scalability in mind, allowing you to evolve without technical limitations.
-          </p>
-          <p style={styles.techPara}>
-            <strong>Data Driven Insights :</strong> We empower industries with analytics and intelligent dashboards, helping stakeholders make informed decisions faster and with greater accuracy.
-          </p>
-          <p style={styles.techPara}>
-            <strong>Ongoing Support and Optimization :</strong> Our job doesn't end at deployment. We continue to monitor, maintain, and improve our systems so they remain efficient, secure, and aligned with your business goals.
-          </p>
-        </motion.div>
       </motion.section>
 
       {/* ── FEATURE CARDS ── */}
       <motion.section
         ref={featureRef}
-        style={styles.featureSection}
+        style={getFeatureSectionStyle()}
         initial="hidden"
         animate={featureCardsControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Our Key Features
         </motion.h2>
         <motion.div
-          style={styles.featureGrid}
+          style={{ ...styles.featureGrid, gridTemplateColumns: getFeatureGridColumns() }}
           variants={fromBottomStagger}
           initial="hidden"
           animate={featureCardsControls}
@@ -836,7 +1124,7 @@ const IndustriesPage: React.FC = () => {
       </motion.section>
 
       {/* ── CTA with Contact Us Button ── */}
-      <div style={styles.ctaBanner}>
+      <div style={getCtaBannerStyle()}>
         Partner with <span style={styles.ctaSpan}>Data Artisans</span> to transform your industry with cutting-edge solutions.
         <div>
           <button onClick={handleContactClick} style={styles.ctaButton}>
