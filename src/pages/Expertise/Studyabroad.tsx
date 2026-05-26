@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 
 const styles: Record<string, React.CSSProperties> = {
@@ -49,7 +49,7 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     alignItems: "center",
     gap: 60,
-    padding: "70px 60px",
+    padding: "40px 60px",
     background: "#fff",
   },
   introImageBox: {
@@ -422,6 +422,21 @@ const styles: Record<string, React.CSSProperties> = {
 };
 
 const StudyAbroadPage: React.FC = () => {
+  // State for responsive layout
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
   // Animation controls
   const heroImageControls = useAnimation();
   const heroTextControls = useAnimation();
@@ -559,13 +574,198 @@ const StudyAbroadPage: React.FC = () => {
     visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
   } as const;
 
+  // Responsive style functions
+  const getHeroBackgroundStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.hero, backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat", minHeight: 400, padding: "60px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.hero, backgroundSize: "cover", backgroundPosition: "top", backgroundRepeat: "no-repeat" };
+    }
+    return styles.hero;
+  };
+
+  const getHeroHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroHeading, fontSize: 32 };
+    if (isTablet) return { ...styles.heroHeading, fontSize: 42 };
+    return styles.heroHeading;
+  };
+
+  const getHeroDescriptionStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroDescription, display: "none" };
+    if (isTablet) return { ...styles.heroDescription, fontSize: 14 };
+    return styles.heroDescription;
+  };
+
+  const getIntroSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.introSection, flexDirection: "column", padding: "30px 20px", textAlign: "center" };
+    }
+    return styles.introSection;
+  };
+
+  const getIntroBodyStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.introBody;
+  };
+
+  const getIntroImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.introImageBox;
+  };
+
+  const getCardsGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(4, 1fr)";
+  };
+
+  const getCardsSectionStyle = (): React.CSSProperties => {
+    const baseStyle = { ...styles.cardsSection };
+    if (isMobile) {
+      baseStyle.padding = "40px 20px";
+    } else if (isTablet) {
+      baseStyle.padding = "50px 30px";
+    }
+    return baseStyle;
+  };
+
+  const getDestGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(4, 1fr)";
+  };
+
+  const getDestinationsSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.destinationsSection, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.destinationsSection, padding: "50px 30px" };
+    }
+    return styles.destinationsSection;
+  };
+
+  const getAboutSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.aboutSection, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.aboutSection;
+  };
+
+  const getAboutContentStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.aboutContent;
+  };
+
+  const getAboutImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.aboutImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.aboutImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.aboutImageBox;
+  };
+
+  const getTwoColumnSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return {
+        background: "#F7F7F7",
+        padding: "40px 20px"
+      };
+    }
+    return styles.twoColumnSection;
+  };
+
+  const getTwoColumnGridStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { 
+        display: "flex", 
+        flexDirection: "column", 
+        gap: 48
+      };
+    }
+    return styles.twoColumnGrid;
+  };
+
+  const getTestimonialSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.testimonialSection, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.testimonialSection;
+  };
+
+  const getTestimonialContentStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.testimonialContent;
+  };
+
+  const getTestimonialImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.testimonialImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.testimonialImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.testimonialImageBox;
+  };
+
+  const getProcessGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(3, 1fr)";
+  };
+
+  const getIntroParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.introPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.introPara, fontSize: 14, textAlign: "center" };
+    return styles.introPara;
+  };
+
+  const getSectionHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.sectionHeading, fontSize: 28, marginBottom: 32, textAlign: "center" };
+    if (isTablet) return { ...styles.sectionHeading, fontSize: 32, marginBottom: 40, textAlign: "center" };
+    return styles.sectionHeading;
+  };
+
+  const getCtaBannerStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.ctaBanner, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.ctaBanner, padding: "48px 30px" };
+    }
+    return styles.ctaBanner;
+  };
+
   // Contact Us button click handler
   const handleContactClick = () => {
     window.location.href = "/contact-us";
   };
 
-  // Intersection Observer setup (removed triggerOnce property)
+  // Simplified Intersection Observer setup - always show content on mobile
   useEffect(() => {
+    // On mobile, immediately show all sections without waiting for intersection
+    if (isMobile) {
+      cardsControls.start("visible");
+      whyChooseControls.start("visible");
+      ourProcessControls.start("visible");
+      // Also ensure all content is visible by setting initial visible
+      return;
+    }
+
     const observers: IntersectionObserver[] = [];
 
     if (heroRef.current) {
@@ -574,12 +774,9 @@ const StudyAbroadPage: React.FC = () => {
           if (entry.isIntersecting) {
             heroImageControls.start("visible");
             setTimeout(() => heroTextControls.start("visible"), 400);
-          } else {
-            heroImageControls.set("hidden");
-            heroTextControls.set("hidden");
           }
         },
-        { threshold: 0.3 }
+        { threshold: 0.1 }
       );
       heroObserver.observe(heroRef.current);
       observers.push(heroObserver);
@@ -591,12 +788,9 @@ const StudyAbroadPage: React.FC = () => {
           if (entry.isIntersecting) {
             introImageControls.start("visible");
             introContentControls.start("visible");
-          } else {
-            introImageControls.set("hidden");
-            introContentControls.set("hidden");
           }
         },
-        { threshold: 0.3 }
+        { threshold: 0.1 }
       );
       introObserver.observe(introRef.current);
       observers.push(introObserver);
@@ -608,12 +802,9 @@ const StudyAbroadPage: React.FC = () => {
           if (entry.isIntersecting) {
             aboutContentControls.start("visible");
             aboutImageControls.start("visible");
-          } else {
-            aboutContentControls.set("hidden");
-            aboutImageControls.set("hidden");
           }
         },
-        { threshold: 0.3 }
+        { threshold: 0.1 }
       );
       aboutObserver.observe(aboutRef.current);
       observers.push(aboutObserver);
@@ -624,11 +815,9 @@ const StudyAbroadPage: React.FC = () => {
         ([entry]) => {
           if (entry.isIntersecting) {
             cardsControls.start("visible");
-          } else {
-            cardsControls.set("hidden");
           }
         },
-        { threshold: 0.2 }
+        { threshold: 0.1 }
       );
       cardsObserver.observe(cardsRef.current);
       observers.push(cardsObserver);
@@ -639,11 +828,9 @@ const StudyAbroadPage: React.FC = () => {
         ([entry]) => {
           if (entry.isIntersecting) {
             destControls.start("visible");
-          } else {
-            destControls.set("hidden");
           }
         },
-        { threshold: 0.2 }
+        { threshold: 0.1 }
       );
       destObserver.observe(destRef.current);
       observers.push(destObserver);
@@ -655,12 +842,9 @@ const StudyAbroadPage: React.FC = () => {
           if (entry.isIntersecting) {
             whyChooseControls.start("visible");
             ourProcessControls.start("visible");
-          } else {
-            whyChooseControls.set("hidden");
-            ourProcessControls.set("hidden");
           }
         },
-        { threshold: 0.3 }
+        { threshold: 0.1 }
       );
       processObserver.observe(whyChooseProcessRef.current);
       observers.push(processObserver);
@@ -672,12 +856,9 @@ const StudyAbroadPage: React.FC = () => {
           if (entry.isIntersecting) {
             testimonialContentControls.start("visible");
             testimonialImageControls.start("visible");
-          } else {
-            testimonialContentControls.set("hidden");
-            testimonialImageControls.set("hidden");
           }
         },
-        { threshold: 0.3 }
+        { threshold: 0.1 }
       );
       testimonialObserver.observe(testimonialRef.current);
       observers.push(testimonialObserver);
@@ -686,7 +867,7 @@ const StudyAbroadPage: React.FC = () => {
     return () => {
       observers.forEach(observer => observer.disconnect());
     };
-  }, []);
+  }, [isMobile]);
 
   const whyChoosePoints = [
     "Personalized Student Guidance",
@@ -738,30 +919,236 @@ const StudyAbroadPage: React.FC = () => {
     ],
   ];
 
+  // For mobile, render without motion animations to ensure visibility
+  if (isMobile) {
+    return (
+      <div style={styles.page}>
+        {/* ── HERO ── */}
+        <section style={getHeroBackgroundStyle()}>
+          <div style={styles.heroText}>
+            <h1 style={getHeroHeadingStyle()}>
+              Study Abroad<br />
+              Expertise
+            </h1>
+            <p style={getHeroDescriptionStyle()}>
+              Your trusted partner for international education. Expert guidance for university selection,
+              visa assistance, and scholarship support to help you achieve your global academic dreams.
+            </p>
+          </div>
+          <div style={styles.heroImagePlaceholder}>[ Study Abroad Hero Image ]</div>
+        </section>
+
+        {/* ── INTRO ── */}
+        <section style={getIntroSectionStyle()}>
+          <div style={getIntroBodyStyle()}>
+            <p style={getIntroParaStyle()}>
+              At Data Artisans, we help students turn their international education dreams into reality through expert guidance, personalized counselling, and end-to-end overseas education support.
+            </p>
+            <p style={getIntroParaStyle()}>
+              From selecting the right university to visa processing and post-arrival assistance, we simplify every step of your study abroad journey with transparency, professionalism, and student-first support.
+            </p>
+            <p style={getIntroParaStyle()}>
+              ✓ University Admissions &nbsp;&nbsp; ✓ Career Counselling &nbsp;&nbsp; ✓ Visa Assistance<br />
+              ✓ SOP / LOR / Resume Guidance &nbsp;&nbsp; ✓ Scholarships & Education Loans &nbsp;&nbsp; ✓ Pre & Post Departure Support
+            </p>
+            <p style={getIntroParaStyle()}>
+              Helping students build successful global careers with confidence.
+            </p>
+          </div>
+          <div style={getIntroImageBoxStyle()}>
+            <img 
+              src="/study-abroad.jpg" 
+              alt="Study Abroad"
+              style={styles.introImage}
+            />
+          </div>
+        </section>
+
+        {/* ── ABOUT US SECTION ── */}
+        <section style={getAboutSectionStyle()}>
+          <div style={getAboutContentStyle()}>
+            <h2 style={getSectionHeadingStyle()}>
+              About <em style={styles.sectionHeadingItalic}>Us</em>
+            </h2>
+            <p style={getIntroParaStyle()}>
+              Data Artisans is a professional overseas education consultancy dedicated to helping students achieve their academic and career goals abroad. We guide aspiring students through every stage of the international education process — from choosing the right destination and university to visa approval and settlement support.
+            </p>
+            <p style={getIntroParaStyle()}>
+              Our experienced counselors work closely with students and parents to understand academic backgrounds, career aspirations, financial plans, and future goals before recommending suitable universities and programs.
+            </p>
+            <p style={getIntroParaStyle()}>
+              We believe that studying abroad is not just about earning a degree. It is about creating global exposure, developing international skills, and unlocking better career opportunities. Our mission is to make global education accessible, transparent, and stress-free for every student.
+            </p>
+            <p style={getIntroParaStyle()}>
+              With a student-centric approach and strong partnerships with international institutions, we ensure every student receives reliable guidance and complete support throughout the process. Inspired by leading overseas education consultancy platforms, our approach focuses on transparency, personalized counselling, and long-term student success.
+            </p>
+          </div>
+          <div style={getAboutImageBoxStyle()}>
+            <img 
+              src="/studyabroad-img1.jpg" 
+              alt="About Study Abroad"
+              style={styles.aboutImage}
+            />
+          </div>
+        </section>
+
+        {/* ── SERVICES CARDS ── */}
+        <section style={getCardsSectionStyle()}>
+          <h2 style={getSectionHeadingStyle()}>
+            Our <em style={styles.sectionHeadingItalic}>Services</em>
+          </h2>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: getCardsGridColumns(),
+            gap: 32
+          }}>
+            {servicesData.map((c, idx) => {
+              const config = cardConfigs[idx % cardConfigs.length];
+              return (
+                <div key={c.title} style={{ ...styles.card, ...config.bg }}>
+                  <div>
+                    <div style={{ ...styles.cardIcon, ...config.iconBg }}>{c.icon}</div>
+                    <h3 style={{ ...styles.cardTitle, ...config.titleColor }}>{c.title}</h3>
+                    <p style={{ ...styles.cardBody, ...config.bodyColor }}>{c.body}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ── DESTINATION CARDS ── */}
+        <section style={getDestinationsSectionStyle()}>
+          <h2 style={getSectionHeadingStyle()}>
+            Study <em style={styles.sectionHeadingItalic}>Destinations</em>
+          </h2>
+          <div style={{ ...styles.destGrid, gridTemplateColumns: getDestGridColumns() }}>
+            {destinationRows[0].map((d, idx) => (
+              <div key={d.country} style={{ ...styles.destCard, background: destinationColors[idx % destinationColors.length].bg }}>
+                <img src={d.img} alt={d.country} style={styles.destCardImage} />
+                <div style={styles.destCardBody}>
+                  <h4 style={{ ...styles.destCardTitle, color: destinationColors[idx % destinationColors.length].textColor }}>{d.country}</h4>
+                  <p style={styles.destCardText}>{d.desc}</p>
+                </div>
+              </div>
+            ))}
+            {destinationRows[1].map((d, idx) => (
+              <div key={d.country} style={{ ...styles.destCard, background: destinationColors[(idx + 4) % destinationColors.length].bg }}>
+                <img src={d.img} alt={d.country} style={styles.destCardImage} />
+                <div style={styles.destCardBody}>
+                  <h4 style={{ ...styles.destCardTitle, color: destinationColors[(idx + 4) % destinationColors.length].textColor }}>{d.country}</h4>
+                  <p style={styles.destCardText}>{d.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p style={{ textAlign: "center", marginTop: 32, fontSize: 14, color: "#555" }}>
+            We help students explore globally recognized universities and career-focused programs across the world's top education destinations.
+          </p>
+        </section>
+
+        {/* ── WHY CHOOSE US + OUR PROCESS ── */}
+        <div style={getTwoColumnSectionStyle()}>
+          <div style={getTwoColumnGridStyle()}>
+            <div style={{ width: "100%", paddingRight: 0 }}>
+              <h2 style={getSectionHeadingStyle()}>
+                Why <em style={styles.sectionHeadingItalic}>Choose Us</em>
+              </h2>
+              <ul style={styles.whyChooseList}>
+                {whyChoosePoints.map((point, index) => (
+                  <li key={index} style={styles.whyChooseItem}>
+                    <span style={{ color: "#2563eb", fontSize: 18 }}>✓</span> {point}
+                  </li>
+                ))}
+              </ul>
+              <p style={{ textAlign: "left", marginTop: 32, fontSize: 14, color: "#555" }}>
+                Our goal is to make the overseas education process simple, transparent, and successful for every student. We focus on building trust, providing genuine guidance, and helping students achieve global academic opportunities with confidence.
+              </p>
+            </div>
+
+            <div style={{ width: "100%", paddingLeft: 0 }}>
+              <h2 style={getSectionHeadingStyle()}>
+                Our <em style={styles.sectionHeadingItalic}>Process</em>
+              </h2>
+              <p style={{ textAlign: "left", fontSize: 18, marginBottom: 20, color: "#1e3a8a", fontWeight: 600 }}>
+                Simple & Structured Process
+              </p>
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: getProcessGridColumns(),
+                gap: 24,
+                marginTop: 40
+              }}>
+                {processSteps.map((p) => (
+                  <div key={p.step} style={styles.processCard}>
+                    <div style={styles.processNumber}>{p.step}</div>
+                    <h4 style={styles.processTitle}>{p.title}</h4>
+                    <p style={styles.processDesc}>{p.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── TESTIMONIAL SECTION ── */}
+        <section style={getTestimonialSectionStyle()}>
+          <div style={getTestimonialContentStyle()}>
+            <h2 style={getSectionHeadingStyle()}>
+              Trusted By <em style={styles.sectionHeadingItalic}>Students & Parents</em>
+            </h2>
+            <p style={{ maxWidth: 600, fontSize: 15, lineHeight: 1.8, color: "#555", marginBottom: 20 }}>
+              We are proud to support students in achieving admissions to globally recognized universities and building successful international careers.
+            </p>
+            <p style={{ maxWidth: 600, fontSize: 15, lineHeight: 1.8, color: "#555" }}>
+              Our commitment to transparency, personalized support, and quality guidance has helped students confidently pursue higher education abroad.
+            </p>
+          </div>
+          <div style={getTestimonialImageBoxStyle()}>
+            <img 
+              src="/studyabroad-img2.jpg" 
+              alt="Happy Students"
+              style={styles.testimonialImage}
+            />
+          </div>
+        </section>
+
+        {/* ── CTA with Contact Us Button ── */}
+        <div style={getCtaBannerStyle()}>
+          Start Your Global Journey Today — speak with a <span style={styles.ctaSpan}>Study Abroad</span> expert.
+          <div>
+            <button onClick={handleContactClick} style={styles.ctaButton}>
+              Contact Us
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop version with animations
   return (
     <div style={styles.page}>
 
       {/* ── HERO ── */}
       <motion.section
         ref={heroRef}
-        style={styles.hero}
+        style={getHeroBackgroundStyle()}
         initial="hidden"
         animate={heroImageControls}
         variants={imageFromRight}
       >
-        <div style={styles.heroOverlay} />
-        <div style={styles.heroOverlay2} />
         <motion.div
           style={styles.heroText}
           variants={textFromBottom}
           initial="hidden"
           animate={heroTextControls}
         >
-          <h1 style={styles.heroHeading}>
+          <h1 style={getHeroHeadingStyle()}>
             Study Abroad<br />
             Expertise
           </h1>
-          <p style={styles.heroDescription}>
+          <p style={getHeroDescriptionStyle()}>
             Your trusted partner for international education. Expert guidance for university selection,
             visa assistance, and scholarship support to help you achieve your global academic dreams.
           </p>
@@ -770,9 +1157,29 @@ const StudyAbroadPage: React.FC = () => {
       </motion.section>
 
       {/* ── INTRO ── */}
-      <section ref={introRef} style={styles.introSection}>
+      <section ref={introRef} style={getIntroSectionStyle()}>
         <motion.div
-          style={styles.introImageBox}
+          style={getIntroBodyStyle()}
+          variants={textFromBottom}
+          initial="hidden"
+          animate={introContentControls}
+        >
+          <p style={getIntroParaStyle()}>
+            At Data Artisans, we help students turn their international education dreams into reality through expert guidance, personalized counselling, and end-to-end overseas education support.
+          </p>
+          <p style={getIntroParaStyle()}>
+            From selecting the right university to visa processing and post-arrival assistance, we simplify every step of your study abroad journey with transparency, professionalism, and student-first support.
+          </p>
+          <p style={getIntroParaStyle()}>
+            ✓ University Admissions &nbsp;&nbsp; ✓ Career Counselling &nbsp;&nbsp; ✓ Visa Assistance<br />
+            ✓ SOP / LOR / Resume Guidance &nbsp;&nbsp; ✓ Scholarships & Education Loans &nbsp;&nbsp; ✓ Pre & Post Departure Support
+          </p>
+          <p style={getIntroParaStyle()}>
+            Helping students build successful global careers with confidence.
+          </p>
+        </motion.div>
+        <motion.div
+          style={getIntroImageBoxStyle()}
           variants={imageFromLeft}
           initial="hidden"
           animate={introImageControls}
@@ -783,54 +1190,34 @@ const StudyAbroadPage: React.FC = () => {
             style={styles.introImage}
           />
         </motion.div>
-        <motion.div
-          style={styles.introBody}
-          variants={textFromBottom}
-          initial="hidden"
-          animate={introContentControls}
-        >
-          <p style={styles.introPara}>
-            At Data Artisans, we help students turn their international education dreams into reality through expert guidance, personalized counselling, and end-to-end overseas education support.
-          </p>
-          <p style={styles.introPara}>
-            From selecting the right university to visa processing and post-arrival assistance, we simplify every step of your study abroad journey with transparency, professionalism, and student-first support.
-          </p>
-          <p style={styles.introPara}>
-            ✓ University Admissions &nbsp;&nbsp; ✓ Career Counselling &nbsp;&nbsp; ✓ Visa Assistance<br />
-            ✓ SOP / LOR / Resume Guidance &nbsp;&nbsp; ✓ Scholarships & Education Loans &nbsp;&nbsp; ✓ Pre & Post Departure Support
-          </p>
-          <p style={styles.introPara}>
-            Helping students build successful global careers with confidence.
-          </p>
-        </motion.div>
       </section>
 
       {/* ── ABOUT US SECTION ── */}
-      <section ref={aboutRef} style={styles.aboutSection}>
+      <section ref={aboutRef} style={getAboutSectionStyle()}>
         <motion.div
-          style={styles.aboutContent}
+          style={getAboutContentStyle()}
           variants={contentFromLeft}
           initial="hidden"
           animate={aboutContentControls}
         >
-          <h2 style={styles.sectionHeading}>
+          <h2 style={getSectionHeadingStyle()}>
             About <em style={styles.sectionHeadingItalic}>Us</em>
           </h2>
-          <p style={styles.introPara}>
-            Data Artisans is a professional overseas education consultancy dedicated to helping students achieve their academic and career goals abroad. We guide aspiring students through every stage of the international education process  from choosing the right destination and university to visa approval and settlement support.
+          <p style={getIntroParaStyle()}>
+            Data Artisans is a professional overseas education consultancy dedicated to helping students achieve their academic and career goals abroad. We guide aspiring students through every stage of the international education process — from choosing the right destination and university to visa approval and settlement support.
           </p>
-          <p style={styles.introPara}>
+          <p style={getIntroParaStyle()}>
             Our experienced counselors work closely with students and parents to understand academic backgrounds, career aspirations, financial plans, and future goals before recommending suitable universities and programs.
           </p>
-          <p style={styles.introPara}>
+          <p style={getIntroParaStyle()}>
             We believe that studying abroad is not just about earning a degree. It is about creating global exposure, developing international skills, and unlocking better career opportunities. Our mission is to make global education accessible, transparent, and stress-free for every student.
           </p>
-          <p style={styles.introPara}>
+          <p style={getIntroParaStyle()}>
             With a student-centric approach and strong partnerships with international institutions, we ensure every student receives reliable guidance and complete support throughout the process. Inspired by leading overseas education consultancy platforms, our approach focuses on transparency, personalized counselling, and long-term student success.
           </p>
         </motion.div>
         <motion.div
-          style={styles.aboutImageBox}
+          style={getAboutImageBoxStyle()}
           variants={imageFromRight}
           initial="hidden"
           animate={aboutImageControls}
@@ -846,15 +1233,19 @@ const StudyAbroadPage: React.FC = () => {
       {/* ── SERVICES CARDS ── */}
       <motion.section
         ref={cardsRef}
-        style={{ background: "#fff", padding: "60px 60px" }}
+        style={getCardsSectionStyle()}
         initial="hidden"
         animate={cardsControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Our <em style={styles.sectionHeadingItalic}>Services</em>
         </motion.h2>
         <motion.div
-          style={styles.cardsGrid}
+          style={{
+            display: "grid",
+            gridTemplateColumns: getCardsGridColumns(),
+            gap: 32
+          }}
           variants={cardContentStagger}
           initial="hidden"
           animate={cardsControls}
@@ -882,14 +1273,14 @@ const StudyAbroadPage: React.FC = () => {
       {/* ── DESTINATION CARDS ── */}
       <motion.section
         ref={destRef}
-        style={styles.destinationsSection}
+        style={getDestinationsSectionStyle()}
         initial="hidden"
         animate={destControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Study <em style={styles.sectionHeadingItalic}>Destinations</em>
         </motion.h2>
-        <div style={styles.destGrid}>
+        <div style={{ ...styles.destGrid, gridTemplateColumns: getDestGridColumns() }}>
           {destinationRows[0].map((d, idx) => (
             <motion.div
               key={d.country}
@@ -925,14 +1316,14 @@ const StudyAbroadPage: React.FC = () => {
       </motion.section>
 
       {/* ── WHY CHOOSE US + OUR PROCESS ── */}
-      <div ref={whyChooseProcessRef} style={styles.twoColumnSection}>
-        <div style={styles.twoColumnGrid}>
+      <div ref={whyChooseProcessRef} style={getTwoColumnSectionStyle()}>
+        <div style={getTwoColumnGridStyle()}>
           <div style={styles.leftColumn}>
             <motion.h2
               variants={textFromBottom}
               initial="hidden"
               animate={whyChooseControls}
-              style={styles.sectionHeading}
+              style={getSectionHeadingStyle()}
             >
               Why <em style={styles.sectionHeadingItalic}>Choose Us</em>
             </motion.h2>
@@ -963,7 +1354,7 @@ const StudyAbroadPage: React.FC = () => {
               variants={textFromBottom}
               initial="hidden"
               animate={ourProcessControls}
-              style={styles.sectionHeading}
+              style={getSectionHeadingStyle()}
             >
               Our <em style={styles.sectionHeadingItalic}>Process</em>
             </motion.h2>
@@ -976,14 +1367,19 @@ const StudyAbroadPage: React.FC = () => {
               Simple & Structured Process
             </motion.p>
             <motion.div
-              style={styles.processGrid}
+              style={{
+                display: "grid",
+                gridTemplateColumns: getProcessGridColumns(),
+                gap: 24,
+                marginTop: 40
+              }}
               variants={listFromRight}
               initial="hidden"
               animate={ourProcessControls}
             >
-              {processSteps.map((p, ) => (
+              {processSteps.map((p) => (
                 <motion.div key={p.step} variants={listItemRight} style={styles.processCard}>
-                  {/* <div style={styles.processNumber}>{p.step}</div> */}
+                  <div style={styles.processNumber}>{p.step}</div>
                   <h4 style={styles.processTitle}>{p.title}</h4>
                   <p style={styles.processDesc}>{p.desc}</p>
                 </motion.div>
@@ -996,17 +1392,17 @@ const StudyAbroadPage: React.FC = () => {
       {/* ── TESTIMONIAL SECTION ── */}
       <motion.section
         ref={testimonialRef}
-        style={styles.testimonialSection}
+        style={getTestimonialSectionStyle()}
         initial="hidden"
         animate={testimonialContentControls}
       >
         <motion.div
-          style={styles.testimonialContent}
+          style={getTestimonialContentStyle()}
           variants={textFromBottom}
           initial="hidden"
           animate={testimonialContentControls}
         >
-          <h2 style={styles.sectionHeading}>
+          <h2 style={getSectionHeadingStyle()}>
             Trusted By <em style={styles.sectionHeadingItalic}>Students & Parents</em>
           </h2>
           <p style={{ maxWidth: 600, fontSize: 15, lineHeight: 1.8, color: "#555", marginBottom: 20 }}>
@@ -1017,7 +1413,7 @@ const StudyAbroadPage: React.FC = () => {
           </p>
         </motion.div>
         <motion.div
-          style={styles.testimonialImageBox}
+          style={getTestimonialImageBoxStyle()}
           variants={imageFromRight}
           initial="hidden"
           animate={testimonialImageControls}
@@ -1031,7 +1427,7 @@ const StudyAbroadPage: React.FC = () => {
       </motion.section>
 
       {/* ── CTA with Contact Us Button ── */}
-      <div style={styles.ctaBanner}>
+      <div style={getCtaBannerStyle()}>
         Start Your Global Journey Today — speak with a <span style={styles.ctaSpan}>Study Abroad</span> expert.
         <div>
           <button onClick={handleContactClick} style={styles.ctaButton}>

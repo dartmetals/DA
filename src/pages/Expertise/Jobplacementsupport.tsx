@@ -14,12 +14,12 @@ const styles: Record<string, React.CSSProperties> = {
     backgroundSize: "cover",
     backgroundPosition: "center",
     color: "#0b50c0",
-    padding: "80px 60px",
+    padding: "60px 40px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center" as const,
-    minHeight: 520,
+    minHeight: 450,
     position: "relative",
     overflow: "hidden",
   },
@@ -45,7 +45,7 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     alignItems: "center",
     gap: 60,
-    padding: "70px 60px",
+    padding: "50px 40px",
     background: "#fff",
   },
   introImageBox: {
@@ -62,9 +62,9 @@ const styles: Record<string, React.CSSProperties> = {
   },
   introBody: { flex: 1 },
   introPara: { fontSize: 15, lineHeight: 1.75, color: "#333", marginBottom: 18 },
-  sectionHeading: { fontSize: 36, fontWeight: 700, color: "#1A1A1A", marginBottom: 48 },
+  sectionHeading: { fontSize: 36, fontWeight: 700, color: "#1A1A1A", marginBottom: 40 },
   sectionHeadingItalic: { fontStyle: "italic", color: "#2563EB" },
-  cardsSection: { background: "#F7F7F7", padding: "60px 60px" },
+  cardsSection: { background: "#F7F7F7", padding: "50px 40px" },
   cardsGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 32 },
   card: {
     borderRadius: 12,
@@ -110,7 +110,7 @@ const styles: Record<string, React.CSSProperties> = {
   cardBody4: { color: "#4A148C" },
   goldBanner: {
     background: "#EBF5FF",
-    padding: "70px 60px",
+    padding: "50px 40px",
     display: "flex",
     alignItems: "center",
     gap: 60,
@@ -134,7 +134,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   iconRow: {
     background: "#EBF5FF",
-    padding: "0 60px 70px",
+    padding: "0 40px 50px",
   },
   iconGrid: {
     display: "grid",
@@ -182,7 +182,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   techSection: {
     background: "#fff",
-    padding: "70px 60px",
+    padding: "50px 40px",
     display: "flex",
     alignItems: "center",
     gap: 60,
@@ -205,7 +205,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   techBody: { flex: 1 },
   techPara: { fontSize: 15, lineHeight: 1.75, color: "#333", marginBottom: 18 },
-  featureSection: { background: "#F7F7F7", padding: "60px 60px" },
+  featureSection: { background: "#F7F7F7", padding: "50px 40px" },
   featureGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 28 },
   featureCard: {
     background: "#fff",
@@ -253,7 +253,7 @@ const styles: Record<string, React.CSSProperties> = {
     background: "#1E3A5F",
     color: "#fff",
     textAlign: "center" as const,
-    padding: "48px 60px",
+    padding: "40px 40px",
     fontSize: 22,
     fontWeight: 700,
   },
@@ -303,7 +303,7 @@ const styles: Record<string, React.CSSProperties> = {
   // New styles for added content
   expertiseSection: {
     background: "#fff",
-    padding: "60px 60px",
+    padding: "50px 40px",
   },
   expertiseHeading: {
     fontSize: 28,
@@ -427,8 +427,9 @@ const styles: Record<string, React.CSSProperties> = {
   },
   contactInfo: {
     display: "flex",
-    justifyContent: "center",
-    gap: 32,
+    flexDirection: "column" as const,
+    alignItems: "center",
+    gap: 12,
     fontSize: 14,
   },
   footer: {
@@ -455,6 +456,21 @@ const styles: Record<string, React.CSSProperties> = {
 const JobPlacementSupportPage: React.FC = () => {
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [hoveredIcon, setHoveredIcon] = useState<number | null>(null);
+  
+  // State for responsive layout
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   // Auto-scaling animation for feature cards
   useEffect(() => {
@@ -476,9 +492,20 @@ const JobPlacementSupportPage: React.FC = () => {
   const techImageControls = useAnimation();
   const techContentControls = useAnimation();
   const featureCardsControls = useAnimation();
-  const expertiseSectionControls = useAnimation();
+  
+  // Individual section animation controls for expertise section
+  const expertiseMainControls = useAnimation();
+  const aboutServicesControls = useAnimation();
+  const ourServicesControls = useAnimation();
+  const outsourcingControls = useAnimation();
+  const cvMarketingControls = useAnimation();
+  const placementGuidanceControls = useAnimation();
+  const whyChooseControls = useAnimation();
+  const whoCanBenefitControls = useAnimation();
+  const ourProcessControls = useAnimation();
+  const ctaSmallControls = useAnimation();
 
-  // Refs - Fixed the type for expertiseRef
+  // Refs for each subsection
   const heroRef = useRef<HTMLElement>(null);
   const introRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLElement>(null);
@@ -486,7 +513,18 @@ const JobPlacementSupportPage: React.FC = () => {
   const iconRowRef = useRef<HTMLDivElement>(null);
   const techRef = useRef<HTMLElement>(null);
   const featureRef = useRef<HTMLElement>(null);
-  const expertiseRef = useRef<HTMLDivElement>(null); // Changed from HTMLElement to HTMLDivElement
+  
+  // Refs for expertise subsections
+  const expertiseMainRef = useRef<HTMLDivElement>(null);
+  const aboutServicesRef = useRef<HTMLDivElement>(null);
+  const ourServicesRef = useRef<HTMLDivElement>(null);
+  const outsourcingRef = useRef<HTMLDivElement>(null);
+  const cvMarketingRef = useRef<HTMLDivElement>(null);
+  const placementGuidanceRef = useRef<HTMLDivElement>(null);
+  const whyChooseRef = useRef<HTMLDivElement>(null);
+  const whoCanBenefitRef = useRef<HTMLDivElement>(null);
+  const ourProcessRef = useRef<HTMLDivElement>(null);
+  const ctaSmallRef = useRef<HTMLDivElement>(null);
 
   // Card color configurations
   const cardConfigs = [
@@ -565,15 +603,197 @@ const JobPlacementSupportPage: React.FC = () => {
     visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
   } as const;
 
+  // Responsive style functions
+  const getHeroBackgroundStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.hero, backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat", minHeight: 350, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.hero, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat", padding: "50px 30px" };
+    }
+    return styles.hero;
+  };
+
+  const getHeroHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroHeading, fontSize: 28 };
+    if (isTablet) return { ...styles.heroHeading, fontSize: 38 };
+    return styles.heroHeading;
+  };
+
+  const getHeroDescriptionStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroDescription, display: "none" };
+    if (isTablet) return { ...styles.heroDescription, fontSize: 14 };
+    return styles.heroDescription;
+  };
+
+  const getIntroSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.introSection, flexDirection: "column", padding: "30px 20px", textAlign: "center" };
+    }
+    return styles.introSection;
+  };
+
+  const getIntroBodyStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center", order: 1 };
+    }
+    return styles.introBody;
+  };
+
+  const getIntroImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 220, order: 2 };
+    }
+    if (isTablet) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 260, order: 2 };
+    }
+    return styles.introImageBox;
+  };
+
+  const getCardsGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(4, 1fr)";
+  };
+
+  const getCardsSectionStyle = (): React.CSSProperties => {
+    const baseStyle = { ...styles.cardsSection };
+    if (isMobile) {
+      baseStyle.padding = "30px 20px";
+    } else if (isTablet) {
+      baseStyle.padding = "40px 30px";
+    }
+    return baseStyle;
+  };
+
+  const getGoldBannerStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.goldBanner, flexDirection: "column", padding: "30px 20px", textAlign: "center" };
+    }
+    return styles.goldBanner;
+  };
+
+  const getGoldBannerImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.goldBannerImageBox, width: "100%", height: "auto", minHeight: 220 };
+    }
+    if (isTablet) {
+      return { ...styles.goldBannerImageBox, width: "100%", height: "auto", minHeight: 260 };
+    }
+    return styles.goldBannerImageBox;
+  };
+
+  const getIconGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(2, 1fr)";
+  };
+
+  const getTechSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.techSection, flexDirection: "column", padding: "30px 20px", textAlign: "center" };
+    }
+    return styles.techSection;
+  };
+
+  const getFeatureGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(4, 1fr)";
+  };
+
+  const getTwoColumnWrapperStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.twoColumnWrapper, flexDirection: "column", marginBottom: 32, textAlign: "center" };
+    }
+    return styles.twoColumnWrapper;
+  };
+
+  const getTwoColumnWrapperReverseStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.twoColumnWrapperReverse, flexDirection: "column", marginBottom: 32, textAlign: "center" };
+    }
+    return styles.twoColumnWrapperReverse;
+  };
+
+  const getContentColumnStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { flex: "0 0 100%", width: "100%", order: 1 };
+    }
+    return styles.contentColumn;
+  };
+
+  const getImageColumnStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { flex: "0 0 100%", width: "100%", marginTop: 20, order: 2 };
+    }
+    return styles.imageColumn;
+  };
+
+  const getServiceGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(4, 1fr)";
+  };
+
+  const getProcessGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(3, 1fr)";
+  };
+
+  const getExpertiseListColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(2, 1fr)";
+  };
+
+  const getSectionHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.sectionHeading, fontSize: 24, marginBottom: 28, textAlign: "center" };
+    if (isTablet) return { ...styles.sectionHeading, fontSize: 28, marginBottom: 35, textAlign: "center" };
+    return styles.sectionHeading;
+  };
+
+  const getIntroParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.introPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.introPara, fontSize: 14, textAlign: "center" };
+    return styles.introPara;
+  };
+
+  const getTechParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.techPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.techPara, fontSize: 14, textAlign: "center" };
+    return styles.techPara;
+  };
+
+  const getExpertiseTextStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.expertiseText, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.expertiseText, fontSize: 14, textAlign: "center" };
+    return styles.expertiseText;
+  };
+
+  const getServiceHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.serviceHeading, fontSize: 18, textAlign: "center" };
+    if (isTablet) return { ...styles.serviceHeading, fontSize: 20, textAlign: "center" };
+    return styles.serviceHeading;
+  };
+
+  const getServiceSubheadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.serviceSubheading, fontSize: 15, textAlign: "center" };
+    if (isTablet) return { ...styles.serviceSubheading, fontSize: 16, textAlign: "center" };
+    return styles.serviceSubheading;
+  };
+
   // Contact Us button click handler
   const handleContactClick = () => {
     window.location.href = "/contact-us";
   };
 
-  // Intersection Observer setup (removed triggerOnce)
+  // Intersection Observer setup with separate observers for each subsection
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
+    // Hero observer
     if (heroRef.current) {
       const heroObserver = new IntersectionObserver(
         ([entry]) => {
@@ -591,6 +811,7 @@ const JobPlacementSupportPage: React.FC = () => {
       observers.push(heroObserver);
     }
 
+    // Intro observer
     if (introRef.current) {
       const introObserver = new IntersectionObserver(
         ([entry]) => {
@@ -608,6 +829,7 @@ const JobPlacementSupportPage: React.FC = () => {
       observers.push(introObserver);
     }
 
+    // Cards observer
     if (cardsRef.current) {
       const cardsObserver = new IntersectionObserver(
         ([entry]) => {
@@ -623,6 +845,7 @@ const JobPlacementSupportPage: React.FC = () => {
       observers.push(cardsObserver);
     }
 
+    // Gold Banner observer
     if (goldBannerRef.current) {
       const goldObserver = new IntersectionObserver(
         ([entry]) => {
@@ -640,6 +863,7 @@ const JobPlacementSupportPage: React.FC = () => {
       observers.push(goldObserver);
     }
 
+    // Icon Row observer
     if (iconRowRef.current) {
       const iconObserver = new IntersectionObserver(
         ([entry]) => {
@@ -655,6 +879,7 @@ const JobPlacementSupportPage: React.FC = () => {
       observers.push(iconObserver);
     }
 
+    // Tech Section observer
     if (techRef.current) {
       const techObserver = new IntersectionObserver(
         ([entry]) => {
@@ -672,6 +897,7 @@ const JobPlacementSupportPage: React.FC = () => {
       observers.push(techObserver);
     }
 
+    // Feature Cards observer
     if (featureRef.current) {
       const featureObserver = new IntersectionObserver(
         ([entry]) => {
@@ -687,19 +913,164 @@ const JobPlacementSupportPage: React.FC = () => {
       observers.push(featureObserver);
     }
 
-    if (expertiseRef.current) {
-      const expertiseObserver = new IntersectionObserver(
+    // Expertise Main Section observer
+    if (expertiseMainRef.current) {
+      const expertiseMainObserver = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            expertiseSectionControls.start("visible");
+            expertiseMainControls.start("visible");
           } else {
-            expertiseSectionControls.set("hidden");
+            expertiseMainControls.set("hidden");
           }
         },
-        { threshold: 0.1 }
+        { threshold: 0.3 }
       );
-      expertiseObserver.observe(expertiseRef.current);
-      observers.push(expertiseObserver);
+      expertiseMainObserver.observe(expertiseMainRef.current);
+      observers.push(expertiseMainObserver);
+    }
+
+    // About Services observer
+    if (aboutServicesRef.current) {
+      const aboutServicesObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            aboutServicesControls.start("visible");
+          } else {
+            aboutServicesControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      aboutServicesObserver.observe(aboutServicesRef.current);
+      observers.push(aboutServicesObserver);
+    }
+
+    // Our Services observer
+    if (ourServicesRef.current) {
+      const ourServicesObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            ourServicesControls.start("visible");
+          } else {
+            ourServicesControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      ourServicesObserver.observe(ourServicesRef.current);
+      observers.push(ourServicesObserver);
+    }
+
+    // Outsourcing Services observer
+    if (outsourcingRef.current) {
+      const outsourcingObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            outsourcingControls.start("visible");
+          } else {
+            outsourcingControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      outsourcingObserver.observe(outsourcingRef.current);
+      observers.push(outsourcingObserver);
+    }
+
+    // CV Marketing observer
+    if (cvMarketingRef.current) {
+      const cvMarketingObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            cvMarketingControls.start("visible");
+          } else {
+            cvMarketingControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      cvMarketingObserver.observe(cvMarketingRef.current);
+      observers.push(cvMarketingObserver);
+    }
+
+    // Placement Guidance observer
+    if (placementGuidanceRef.current) {
+      const placementGuidanceObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            placementGuidanceControls.start("visible");
+          } else {
+            placementGuidanceControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      placementGuidanceObserver.observe(placementGuidanceRef.current);
+      observers.push(placementGuidanceObserver);
+    }
+
+    // Why Choose observer
+    if (whyChooseRef.current) {
+      const whyChooseObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            whyChooseControls.start("visible");
+          } else {
+            whyChooseControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      whyChooseObserver.observe(whyChooseRef.current);
+      observers.push(whyChooseObserver);
+    }
+
+    // Who Can Benefit observer
+    if (whoCanBenefitRef.current) {
+      const whoCanBenefitObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            whoCanBenefitControls.start("visible");
+          } else {
+            whoCanBenefitControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      whoCanBenefitObserver.observe(whoCanBenefitRef.current);
+      observers.push(whoCanBenefitObserver);
+    }
+
+    // Our Process observer
+    if (ourProcessRef.current) {
+      const ourProcessObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            ourProcessControls.start("visible");
+          } else {
+            ourProcessControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      ourProcessObserver.observe(ourProcessRef.current);
+      observers.push(ourProcessObserver);
+    }
+
+    // CTA Small observer
+    if (ctaSmallRef.current) {
+      const ctaSmallObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            ctaSmallControls.start("visible");
+          } else {
+            ctaSmallControls.set("hidden");
+          }
+        },
+        { threshold: 0.3 }
+      );
+      ctaSmallObserver.observe(ctaSmallRef.current);
+      observers.push(ctaSmallObserver);
     }
 
     return () => {
@@ -740,26 +1111,24 @@ const JobPlacementSupportPage: React.FC = () => {
       {/* ── HERO ── */}
       <motion.section
         ref={heroRef}
-        style={styles.hero}
+        style={getHeroBackgroundStyle()}
         initial="hidden"
         animate={heroImageControls}
         variants={imageFromLeft}
       >
-        <div style={styles.heroOverlay} />
-        <div style={styles.heroOverlay2} />
         <motion.div
           style={styles.heroText}
           variants={textFromBottom}
           initial="hidden"
           animate={heroTextControls}
         >
-          <h1 style={styles.heroHeading}>
+          <h1 style={getHeroHeadingStyle()}>
             Making
             the right<br />
             career move
             happen
           </h1>
-          <p style={styles.heroDescription}>
+          <p style={getHeroDescriptionStyle()}>
             Get personalized job placement support, resume optimization,<br />
             and interview preparation to land your dream career.
           </p>
@@ -767,10 +1136,29 @@ const JobPlacementSupportPage: React.FC = () => {
         <div style={styles.heroImagePlaceholder}>[ Job Placement Hero Image ]</div>
       </motion.section>
 
-      {/* ── INTRO ── */}
-      <section ref={introRef} style={styles.introSection}>
+      {/* ── INTRO (Content on Above, Image Below) ── */}
+      <section ref={introRef} style={getIntroSectionStyle()}>
         <motion.div
-          style={styles.introImageBox}
+          style={getIntroBodyStyle()}
+          variants={contentFromLeft}
+          initial="hidden"
+          animate={introContentControls}
+        >
+          <p style={getIntroParaStyle()}>
+            Finding the right job is not just about sending applications, it is about positioning yourself correctly in a competitive market, understanding what employers truly seek, and having the right support at every step of the journey.
+          </p>
+          <p style={getIntroParaStyle()}>
+            With more than two decades of experience connecting talent with leading organisations, we are uniquely positioned to guide candidates toward roles that align not just with their skills, but with their ambitions, values, and long-term career goals.
+          </p>
+          <p style={getIntroParaStyle()}>
+            Our job placement support goes beyond a simple job board. We provide end-to-end assistance  from resume building and interview preparation to employer connects and offer negotiation  ensuring that every candidate we support is set up for lasting success.
+          </p>
+          <p style={getIntroParaStyle()}>
+            Whether you are a fresh graduate entering the workforce for the first time or an experienced professional seeking your next big move, our expert team and deep employer network are here to make it happen.
+          </p>
+        </motion.div>
+        <motion.div
+          style={getIntroImageBoxStyle()}
           variants={imageFromRight}
           initial="hidden"
           animate={introImageControls}
@@ -781,39 +1169,20 @@ const JobPlacementSupportPage: React.FC = () => {
             style={styles.introImage}
           />
         </motion.div>
-        <motion.div
-          style={styles.introBody}
-          variants={contentFromLeft}
-          initial="hidden"
-          animate={introContentControls}
-        >
-          <p style={styles.introPara}>
-            Finding the right job is not just about sending applications, it is about positioning yourself correctly in a competitive market, understanding what employers truly seek, and having the right support at every step of the journey.
-          </p>
-          <p style={styles.introPara}>
-            With more than two decades of experience connecting talent with leading organisations, we are uniquely positioned to guide candidates toward roles that align not just with their skills, but with their ambitions, values, and long-term career goals.
-          </p>
-          <p style={styles.introPara}>
-            Our job placement support goes beyond a simple job board. We provide end-to-end assistance  from resume building and interview preparation to employer connects and offer negotiation  ensuring that every candidate we support is set up for lasting success.
-          </p>
-          <p style={styles.introPara}>
-            Whether you are a fresh graduate entering the workforce for the first time or an experienced professional seeking your next big move, our expert team and deep employer network are here to make it happen.
-          </p>
-        </motion.div>
       </section>
 
-      {/* ── CARDS (4 cards in one row) ── */}
+      {/* ── CARDS (4 cards) ── */}
       <motion.section
         ref={cardsRef}
-        style={styles.cardsSection}
+        style={getCardsSectionStyle()}
         initial="hidden"
         animate={cardsControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Making <em style={styles.sectionHeadingItalic}>seamless job placement happen</em>
         </motion.h2>
         <motion.div
-          style={styles.cardsGrid}
+          style={{ ...styles.cardsGrid, gridTemplateColumns: getCardsGridColumns() }}
           variants={cardContentStagger}
           initial="hidden"
           animate={cardsControls}
@@ -839,7 +1208,7 @@ const JobPlacementSupportPage: React.FC = () => {
       </motion.section>
 
       {/* ── GOLD BANNER (Image on Right, Content on Left) ── */}
-      <section ref={goldBannerRef} style={styles.goldBanner}>
+      <section ref={goldBannerRef} style={getGoldBannerStyle()}>
         <motion.div
           style={styles.goldBannerText}
           variants={contentFromLeft}
@@ -858,7 +1227,7 @@ const JobPlacementSupportPage: React.FC = () => {
           <p style={styles.goldBannerPara}>Here's how we are able to do that:</p>
         </motion.div>
         <motion.div
-          style={styles.goldBannerImageBox}
+          style={getGoldBannerImageBoxStyle()}
           variants={imageFromRight}
           initial="hidden"
           animate={goldBannerImageControls}
@@ -879,7 +1248,7 @@ const JobPlacementSupportPage: React.FC = () => {
         initial="hidden"
         animate={iconRowControls}
       >
-        <div style={styles.iconGrid}>
+        <div style={{ ...styles.iconGrid, gridTemplateColumns: getIconGridColumns() }}>
           {iconItems.map((item, i) => (
             <motion.div
               key={i}
@@ -908,35 +1277,35 @@ const JobPlacementSupportPage: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* ── TECH SECTION (Image on Right, Content on Left - 70%/30%) ── */}
+      {/* ── TECH SECTION (Image on Right, Content on Left) ── */}
       <motion.section
         ref={techRef}
-        style={styles.techSection}
+        style={getTechSectionStyle()}
         initial="hidden"
         animate={techImageControls}
       >
-        <div style={styles.contentColumn}>
+        <div style={getContentColumnStyle()}>
           <motion.div
             variants={contentFromLeft}
             initial="hidden"
             animate={techContentControls}
           >
-            <p style={styles.techPara}>
+            <p style={getTechParaStyle()}>
               Job placement in the past was driven by newspapers, walk-in interviews, and word-of-mouth referrals. We have been at the forefront of the transformation that has made recruitment faster, smarter, and more accurate than ever before.
             </p>
-            <p style={styles.techPara}>
+            <p style={getTechParaStyle()}>
               We have seen how job matching has evolved from paper applications to intelligent AI-driven platforms. That experience gives us the foresight to help candidates navigate modern recruitment processes and stand out in a crowded market.
             </p>
-            <p style={styles.techPara}>
+            <p style={getTechParaStyle()}>
               With the help of our group company HirePro, we deploy AI-powered job matching, automated skill assessments, and data-driven career coaching tools that give every candidate a significant advantage in their job search.
             </p>
-            <p style={styles.techPara}>
+            <p style={getTechParaStyle()}>
               Our platform delivers personalised job recommendations, real-time application tracking, and structured feedback from every interview  turning each experience into a stepping stone toward the right opportunity.
             </p>
           </motion.div>
         </div>
         <motion.div
-          style={styles.imageColumn}
+          style={getImageColumnStyle()}
           variants={imageFromRight}
           initial="hidden"
           animate={techImageControls}
@@ -949,18 +1318,18 @@ const JobPlacementSupportPage: React.FC = () => {
         </motion.div>
       </motion.section>
 
-      {/* ── FEATURE CARDS (8 cards, 4 per row, auto-scaling animation) ── */}
+      {/* ── FEATURE CARDS (8 cards) ── */}
       <motion.section
         ref={featureRef}
         style={styles.featureSection}
         initial="hidden"
         animate={featureCardsControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Features
         </motion.h2>
         <motion.div
-          style={styles.featureGrid}
+          style={{ ...styles.featureGrid, gridTemplateColumns: getFeatureGridColumns() }}
           variants={cardContentStagger}
           initial="hidden"
           animate={featureCardsControls}
@@ -1005,72 +1374,79 @@ const JobPlacementSupportPage: React.FC = () => {
       </div>
 
       {/* ── NEW JOB PLACEMENT SUPPORT EXPERTISE SECTION ── */}
-      <motion.div
-        ref={expertiseRef}
-        style={styles.expertiseSection}
-        variants={fromRightStagger}
-        initial="hidden"
-        animate={expertiseSectionControls}
-      >
+      <div style={styles.expertiseSection}>
+        
         {/* Expertise Section - Image on Right, Content on Left (70%/30%) */}
-        <div style={styles.twoColumnWrapper}>
-          <div style={styles.contentColumn}>
-            <motion.h2 variants={fromRightItem} style={styles.expertiseHeading}>JOB PLACEMENT SUPPORT EXPERTISE</motion.h2>
-            <motion.p variants={fromRightItem} style={styles.expertiseSubheading}>Empowering Careers Through Placement Support & Global Opportunities</motion.p>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              At Data Artisans, we help students, freshers, and working professionals achieve successful careers 
-              through dedicated job placement support, outsourcing solutions, CV marketing services, and 
-              professional career guidance.
-            </motion.p>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              Our goal is to bridge the gap between talent and industry by providing practical career support, 
-              professional mentoring, and access to opportunities across India and international markets.
-            </motion.p>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              We work closely with hiring partners, recruiters, consulting firms, and industry professionals to help 
-              candidates improve employability, build strong professional profiles, and secure career opportunities 
-              in competitive job markets.
-            </motion.p>
-            
-            <motion.div variants={fromRightItem} style={styles.expertiseList}>
-              <div style={styles.expertiseListItem}>✔ Placement Assistance</div>
-              <div style={styles.expertiseListItem}>✔ CV Marketing Services</div>
-              <div style={styles.expertiseListItem}>✔ Outsourcing Support</div>
-              <div style={styles.expertiseListItem}>✔ Interview Preparation</div>
-              <div style={styles.expertiseListItem}>✔ Resume Optimization</div>
-              <div style={styles.expertiseListItem}>✔ Career Mentorship</div>
+        <motion.div
+          ref={expertiseMainRef}
+          variants={fromRightStagger}
+          initial="hidden"
+          animate={expertiseMainControls}
+        >
+          <div style={getTwoColumnWrapperStyle()}>
+            <div style={getContentColumnStyle()}>
+              <motion.h2 variants={fromRightItem} style={styles.expertiseHeading}>JOB PLACEMENT SUPPORT EXPERTISE</motion.h2>
+              <motion.p variants={fromRightItem} style={styles.expertiseSubheading}>Empowering Careers Through Placement Support & Global Opportunities</motion.p>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                At Data Artisans, we help students, freshers, and working professionals achieve successful careers 
+                through dedicated job placement support, outsourcing solutions, CV marketing services, and 
+                professional career guidance.
+              </motion.p>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                Our goal is to bridge the gap between talent and industry by providing practical career support, 
+                professional mentoring, and access to opportunities across India and international markets.
+              </motion.p>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                We work closely with hiring partners, recruiters, consulting firms, and industry professionals to help 
+                candidates improve employability, build strong professional profiles, and secure career opportunities 
+                in competitive job markets.
+              </motion.p>
+              
+              <motion.div variants={fromRightItem} style={{ ...styles.expertiseList, gridTemplateColumns: getExpertiseListColumns() }}>
+                <div style={styles.expertiseListItem}>✔ Placement Assistance</div>
+                <div style={styles.expertiseListItem}>✔ CV Marketing Services</div>
+                <div style={styles.expertiseListItem}>✔ Outsourcing Support</div>
+                <div style={styles.expertiseListItem}>✔ Interview Preparation</div>
+                <div style={styles.expertiseListItem}>✔ Resume Optimization</div>
+                <div style={styles.expertiseListItem}>✔ Career Mentorship</div>
+              </motion.div>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                Helping candidates build successful careers with confidence and industry readiness.
+              </motion.p>
+            </div>
+            <motion.div variants={imageFromRight} style={getImageColumnStyle()}>
+              <img src="/jobplacement-img3.jpg" alt="Job Placement Expertise" style={styles.sectionImage} />
             </motion.div>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              Helping candidates build successful careers with confidence and industry readiness.
-            </motion.p>
           </div>
-          <motion.div variants={imageFromRight} style={styles.imageColumn}>
-            <img src="/jobplacement-img3.jpg" alt="Job Placement Expertise" style={styles.sectionImage} />
-          </motion.div>
-        </div>
+        </motion.div>
 
         {/* ABOUT OUR SERVICES - Full Width */}
-        <motion.div>
-          <motion.h3 variants={fromRightItem} style={styles.serviceHeading}>ABOUT OUR SERVICES</motion.h3>
-          <motion.h4 variants={fromRightItem} style={styles.serviceSubheading}>Career-Focused Placement Solutions</motion.h4>
+        <motion.div
+          ref={aboutServicesRef}
+          variants={fromRightStagger}
+          initial="hidden"
+          animate={aboutServicesControls}
+        >
+          <motion.h3 variants={fromRightItem} style={getServiceHeadingStyle()}>ABOUT OUR SERVICES</motion.h3>
+          <motion.h4 variants={fromRightItem} style={getServiceSubheadingStyle()}>Career-Focused Placement Solutions</motion.h4>
           
-          <motion.p variants={fromRightItem} style={styles.expertiseText}>
+          <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
             At Data Artisans, we understand that building a successful career requires more than technical skills. 
             Candidates need the right guidance, professional presentation, interview preparation, and industry 
             exposure to secure opportunities in today's competitive market.
           </motion.p>
           
-          <motion.p variants={fromRightItem} style={styles.expertiseText}>
+          <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
             Our placement support services are designed to help candidates identify suitable career 
             opportunities, strengthen professional profiles, and improve hiring success rates through structured 
             career guidance and industry-focused support.
           </motion.p>
           
-          <motion.p variants={fromRightItem} style={styles.expertiseText}>
+          <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
             We provide personalized assistance for freshers, experienced professionals, career switchers, and 
             international job aspirants looking to explore opportunities across various industries and 
             technologies.
@@ -1078,11 +1454,16 @@ const JobPlacementSupportPage: React.FC = () => {
         </motion.div>
 
         {/* OUR SERVICES - Full Width */}
-        <motion.div>
-          <motion.h3 variants={fromRightItem} style={styles.serviceHeading}>OUR SERVICES</motion.h3>
-          <motion.h4 variants={fromRightItem} style={styles.serviceSubheading}>End-To-End Career Support Services</motion.h4>
+        <motion.div
+          ref={ourServicesRef}
+          variants={fromRightStagger}
+          initial="hidden"
+          animate={ourServicesControls}
+        >
+          <motion.h3 variants={fromRightItem} style={getServiceHeadingStyle()}>OUR SERVICES</motion.h3>
+          <motion.h4 variants={fromRightItem} style={getServiceSubheadingStyle()}>End-To-End Career Support Services</motion.h4>
           
-          <motion.div variants={fromRightItem} style={styles.serviceGrid}>
+          <motion.div variants={fromRightItem} style={{ ...styles.serviceGrid, gridTemplateColumns: getServiceGridColumns() }}>
             <div style={styles.serviceItem}>
               <div style={styles.serviceItemTitle}>Job Placement Support</div>
               <div style={styles.serviceItemDesc}>Comprehensive placement assistance for IT and Non-IT candidates through industry-focused preparation and opportunity mapping.</div>
@@ -1119,165 +1500,205 @@ const JobPlacementSupportPage: React.FC = () => {
         </motion.div>
 
         {/* OUTSOURCING SERVICES - Image on Right, Content on Left (70%/30%) */}
-        <div style={styles.twoColumnWrapper}>
-          <div style={styles.contentColumn}>
-            <motion.h3 variants={fromRightItem} style={styles.serviceHeading}>OUTSOURCING SERVICES</motion.h3>
-            <motion.h4 variants={fromRightItem} style={styles.serviceSubheading}>Professional Outsourcing Solutions</motion.h4>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              Data Artisans provides outsourcing support services for businesses seeking reliable professionals and 
-              scalable workforce solutions.
-            </motion.p>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              We assist organizations with talent sourcing, technical resource support, operational staffing, and 
-              project-based workforce requirements across multiple domains.
-            </motion.p>
-            
-            <motion.div variants={fromRightItem} style={styles.expertiseList}>
-              <div style={styles.expertiseListItem}>✔ Technical Resource Support</div>
-              <div style={styles.expertiseListItem}>✔ Contract Staffing Assistance</div>
-              <div style={styles.expertiseListItem}>✔ Remote Workforce Solutions</div>
-              <div style={styles.expertiseListItem}>✔ Project-Based Hiring Support</div>
-              <div style={styles.expertiseListItem}>✔ Business Operations Assistance</div>
-              <div style={styles.expertiseListItem}>✔ Flexible Staffing Models</div>
+        <motion.div
+          ref={outsourcingRef}
+          variants={fromRightStagger}
+          initial="hidden"
+          animate={outsourcingControls}
+        >
+          <div style={getTwoColumnWrapperStyle()}>
+            <div style={getContentColumnStyle()}>
+              <motion.h3 variants={fromRightItem} style={getServiceHeadingStyle()}>OUTSOURCING SERVICES</motion.h3>
+              <motion.h4 variants={fromRightItem} style={getServiceSubheadingStyle()}>Professional Outsourcing Solutions</motion.h4>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                Data Artisans provides outsourcing support services for businesses seeking reliable professionals and 
+                scalable workforce solutions.
+              </motion.p>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                We assist organizations with talent sourcing, technical resource support, operational staffing, and 
+                project-based workforce requirements across multiple domains.
+              </motion.p>
+              
+              <motion.div variants={fromRightItem} style={{ ...styles.expertiseList, gridTemplateColumns: getExpertiseListColumns() }}>
+                <div style={styles.expertiseListItem}>✔ Technical Resource Support</div>
+                <div style={styles.expertiseListItem}>✔ Contract Staffing Assistance</div>
+                <div style={styles.expertiseListItem}>✔ Remote Workforce Solutions</div>
+                <div style={styles.expertiseListItem}>✔ Project-Based Hiring Support</div>
+                <div style={styles.expertiseListItem}>✔ Business Operations Assistance</div>
+                <div style={styles.expertiseListItem}>✔ Flexible Staffing Models</div>
+              </motion.div>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                Our outsourcing services help businesses improve productivity, optimize operational efficiency, and 
+                access skilled professionals quickly.
+              </motion.p>
+            </div>
+            <motion.div variants={imageFromRight} style={getImageColumnStyle()}>
+              <img src="/jobplacement-img4.jpg" alt="Outsourcing Services" style={styles.sectionImage} />
             </motion.div>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              Our outsourcing services help businesses improve productivity, optimize operational efficiency, and 
-              access skilled professionals quickly.
-            </motion.p>
           </div>
-          <motion.div variants={imageFromRight} style={styles.imageColumn}>
-            <img src="/jobplacement-img4.jpg" alt="Outsourcing Services" style={styles.sectionImage} />
-          </motion.div>
-        </div>
+        </motion.div>
 
         {/* CV MARKETING SERVICES - Image on Left, Content on Right (70%/30%) */}
-        <div style={styles.twoColumnWrapperReverse}>
-          <div style={styles.contentColumn}>
-            <motion.h3 variants={fromRightItem} style={styles.serviceHeading}>CV MARKETING SERVICES</motion.h3>
-            <motion.h4 variants={fromRightItem} style={styles.serviceSubheading}>Professional CV Marketing & Profile Branding</motion.h4>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              Our CV marketing services are designed to increase candidate visibility and improve job search 
-              effectiveness.
-            </motion.p>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              We help candidates professionally present their skills, experience, certifications, and project 
-              expertise to recruiters and hiring organizations.
-            </motion.p>
-            
-            <motion.div variants={fromRightItem} style={styles.expertiseList}>
-              <div style={styles.expertiseListItem}>✔ ATS-Friendly Resume Preparation</div>
-              <div style={styles.expertiseListItem}>✔ Professional Profile Enhancement</div>
-              <div style={styles.expertiseListItem}>✔ LinkedIn Optimization</div>
-              <div style={styles.expertiseListItem}>✔ Job Portal Profile Management</div>
-              <div style={styles.expertiseListItem}>✔ Recruiter Outreach Support</div>
-              <div style={styles.expertiseListItem}>✔ Career Positioning Guidance</div>
+        <motion.div
+          ref={cvMarketingRef}
+          variants={fromRightStagger}
+          initial="hidden"
+          animate={cvMarketingControls}
+        >
+          <div style={getTwoColumnWrapperReverseStyle()}>
+            <div style={getContentColumnStyle()}>
+              <motion.h3 variants={fromRightItem} style={getServiceHeadingStyle()}>CV MARKETING SERVICES</motion.h3>
+              <motion.h4 variants={fromRightItem} style={getServiceSubheadingStyle()}>Professional CV Marketing & Profile Branding</motion.h4>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                Our CV marketing services are designed to increase candidate visibility and improve job search 
+                effectiveness.
+              </motion.p>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                We help candidates professionally present their skills, experience, certifications, and project 
+                expertise to recruiters and hiring organizations.
+              </motion.p>
+              
+              <motion.div variants={fromRightItem} style={{ ...styles.expertiseList, gridTemplateColumns: getExpertiseListColumns() }}>
+                <div style={styles.expertiseListItem}>✔ ATS-Friendly Resume Preparation</div>
+                <div style={styles.expertiseListItem}>✔ Professional Profile Enhancement</div>
+                <div style={styles.expertiseListItem}>✔ LinkedIn Optimization</div>
+                <div style={styles.expertiseListItem}>✔ Job Portal Profile Management</div>
+                <div style={styles.expertiseListItem}>✔ Recruiter Outreach Support</div>
+                <div style={styles.expertiseListItem}>✔ Career Positioning Guidance</div>
+              </motion.div>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                We focus on creating strong professional branding that helps candidates stand out in competitive job 
+                markets.
+              </motion.p>
+            </div>
+            <motion.div variants={imageFromLeft} style={getImageColumnStyle()}>
+              <img src="/jobplacement-img5.jpg" alt="CV Marketing Services" style={styles.sectionImage} />
             </motion.div>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              We focus on creating strong professional branding that helps candidates stand out in competitive job 
-              markets.
-            </motion.p>
           </div>
-          <motion.div variants={imageFromLeft} style={styles.imageColumn}>
-            <img src="/jobplacement-img5.jpg" alt="CV Marketing Services" style={styles.sectionImage} />
-          </motion.div>
-        </div>
+        </motion.div>
 
         {/* PLACEMENT GUIDANCE - Image on Right, Content on Left (70%/30%) */}
-        <div style={styles.twoColumnWrapper}>
-          <div style={styles.contentColumn}>
-            <motion.h3 variants={fromRightItem} style={styles.serviceHeading}>PLACEMENT GUIDANCE</motion.h3>
-            <motion.h4 variants={fromRightItem} style={styles.serviceSubheading}>Complete Career Guidance & Placement Assistance</motion.h4>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              At Data Artisans, we provide strategic career support to help candidates confidently prepare for 
-              interviews and placement opportunities.
-            </motion.p>
-            
-            <motion.div variants={fromRightItem} style={styles.expertiseList}>
-              <div style={styles.expertiseListItem}>✔ Career Roadmap Planning</div>
-              <div style={styles.expertiseListItem}>✔ Technology & Domain Guidance</div>
-              <div style={styles.expertiseListItem}>✔ Resume & Portfolio Support</div>
-              <div style={styles.expertiseListItem}>✔ Mock Interviews</div>
-              <div style={styles.expertiseListItem}>✔ HR Interview Preparation</div>
-              <div style={styles.expertiseListItem}>✔ Communication Skill Development</div>
-              <div style={styles.expertiseListItem}>✔ Job Search Strategy Guidance</div>
-              <div style={styles.expertiseListItem}>✔ Professional Mentorship</div>
+        <motion.div
+          ref={placementGuidanceRef}
+          variants={fromRightStagger}
+          initial="hidden"
+          animate={placementGuidanceControls}
+        >
+          <div style={getTwoColumnWrapperStyle()}>
+            <div style={getContentColumnStyle()}>
+              <motion.h3 variants={fromRightItem} style={getServiceHeadingStyle()}>PLACEMENT GUIDANCE</motion.h3>
+              <motion.h4 variants={fromRightItem} style={getServiceSubheadingStyle()}>Complete Career Guidance & Placement Assistance</motion.h4>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                At Data Artisans, we provide strategic career support to help candidates confidently prepare for 
+                interviews and placement opportunities.
+              </motion.p>
+              
+              <motion.div variants={fromRightItem} style={{ ...styles.expertiseList, gridTemplateColumns: getExpertiseListColumns() }}>
+                <div style={styles.expertiseListItem}>✔ Career Roadmap Planning</div>
+                <div style={styles.expertiseListItem}>✔ Technology & Domain Guidance</div>
+                <div style={styles.expertiseListItem}>✔ Resume & Portfolio Support</div>
+                <div style={styles.expertiseListItem}>✔ Mock Interviews</div>
+                <div style={styles.expertiseListItem}>✔ HR Interview Preparation</div>
+                <div style={styles.expertiseListItem}>✔ Communication Skill Development</div>
+                <div style={styles.expertiseListItem}>✔ Job Search Strategy Guidance</div>
+                <div style={styles.expertiseListItem}>✔ Professional Mentorship</div>
+              </motion.div>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                Our placement-focused approach helps candidates improve confidence, technical readiness, and 
+                interview performance.
+              </motion.p>
+            </div>
+            <motion.div variants={imageFromRight} style={getImageColumnStyle()}>
+              <img src="/jobplacement-img6.jpg" alt="Placement Guidance" style={styles.sectionImage} />
             </motion.div>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              Our placement-focused approach helps candidates improve confidence, technical readiness, and 
-              interview performance.
-            </motion.p>
           </div>
-          <motion.div variants={imageFromRight} style={styles.imageColumn}>
-            <img src="/jobplacement-img6.jpg" alt="Placement Guidance" style={styles.sectionImage} />
-          </motion.div>
-        </div>
+        </motion.div>
 
         {/* WHY CHOOSE DATA ARTISANS - Image on Left, Content on Right (70%/30%) */}
-        <div style={styles.twoColumnWrapperReverse}>
-          <div style={styles.contentColumn}>
-            <motion.h3 variants={fromRightItem} style={styles.serviceHeading}>WHY CHOOSE DATA ARTISANS</motion.h3>
-            <motion.h4 variants={fromRightItem} style={styles.serviceSubheading}>Why Candidates Trust Us</motion.h4>
-            
-            <motion.div variants={fromRightItem} style={styles.expertiseList}>
-              <div style={styles.expertiseListItem}>✔ Industry-Focused Career Support</div>
-              <div style={styles.expertiseListItem}>✔ Experienced Mentorship</div>
-              <div style={styles.expertiseListItem}>✔ Placement-Oriented Guidance</div>
-              <div style={styles.expertiseListItem}>✔ Professional CV Marketing</div>
-              <div style={styles.expertiseListItem}>✔ Real-Time Career Assistance</div>
-              <div style={styles.expertiseListItem}>✔ Flexible Support Models</div>
-              <div style={styles.expertiseListItem}>✔ Personalized Career Planning</div>
-              <div style={styles.expertiseListItem}>✔ End-To-End Professional Guidance</div>
+        <motion.div
+          ref={whyChooseRef}
+          variants={fromRightStagger}
+          initial="hidden"
+          animate={whyChooseControls}
+        >
+          <div style={getTwoColumnWrapperReverseStyle()}>
+            <div style={getContentColumnStyle()}>
+              <motion.h3 variants={fromRightItem} style={getServiceHeadingStyle()}>WHY CHOOSE DATA ARTISANS</motion.h3>
+              <motion.h4 variants={fromRightItem} style={getServiceSubheadingStyle()}>Why Candidates Trust Us</motion.h4>
+              
+              <motion.div variants={fromRightItem} style={{ ...styles.expertiseList, gridTemplateColumns: getExpertiseListColumns() }}>
+                <div style={styles.expertiseListItem}>✔ Industry-Focused Career Support</div>
+                <div style={styles.expertiseListItem}>✔ Experienced Mentorship</div>
+                <div style={styles.expertiseListItem}>✔ Placement-Oriented Guidance</div>
+                <div style={styles.expertiseListItem}>✔ Professional CV Marketing</div>
+                <div style={styles.expertiseListItem}>✔ Real-Time Career Assistance</div>
+                <div style={styles.expertiseListItem}>✔ Flexible Support Models</div>
+                <div style={styles.expertiseListItem}>✔ Personalized Career Planning</div>
+                <div style={styles.expertiseListItem}>✔ End-To-End Professional Guidance</div>
+              </motion.div>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                We focus on helping candidates build strong professional profiles and achieve sustainable long-term 
+                career growth.
+              </motion.p>
+            </div>
+            <motion.div variants={imageFromLeft} style={getImageColumnStyle()}>
+              <img src="/jobplacement-img7.jpg" alt="Why Choose Data Artisans" style={styles.sectionImage} />
             </motion.div>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              We focus on helping candidates build strong professional profiles and achieve sustainable long-term 
-              career growth.
-            </motion.p>
           </div>
-          <motion.div variants={imageFromLeft} style={styles.imageColumn}>
-            <img src="/jobplacement-img7.jpg" alt="Why Choose Data Artisans" style={styles.sectionImage} />
-          </motion.div>
-        </div>
+        </motion.div>
 
         {/* WHO CAN BENEFIT - Image on Right, Content on Left (70%/30%) */}
-        <div style={styles.twoColumnWrapper}>
-          <div style={styles.contentColumn}>
-            <motion.h3 variants={fromRightItem} style={styles.serviceHeading}>WHO CAN BENEFIT</motion.h3>
-            <motion.h4 variants={fromRightItem} style={styles.serviceSubheading}>Designed For</motion.h4>
-            
-            <motion.div variants={fromRightItem} style={styles.whoList}>
-              <span style={styles.whoItem}>Freshers</span>
-              <span style={styles.whoItem}>Experienced Professionals</span>
-              <span style={styles.whoItem}>IT & Non-IT Candidates</span>
-              <span style={styles.whoItem}>Career Switchers</span>
-              <span style={styles.whoItem}>International Job Aspirants</span>
-              <span style={styles.whoItem}>Professionals Seeking Career Growth</span>
+        <motion.div
+          ref={whoCanBenefitRef}
+          variants={fromRightStagger}
+          initial="hidden"
+          animate={whoCanBenefitControls}
+        >
+          <div style={getTwoColumnWrapperStyle()}>
+            <div style={getContentColumnStyle()}>
+              <motion.h3 variants={fromRightItem} style={getServiceHeadingStyle()}>WHO CAN BENEFIT</motion.h3>
+              <motion.h4 variants={fromRightItem} style={getServiceSubheadingStyle()}>Designed For</motion.h4>
+              
+              <motion.div variants={fromRightItem} style={styles.whoList}>
+                <span style={styles.whoItem}>Freshers</span>
+                <span style={styles.whoItem}>Experienced Professionals</span>
+                <span style={styles.whoItem}>IT & Non-IT Candidates</span>
+                <span style={styles.whoItem}>Career Switchers</span>
+                <span style={styles.whoItem}>International Job Aspirants</span>
+                <span style={styles.whoItem}>Professionals Seeking Career Growth</span>
+              </motion.div>
+              
+              <motion.p variants={fromRightItem} style={getExpertiseTextStyle()}>
+                Whether you are starting your career or planning your next professional move, our services are 
+                designed to help you achieve your career goals effectively.
+              </motion.p>
+            </div>
+            <motion.div variants={imageFromRight} style={getImageColumnStyle()}>
+              <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=360&fit=crop" alt="Who Can Benefit" style={styles.sectionImage} />
             </motion.div>
-            
-            <motion.p variants={fromRightItem} style={styles.expertiseText}>
-              Whether you are starting your career or planning your next professional move, our services are 
-              designed to help you achieve your career goals effectively.
-            </motion.p>
           </div>
-          <motion.div variants={imageFromRight} style={styles.imageColumn}>
-            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=360&fit=crop" alt="Who Can Benefit" style={styles.sectionImage} />
-          </motion.div>
-        </div>
+        </motion.div>
 
         {/* OUR PROCESS - Full Width */}
-        <motion.div>
-          <motion.h3 variants={fromRightItem} style={styles.serviceHeading}>OUR PROCESS</motion.h3>
-          <motion.h4 variants={fromRightItem} style={styles.serviceSubheading}>How We Support Candidates</motion.h4>
+        <motion.div
+          ref={ourProcessRef}
+          variants={fromRightStagger}
+          initial="hidden"
+          animate={ourProcessControls}
+        >
+          <motion.h3 variants={fromRightItem} style={getServiceHeadingStyle()}>OUR PROCESS</motion.h3>
+          <motion.h4 variants={fromRightItem} style={getServiceSubheadingStyle()}>How We Support Candidates</motion.h4>
           
-          <motion.div variants={fromRightItem} style={styles.processGrid}>
+          <motion.div variants={fromRightItem} style={{ ...styles.processGrid, gridTemplateColumns: getProcessGridColumns() }}>
             <div style={styles.processStep}>
               <div style={styles.processNumber}>1</div>
               <div style={styles.serviceItemTitle}>Profile Evaluation</div>
@@ -1311,23 +1732,30 @@ const JobPlacementSupportPage: React.FC = () => {
           </motion.div>
         </motion.div>
 
-        {/* CTA Small - Full Width */}
-        <motion.div variants={fromRightItem} style={styles.ctaSmall}>
-          <div style={styles.ctaSmallText}>Take The Next Step In Your Career</div>
-          <p style={{ fontSize: 14, marginBottom: 20 }}>
-            Build a strong professional future with expert placement support, CV marketing services, outsourcing 
-            solutions, and career guidance from Data Artisans.
-          </p>
-          <div style={styles.contactInfo}>
-            <span>📞 +91 XXXXX XXXXX</span>
-            <span>✉️ info@dataartisans.com</span>
-            <span>🌐 www.dataartisans.com</span>
-          </div>
-          <p style={{ fontSize: 13, marginTop: 20, fontStyle: "italic" }}>
-            Build Skills. Create Opportunities. Achieve Career Success.
-          </p>
+        {/* CTA Small - Full Width (Contact info displayed vertically) */}
+        <motion.div
+          ref={ctaSmallRef}
+          variants={fromRightStagger}
+          initial="hidden"
+          animate={ctaSmallControls}
+        >
+          <motion.div variants={fromRightItem} style={styles.ctaSmall}>
+            <div style={styles.ctaSmallText}>Take The Next Step In Your Career</div>
+            <p style={{ fontSize: 14, marginBottom: 20 }}>
+              Build a strong professional future with expert placement support, CV marketing services, outsourcing 
+              solutions, and career guidance from Data Artisans.
+            </p>
+            <div style={styles.contactInfo}>
+              <span>📞 +91 XXXXX XXXXX</span>
+              <span>✉️ info@dataartisans.com</span>
+              <span>🌐 www.dataartisans.com</span>
+            </div>
+            <p style={{ fontSize: 13, marginTop: 20, fontStyle: "italic" }}>
+              Build Skills. Create Opportunities. Achieve Career Success.
+            </p>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
 
     </div>
   );

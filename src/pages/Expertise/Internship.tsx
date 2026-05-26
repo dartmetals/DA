@@ -97,10 +97,10 @@ const styles: Record<string, React.CSSProperties> = {
     gap: 20,
     boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
   },
-  card1: { background: "#E8F4FD" },  // Light Blue
-  card2: { background: "#E8FDE8" },  // Light Green
-  card3: { background: "#FEF3E8" },  // Light Orange
-  card4: { background: "#FDE8F0" },  // Light Pink
+  card1: { background: "#E8F4FD" },
+  card2: { background: "#E8FDE8" },
+  card3: { background: "#FEF3E8" },
+  card4: { background: "#FDE8F0" },
   cardIcon: {
     width: 64,
     height: 64,
@@ -133,7 +133,7 @@ const styles: Record<string, React.CSSProperties> = {
   cardBody3: { color: "#BF360C" },
   cardBody4: { color: "#4A148C" },
   goldBanner: {
-    background: "#EBF5FF",  // Light Blue Background
+    background: "#EBF5FF",
     padding: "12px 60px",
     display: "flex",
     alignItems: "center",
@@ -163,7 +163,7 @@ const styles: Record<string, React.CSSProperties> = {
     objectFit: 'cover' as const,
   },
   iconRow: {
-    background: "#EBF5FF",  // Same as gold banner
+    background: "#EBF5FF",
     padding: "0px 60px 10px 60px",
   },
   iconGrid: {
@@ -488,8 +488,23 @@ const styles: Record<string, React.CSSProperties> = {
 };
 
 const InternshipPage: React.FC = () => {
+  // State for responsive layout
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
   // State for hovered icon
   const [hoveredIcon, setHoveredIcon] = useState<number | null>(null);
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   // Animation controls
   const heroImageControls = useAnimation();
@@ -503,7 +518,9 @@ const InternshipPage: React.FC = () => {
   const techImageControls = useAnimation();
   const techContentControls = useAnimation();
   const featureCardsControls = useAnimation();
-  const dataArtisansWrapperControls = useAnimation();
+  
+  // Separate animation controls for each section in the Data Artisans area
+  const internshipsExpertiseControls = useAnimation();
   const aboutInternshipControls = useAnimation();
   const internshipProgramsControls = useAnimation();
   const indiaInternshipControls = useAnimation();
@@ -513,7 +530,7 @@ const InternshipPage: React.FC = () => {
   const whoCanApplyControls = useAnimation();
   const ctaSimpleControls = useAnimation();
 
-  // Refs
+  // Refs for each section
   const heroRef = useRef<HTMLElement>(null);
   const introRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLElement>(null);
@@ -521,7 +538,9 @@ const InternshipPage: React.FC = () => {
   const iconRowRef = useRef<HTMLDivElement>(null);
   const techRef = useRef<HTMLElement>(null);
   const featureRef = useRef<HTMLElement>(null);
-  const dataArtisansWrapperRef = useRef<HTMLDivElement>(null);
+  
+  // Refs for Data Artisans sections
+  const internshipsExpertiseRef = useRef<HTMLDivElement>(null);
   const aboutInternshipRef = useRef<HTMLDivElement>(null);
   const internshipProgramsRef = useRef<HTMLDivElement>(null);
   const indiaInternshipRef = useRef<HTMLDivElement>(null);
@@ -631,12 +650,275 @@ const InternshipPage: React.FC = () => {
     visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
   } as const;
 
+  // Responsive style functions
+  const getHeroBackgroundStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.hero, backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat", minHeight: 400, padding: "60px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.hero, backgroundSize: "cover", backgroundPosition: "top", backgroundRepeat: "no-repeat" };
+    }
+    return styles.hero;
+  };
+
+  const getHeroHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroHeading, fontSize: 32 };
+    if (isTablet) return { ...styles.heroHeading, fontSize: 42 };
+    return styles.heroHeading;
+  };
+
+  const getHeroDescriptionStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroSubPara, display: "none" };
+    if (isTablet) return { ...styles.heroSubPara, fontSize: 16 };
+    return styles.heroSubPara;
+  };
+
+  const getIntroSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.introSection, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.introSection;
+  };
+
+  const getIntroBodyStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center", order: 1 };
+    }
+    return styles.introBody;
+  };
+
+  const getIntroImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 250, order: 2, marginTop: 24 };
+    }
+    if (isTablet) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 300, order: 2, marginTop: 24 };
+    }
+    return styles.introImageBox;
+  };
+
+  const getCardsGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(4, 1fr)";
+  };
+
+  const getCardsSectionStyle = (): React.CSSProperties => {
+    const baseStyle = { ...styles.cardsSection };
+    if (isMobile) {
+      baseStyle.padding = "40px 20px";
+    } else if (isTablet) {
+      baseStyle.padding = "50px 30px";
+    }
+    return baseStyle;
+  };
+
+  const getGoldBannerStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.goldBanner, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.goldBanner;
+  };
+
+  const getGoldBannerImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.goldBannerImageBox, width: "100%", height: "auto", minHeight: 250, order: 2, marginTop: 24 };
+    }
+    if (isTablet) {
+      return { ...styles.goldBannerImageBox, width: "100%", height: "auto", minHeight: 300, order: 2, marginTop: 24 };
+    }
+    return styles.goldBannerImageBox;
+  };
+
+  const getGoldBannerTextStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.goldBannerText, order: 1 };
+    }
+    return styles.goldBannerText;
+  };
+
+  const getIconRowStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.iconRow, padding: "40px 20px 50px 20px" };
+    }
+    return styles.iconRow;
+  };
+
+  const getIconGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(2, 1fr)";
+  };
+
+  const getTechSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.techSection, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.techSection;
+  };
+
+  const getTechBodyStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.techBody, order: 1 };
+    }
+    return styles.techBody;
+  };
+
+  const getTechImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.techImageBox, width: "100%", height: "auto", minHeight: 250, order: 2, marginTop: 24 };
+    }
+    if (isTablet) {
+      return { ...styles.techImageBox, width: "100%", height: "auto", minHeight: 300, order: 2, marginTop: 24 };
+    }
+    return styles.techImageBox;
+  };
+
+  const getFeatureGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(3, 1fr)";
+  };
+
+  const getDataArtisansSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.dataArtisansSection, padding: "40px 20px" };
+    }
+    return styles.dataArtisansSection;
+  };
+
+  const getDataArtisansInnerWrapperStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.dataArtisansInnerWrapper, flexDirection: "column", textAlign: "center" };
+    }
+    return styles.dataArtisansInnerWrapper;
+  };
+
+  const getDataArtisansContentStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { flex: "0 0 100%", width: "100%", order: 1 };
+    }
+    return styles.dataArtisansContent;
+  };
+
+  const getDataArtisansImageWrapperStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { flex: "0 0 100%", width: "100%", marginTop: 24, order: 2 };
+    }
+    return styles.dataArtisansImageWrapper;
+  };
+
+  const getDataArtisansHeadingStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.dataArtisansHeading, textAlign: "center", fontSize: 32 };
+    }
+    return styles.dataArtisansHeading;
+  };
+
+  const getDataArtisansSubheadingStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.dataArtisansSubheading, textAlign: "center", fontSize: 18 };
+    }
+    return styles.dataArtisansSubheading;
+  };
+
+  const getExpertiseGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(3, 1fr)";
+  };
+
+  const getTwoColumnWrapperStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.twoColumnWrapper, flexDirection: "column", textAlign: "center", marginTop: 32 };
+    }
+    return styles.twoColumnWrapper;
+  };
+
+  const getContentColumnStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { flex: "0 0 100%", width: "100%", order: 1 };
+    }
+    return styles.contentColumn;
+  };
+
+  const getImageColumnStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { flex: "0 0 100%", width: "100%", marginTop: 24, order: 2 };
+    }
+    return styles.imageColumn;
+  };
+
+  const getAboutInternshipBoxStyle = (): React.CSSProperties => {
+    const baseStyle = { ...styles.aboutInternshipBox };
+    if (isMobile) {
+      baseStyle.padding = "30px 20px";
+      baseStyle.borderRadius = "16px";
+      baseStyle.marginTop = "32px";
+    } else if (isTablet) {
+      baseStyle.padding = "40px 30px";
+      baseStyle.borderRadius = "16px";
+      baseStyle.marginTop = "32px";
+    }
+    return baseStyle;
+  };
+
+  const getCtaSimpleStyle = (): React.CSSProperties => {
+    const baseStyle = { ...styles.ctaSimple };
+    if (isMobile) {
+      baseStyle.padding = "30px 20px";
+      baseStyle.borderRadius = "16px";
+      baseStyle.marginTop = "32px";
+    } else if (isTablet) {
+      baseStyle.padding = "40px 30px";
+      baseStyle.borderRadius = "16px";
+      baseStyle.marginTop = "32px";
+    }
+    return baseStyle;
+  };
+
+  const getCheckListColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(4, 1fr)";
+  };
+
+  const getProcessGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(3, 1fr)";
+  };
+
+  const getSectionHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.sectionHeading, fontSize: 28, marginBottom: 32, textAlign: "center" };
+    if (isTablet) return { ...styles.sectionHeading, fontSize: 32, marginBottom: 40, textAlign: "center" };
+    return styles.sectionHeading;
+  };
+
+  const getIntroParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.introPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.introPara, fontSize: 14, textAlign: "center" };
+    return styles.introPara;
+  };
+
+  const getTechParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.techPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.techPara, fontSize: 14, textAlign: "center" };
+    return styles.techPara;
+  };
+
+  const getGoldBannerParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.goldBannerPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.goldBannerPara, fontSize: 14, textAlign: "center" };
+    return styles.goldBannerPara;
+  };
+
   // Contact Us button click handler
   const handleContactClick = () => {
     window.location.href = "/contact-us";
   };
 
-  // Intersection Observer setup (removed triggerOnce property)
+  // Intersection Observer setup for each section individually
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
@@ -760,23 +1042,23 @@ const InternshipPage: React.FC = () => {
       observers.push(featureObserver);
     }
 
-    // Data Artisans Wrapper
-    if (dataArtisansWrapperRef.current) {
-      const dataObserver = new IntersectionObserver(
+    // INTERNSHIPS EXPERTISE Section
+    if (internshipsExpertiseRef.current) {
+      const expertiseObserver = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            dataArtisansWrapperControls.start("visible");
+            internshipsExpertiseControls.start("visible");
           } else {
-            dataArtisansWrapperControls.set("hidden");
+            internshipsExpertiseControls.set("hidden");
           }
         },
-        { threshold: 0.1 }
+        { threshold: 0.2 }
       );
-      dataObserver.observe(dataArtisansWrapperRef.current);
-      observers.push(dataObserver);
+      expertiseObserver.observe(internshipsExpertiseRef.current);
+      observers.push(expertiseObserver);
     }
 
-    // About Internship
+    // ABOUT INTERNSHIPS Section
     if (aboutInternshipRef.current) {
       const aboutObserver = new IntersectionObserver(
         ([entry]) => {
@@ -792,7 +1074,7 @@ const InternshipPage: React.FC = () => {
       observers.push(aboutObserver);
     }
 
-    // Internship Programs
+    // INTERNSHIP PROGRAMS Section
     if (internshipProgramsRef.current) {
       const programsObserver = new IntersectionObserver(
         ([entry]) => {
@@ -808,7 +1090,7 @@ const InternshipPage: React.FC = () => {
       observers.push(programsObserver);
     }
 
-    // India Internship
+    // INTERNSHIPS IN INDIA Section
     if (indiaInternshipRef.current) {
       const indiaObserver = new IntersectionObserver(
         ([entry]) => {
@@ -824,7 +1106,7 @@ const InternshipPage: React.FC = () => {
       observers.push(indiaObserver);
     }
 
-    // UK Internship
+    // INTERNSHIPS IN UK Section
     if (ukInternshipRef.current) {
       const ukObserver = new IntersectionObserver(
         ([entry]) => {
@@ -840,7 +1122,7 @@ const InternshipPage: React.FC = () => {
       observers.push(ukObserver);
     }
 
-    // Why Choose
+    // WHY CHOOSE Section
     if (whyChooseRef.current) {
       const whyObserver = new IntersectionObserver(
         ([entry]) => {
@@ -856,7 +1138,7 @@ const InternshipPage: React.FC = () => {
       observers.push(whyObserver);
     }
 
-    // Our Process
+    // OUR PROCESS Section
     if (ourProcessRef.current) {
       const processObserver = new IntersectionObserver(
         ([entry]) => {
@@ -872,7 +1154,7 @@ const InternshipPage: React.FC = () => {
       observers.push(processObserver);
     }
 
-    // Who Can Apply
+    // WHO CAN APPLY Section
     if (whoCanApplyRef.current) {
       const whoObserver = new IntersectionObserver(
         ([entry]) => {
@@ -888,7 +1170,7 @@ const InternshipPage: React.FC = () => {
       observers.push(whoObserver);
     }
 
-    // CTA Simple
+    // CALL TO ACTION Section
     if (ctaSimpleRef.current) {
       const ctaObserver = new IntersectionObserver(
         ([entry]) => {
@@ -943,7 +1225,7 @@ const InternshipPage: React.FC = () => {
       {/* ── HERO ── */}
       <motion.section
         ref={heroRef}
-        style={styles.hero}
+        style={getHeroBackgroundStyle()}
         initial="hidden"
         animate={heroImageControls}
         variants={imageFromLeft}
@@ -954,13 +1236,13 @@ const InternshipPage: React.FC = () => {
           initial="hidden"
           animate={heroTextControls}
         >
-          <h1 style={styles.heroHeading}>
+          <h1 style={getHeroHeadingStyle()}>
             Making
             career-defining<br />
             internships
             happen
           </h1>
-          <p style={styles.heroSubPara}>
+          <p style={getHeroDescriptionStyle()}>
             Gain real-world experience, build professional skills,<br />
             and kickstart your career with industry-focused internships.
           </p>
@@ -969,9 +1251,28 @@ const InternshipPage: React.FC = () => {
       </motion.section>
 
       {/* ── INTRO ── */}
-      <section ref={introRef} style={styles.introSection}>
+      <section ref={introRef} style={getIntroSectionStyle()}>
         <motion.div
-          style={styles.introImageBox}
+          style={getIntroBodyStyle()}
+          variants={contentFromLeft}
+          initial="hidden"
+          animate={introContentControls}
+        >
+          <p style={getIntroParaStyle()}>
+            The bridge between education and employment has never been more critical. Internships are no longer optional add-ons to a resume. They are the proving grounds where careers are shaped, skills are tested, and futures are built.
+          </p>
+          <p style={getIntroParaStyle()}>
+            With over two decades of connecting talent with opportunity, we understand what organisations need from interns and what interns need to succeed. Our internship programmes are structured to deliver real value. Not just task completion, but genuine growth and contribution.
+          </p>
+          <p style={getIntroParaStyle()}>
+            We partner with organisations across sectors to create structured internship programmes that benefit both the student and the employer. From identifying the right candidates to managing the entire internship lifecycle, we make it seamless.
+          </p>
+          <p style={getIntroParaStyle()}>
+            Our deep industry network, campus relationships, and talent assessment capabilities give us the edge to place the right intern in the right role, every time. Let us make the right experience happen.
+          </p>
+        </motion.div>
+        <motion.div
+          style={getIntroImageBoxStyle()}
           variants={imageFromRight}
           initial="hidden"
           animate={introImageControls}
@@ -982,39 +1283,20 @@ const InternshipPage: React.FC = () => {
             style={styles.introImage}
           />
         </motion.div>
-        <motion.div
-          style={styles.introBody}
-          variants={contentFromLeft}
-          initial="hidden"
-          animate={introContentControls}
-        >
-          <p style={styles.introPara}>
-            The bridge between education and employment has never been more critical. Internships are no longer optional add-ons to a resume. They are the proving grounds where careers are shaped, skills are tested, and futures are built.
-          </p>
-          <p style={styles.introPara}>
-            With over two decades of connecting talent with opportunity, we understand what organisations need from interns and what interns need to succeed. Our internship programmes are structured to deliver real value. Not just task completion, but genuine growth and contribution.
-          </p>
-          <p style={styles.introPara}>
-            We partner with organisations across sectors to create structured internship programmes that benefit both the student and the employer. From identifying the right candidates to managing the entire internship lifecycle, we make it seamless.
-          </p>
-          <p style={styles.introPara}>
-            Our deep industry network, campus relationships, and talent assessment capabilities give us the edge to place the right intern in the right role, every time. Let us make the right experience happen.
-          </p>
-        </motion.div>
       </section>
 
       {/* ── CARDS ── */}
       <motion.section
         ref={cardsRef}
-        style={styles.cardsSection}
+        style={getCardsSectionStyle()}
         initial="hidden"
         animate={cardsControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Making <em style={styles.sectionHeadingItalic}>seamless internships happen</em>
         </motion.h2>
         <motion.div
-          style={styles.cardsGrid}
+          style={{ ...styles.cardsGrid, gridTemplateColumns: getCardsGridColumns() }}
           variants={cardContentStagger}
           initial="hidden"
           animate={cardsControls}
@@ -1040,26 +1322,26 @@ const InternshipPage: React.FC = () => {
       </motion.section>
 
       {/* ── GOLD BANNER (Image on Right, Content on Left) ── */}
-      <section ref={goldBannerRef} style={styles.goldBanner}>
+      <section ref={goldBannerRef} style={getGoldBannerStyle()}>
         <motion.div
-          style={styles.goldBannerText}
+          style={getGoldBannerTextStyle()}
           variants={contentFromLeft}
           initial="hidden"
           animate={goldBannerContentControls}
         >
-          <p style={styles.goldBannerPara}>
+          <p style={getGoldBannerParaStyle()}>
             Organisations rely on fresh talent to infuse new ideas and energy into their teams. But finding the right intern, one who aligns with your culture and can genuinely contribute, is harder than it sounds.
           </p>
-          <p style={styles.goldBannerPara}>
+          <p style={getGoldBannerParaStyle()}>
             Our vast network of colleges, universities, and student communities across the country allows us to source talent that matches your specific requirements. Whether you need one intern or a hundred, we scale to meet your demand.
           </p>
-          <p style={styles.goldBannerPara}>
+          <p style={getGoldBannerParaStyle()}>
             We manage the entire internship supply chain, from campus outreach and candidate screening to onboarding, mentoring support, and post-internship evaluation, so you can focus on what matters most.
           </p>
-          <p style={styles.goldBannerPara}>Here's how we are able to do that:</p>
+          <p style={getGoldBannerParaStyle()}>Here's how we are able to do that:</p>
         </motion.div>
         <motion.div
-          style={styles.goldBannerImageBox}
+          style={getGoldBannerImageBoxStyle()}
           variants={imageFromRight}
           initial="hidden"
           animate={goldBannerImageControls}
@@ -1075,12 +1357,12 @@ const InternshipPage: React.FC = () => {
       {/* ── ICON ROW (2 columns, same color as gold banner, hover effect) ── */}
       <motion.div
         ref={iconRowRef}
-        style={styles.iconRow}
+        style={getIconRowStyle()}
         variants={listFromRight}
         initial="hidden"
         animate={iconRowControls}
       >
-        <div style={styles.iconGrid}>
+        <div style={{ ...styles.iconGrid, gridTemplateColumns: getIconGridColumns() }}>
           {iconItems.map((item, i) => (
             <motion.div
               key={i}
@@ -1112,12 +1394,31 @@ const InternshipPage: React.FC = () => {
       {/* ── TECH SECTION ── */}
       <motion.section
         ref={techRef}
-        style={styles.techSection}
+        style={getTechSectionStyle()}
         initial="hidden"
         animate={techImageControls}
       >
         <motion.div
-          style={styles.techImageBox}
+          style={getTechBodyStyle()}
+          variants={contentFromLeft}
+          initial="hidden"
+          animate={techContentControls}
+        >
+          <p style={getTechParaStyle()}>
+            The traditional internship hiring process, walk-in drives, manual shortlisting, and paper applications, is a thing of the past. We have evolved alongside the industry to bring technology at the centre of every placement we make.
+          </p>
+          <p style={getTechParaStyle()}>
+            We have seen how intern recruitment has shifted from brick-and-mortar campus visits to AI-powered talent matching. That evolution gives us the foresight to help organisations find exactly the right intern faster and more accurately than ever before.
+          </p>
+          <p style={getTechParaStyle()}>
+            With the help of our group company HirePro, we deploy intelligent matching algorithms, automated assessments, and virtual interview platforms to streamline the entire internship hiring cycle end to end.
+          </p>
+          <p style={getTechParaStyle()}>
+            Our internal processes leverage data, analytics, and operational automation to deliver exceptional experiences for both interns and hiring organisations, reducing time-to-onboard while improving quality of placement.
+          </p>
+        </motion.div>
+        <motion.div
+          style={getTechImageBoxStyle()}
           variants={imageFromRight}
           initial="hidden"
           animate={techImageControls}
@@ -1128,25 +1429,6 @@ const InternshipPage: React.FC = () => {
             style={styles.techImage}
           />
         </motion.div>
-        <motion.div
-          style={styles.techBody}
-          variants={contentFromLeft}
-          initial="hidden"
-          animate={techContentControls}
-        >
-          <p style={styles.techPara}>
-            The traditional internship hiring process, walk-in drives, manual shortlisting, and paper applications, is a thing of the past. We have evolved alongside the industry to bring technology at the centre of every placement we make.
-          </p>
-          <p style={styles.techPara}>
-            We have seen how intern recruitment has shifted from brick-and-mortar campus visits to AI-powered talent matching. That evolution gives us the foresight to help organisations find exactly the right intern faster and more accurately than ever before.
-          </p>
-          <p style={styles.techPara}>
-            With the help of our group company HirePro, we deploy intelligent matching algorithms, automated assessments, and virtual interview platforms to streamline the entire internship hiring cycle end to end.
-          </p>
-          <p style={styles.techPara}>
-            Our internal processes leverage data, analytics, and operational automation to deliver exceptional experiences for both interns and hiring organisations, reducing time-to-onboard while improving quality of placement.
-          </p>
-        </motion.div>
       </motion.section>
 
       {/* ── FEATURE CARDS ── */}
@@ -1156,11 +1438,11 @@ const InternshipPage: React.FC = () => {
         initial="hidden"
         animate={featureCardsControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Features
         </motion.h2>
         <motion.div
-          style={styles.featureGrid}
+          style={{ ...styles.featureGrid, gridTemplateColumns: getFeatureGridColumns() }}
           variants={cardContentStagger}
           initial="hidden"
           animate={featureCardsControls}
@@ -1199,29 +1481,30 @@ const InternshipPage: React.FC = () => {
         </button>
       </div>
 
-      {/* ── NEW: DATA ARTISANS INTERNSHIPS EXPERTISE SECTION ── */}
-      <div style={styles.dataArtisansSection}>
+      {/* ── DATA ARTISANS INTERNSHIPS EXPERTISE SECTION ── */}
+      <div style={getDataArtisansSectionStyle()}>
+        {/* INTERNSHIPS EXPERTISE - Section 1 */}
         <motion.div
-          ref={dataArtisansWrapperRef}
+          ref={internshipsExpertiseRef}
           variants={fromBottomStagger}
           initial="hidden"
-          animate={dataArtisansWrapperControls}
+          animate={internshipsExpertiseControls}
         >
-          <div style={styles.dataArtisansInnerWrapper}>
-            <div style={styles.dataArtisansContent}>
-              <motion.h1 variants={fromBottomItem} style={styles.dataArtisansHeading}>INTERNSHIPS EXPERTISE</motion.h1>
-              <motion.h2 variants={fromBottomItem} style={styles.dataArtisansSubheading}>Launch Your Career With Industry-Focused Internships</motion.h2>
+          <div style={getDataArtisansInnerWrapperStyle()}>
+            <div style={getDataArtisansContentStyle()}>
+              <motion.h1 variants={fromBottomItem} style={getDataArtisansHeadingStyle()}>INTERNSHIPS EXPERTISE</motion.h1>
+              <motion.h2 variants={fromBottomItem} style={getDataArtisansSubheadingStyle()}>Launch Your Career With Industry-Focused Internships</motion.h2>
               
-              <motion.p variants={fromBottomItem} style={styles.introPara}>
+              <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
                 At Data Artisans, we help students and graduates gain practical industry exposure through structured 
                 internship programs designed to build real-world skills, technical expertise, and professional 
                 confidence.
               </motion.p>
-              <motion.p variants={fromBottomItem} style={styles.introPara}>
+              <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
                 Our internships are focused on hands-on learning, live project exposure, mentorship, and career 
                 development to help students bridge the gap between academics and industry expectations.
               </motion.p>
-              <motion.p variants={fromBottomItem} style={styles.introPara}>
+              <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
                 We provide internship opportunities across India and the UK in trending technologies, business 
                 domains, analytics, cloud computing, AI, software development, and enterprise solutions.
               </motion.p>
@@ -1232,10 +1515,10 @@ const InternshipPage: React.FC = () => {
                 ))}
               </motion.div>
 
-              <motion.p variants={fromBottomItem} style={styles.introPara}><strong>Helping students gain practical experience for successful global careers.</strong></motion.p>
+              <motion.p variants={fromBottomItem} style={getIntroParaStyle()}><strong>Helping students gain practical experience for successful global careers.</strong></motion.p>
             </div>
 
-            <motion.div variants={imageFromRight} style={styles.dataArtisansImageWrapper}>
+            <motion.div variants={imageFromRight} style={getDataArtisansImageWrapperStyle()}>
               <img 
                 src="/internship-img4.jpg" 
                 alt="Students celebrating internship success"
@@ -1243,198 +1526,198 @@ const InternshipPage: React.FC = () => {
               />
             </motion.div>
           </div>
-
-          {/* ABOUT INTERNSHIPS */}
-          <motion.div
-            ref={aboutInternshipRef}
-            variants={imageFromRight}
-            initial="hidden"
-            animate={aboutInternshipControls}
-            style={styles.aboutInternshipBox}
-          >
-            <h3 style={{ fontSize: 28, marginBottom: 16 }}>ABOUT INTERNSHIPS</h3>
-            <h4 style={{ fontSize: 20, marginBottom: 16 }}>Practical Learning Beyond Classrooms</h4>
-            <p style={{ fontSize: 15, lineHeight: 1.7, marginBottom: 16 }}>
-              At Data Artisans, we believe internships are the foundation for building successful careers. Our 
-              programs are designed to provide practical exposure, professional work environments, and industry-oriented learning experiences.
-            </p>
-            <p style={{ fontSize: 15, lineHeight: 1.7, marginBottom: 16 }}>
-              Students get an opportunity to work on real-time projects, understand industry workflows, 
-              collaborate with mentors, and develop technical as well as communication skills required in modern workplaces.
-            </p>
-            <p style={{ fontSize: 15, lineHeight: 1.7 }}>
-              Our internship programs are suitable for students, freshers, career switchers, and professionals 
-              looking to gain practical experience in high-demand technologies and business domains.
-            </p>
-          </motion.div>
-
-          {/* INTERNSHIP PROGRAMS */}
-          <div ref={internshipProgramsRef}>
-            <motion.div
-              variants={fromRightStagger}
-              initial="hidden"
-              animate={internshipProgramsControls}
-            >
-              <motion.h2 variants={fromRightItem} style={{ ...styles.sectionHeading, marginTop: 48 }}>INTERNSHIP PROGRAMS</motion.h2>
-              <motion.h3 variants={fromRightItem} style={{ fontSize: 24, color: "#1976D2", marginBottom: 24 }}>Internship Domains</motion.h3>
-
-              <motion.div variants={fromRightItem} style={styles.expertiseGrid}>
-                {internshipProgramsData.map((item, idx) => (
-                  <div key={idx} style={{ ...styles.expertiseCard, background: programCardColors[idx % programCardColors.length].bg }}>
-                    <div style={styles.expertiseCardContent}>
-                      <h4 style={{ ...styles.expertiseTitle, color: programCardColors[idx % programCardColors.length].titleColor }}>{item.title}</h4>
-                      <p style={{ ...styles.expertiseDesc, color: programCardColors[idx % programCardColors.length].textColor }}>{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* INTERNSHIPS IN INDIA */}
-          <div ref={indiaInternshipRef}>
-            <motion.div
-              variants={fromBottomStagger}
-              initial="hidden"
-              animate={indiaInternshipControls}
-            >
-              <div style={styles.twoColumnWrapper}>
-                <div style={styles.contentColumn}>
-                  <motion.h2 variants={fromBottomItem} style={{ ...styles.sectionHeading, marginTop: 48, marginBottom: 16 }}>INTERNSHIPS IN INDIA</motion.h2>
-                  <motion.h3 variants={fromBottomItem} style={{ fontSize: 24, color: "#1976D2", marginBottom: 16 }}>Industry-Focused Internship Opportunities Across India</motion.h3>
-                  <motion.p variants={fromBottomItem} style={styles.introPara}>
-                    Our India internship programs are designed for students and fresh graduates who want to gain 
-                    practical exposure and improve employability through real-time project experience.
-                  </motion.p>
-                  <motion.p variants={fromBottomItem} style={styles.introPara}>
-                    We collaborate with industry professionals and growing organizations to provide internship 
-                    opportunities in various technical and non-technical domains.
-                  </motion.p>
-                  <motion.h4 variants={fromBottomItem} style={{ fontSize: 18, fontWeight: 700, marginTop: 24 }}>Benefits of India Internships</motion.h4>
-                  <motion.div variants={fromBottomItem} style={styles.benefitList}>
-                    {indiaBenefits.map(b => (
-                      <span key={b} style={styles.benefitItem}>{b}</span>
-                    ))}
-                  </motion.div>
-                </div>
-                <motion.div variants={imageFromRight} style={styles.imageColumn}>
-                  <img src="/internship-img5.jpg" alt="Internship Opportunities in India" style={styles.sectionImage} />
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* INTERNSHIPS IN UK */}
-          <div ref={ukInternshipRef}>
-            <motion.div
-              variants={fromBottomStagger}
-              initial="hidden"
-              animate={ukInternshipControls}
-            >
-              <div style={styles.twoColumnWrapper}>
-                <motion.div variants={imageFromLeft} style={styles.imageColumn}>
-                  <img src="/internship-img6.jpg" alt="Internship Opportunities in UK" style={styles.sectionImage} />
-                </motion.div>
-                <div style={styles.contentColumn}>
-                  <motion.h2 variants={fromBottomItem} style={{ ...styles.sectionHeading, marginTop: 48, marginBottom: 16 }}>INTERNSHIPS IN UK</motion.h2>
-                  <motion.h3 variants={fromBottomItem} style={{ fontSize: 24, color: "#1976D2", marginBottom: 16 }}>International Internship Opportunities In The UK</motion.h3>
-                  <motion.p variants={fromBottomItem} style={styles.introPara}>
-                    Data Artisans also supports students and professionals looking for international internship 
-                    opportunities in the United Kingdom.
-                  </motion.p>
-                  <motion.p variants={fromBottomItem} style={styles.introPara}>
-                    Our UK internship support programs help candidates gain global exposure, international work 
-                    experience, and professional development opportunities in modern business environments.
-                  </motion.p>
-                  <motion.h4 variants={fromBottomItem} style={{ fontSize: 18, fontWeight: 700, marginTop: 24 }}>Benefits of UK Internships</motion.h4>
-                  <motion.div variants={fromBottomItem} style={styles.benefitList}>
-                    {ukBenefits.map(b => (
-                      <span key={b} style={styles.benefitItem}>{b}</span>
-                    ))}
-                  </motion.div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* WHY CHOOSE */}
-          <div ref={whyChooseRef}>
-            <motion.div
-              variants={fromRightStagger}
-              initial="hidden"
-              animate={whyChooseControls}
-            >
-              <motion.h2 variants={fromRightItem} style={{ ...styles.sectionHeading, marginTop: 48 }}>WHY CHOOSE DATA ARTISANS</motion.h2>
-              <motion.h3 variants={fromRightItem} style={{ fontSize: 20, marginBottom: 24 }}>Why Students Prefer Our Internship Programs</motion.h3>
-              <motion.div variants={fromRightItem} style={styles.checkList}>
-                {["Industry-Relevant Training", "Real-Time Practical Exposure", "Experienced Mentors", "Career-Oriented Learning", "Flexible Learning Models", "Professional Guidance", "Internship Certification", "Placement-Focused Support"].map(w => (
-                  <div key={w} style={styles.checkItem}>{w}</div>
-                ))}
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* OUR PROCESS */}
-          <div ref={ourProcessRef}>
-            <motion.div
-              variants={fromRightStagger}
-              initial="hidden"
-              animate={ourProcessControls}
-            >
-              <motion.h2 variants={fromRightItem} style={{ ...styles.sectionHeading, marginTop: 48 }}>OUR PROCESS</motion.h2>
-              <motion.h3 variants={fromRightItem} style={{ fontSize: 20, marginBottom: 24 }}>How Our Internship Program Works</motion.h3>
-              <motion.div variants={fromRightItem} style={styles.processGrid}>
-                <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>1. Profile Evaluation</strong><br />Understanding student interests, skills, and career goals.</div>
-                <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>2. Domain Selection</strong><br />Choosing suitable internship programs based on career interests.</div>
-                <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>3. Training & Project Assignment</strong><br />Hands-on learning with real-time projects and mentorship.</div>
-                <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>4. Practical Implementation</strong><br />Working on assignments, case studies, and project execution.</div>
-                <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>5. Certification</strong><br />Internship completion certification and performance evaluation.</div>
-                <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>6. Career Support</strong><br />Resume guidance, interview preparation, and placement assistance.</div>
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* WHO CAN APPLY */}
-          <div ref={whoCanApplyRef}>
-            <motion.div
-              variants={fromBottomStagger}
-              initial="hidden"
-              animate={whoCanApplyControls}
-            >
-              <div style={styles.twoColumnWrapper}>
-                <div style={styles.contentColumn}>
-                  <motion.h3 variants={fromBottomItem} style={{ fontSize: 28, marginBottom: 24, color: "#1976D2" }}>WHO CAN APPLY</motion.h3>
-                  <motion.div variants={fromBottomItem} style={{ display: "flex", flexWrap: "wrap", gap: 32, marginBottom: 24 }}>
-                    {["🎓 Students", "👨‍🎓 Freshers", "💻 Career Switchers", "🎓 Graduates", "🌍 International Aspirants", "⚙️ Tech Enthusiasts"].map(w => (
-                      <span key={w} style={{ fontSize: 18 }}>{w}</span>
-                    ))}
-                  </motion.div>
-                  <motion.p variants={fromBottomItem} style={{ fontSize: 14, lineHeight: 1.6 }}>Whether you are starting your career or upgrading your practical skills, our internship programs are designed to help you gain real-world industry exposure.</motion.p>
-                </div>
-                <motion.div variants={imageFromRight} style={styles.imageColumn}>
-                  <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=360&fit=crop" alt="Who Can Apply - Students and Professionals" style={styles.sectionImage} />
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* CALL TO ACTION */}
-          <div ref={ctaSimpleRef}>
-            <motion.div
-              variants={fromBottomStagger}
-              initial="hidden"
-              animate={ctaSimpleControls}
-              style={styles.ctaSimple}
-            >
-              <motion.h3 variants={fromBottomItem} style={{ fontSize: 28, marginBottom: 16 }}>Start Your Internship Journey Today</motion.h3>
-              <motion.p variants={fromBottomItem} style={{ fontSize: 16, marginBottom: 24 }}>Build practical skills, gain industry exposure, and strengthen your career with Data Artisans internship programs in India and the UK.</motion.p>
-              <motion.p variants={fromBottomItem}>📞 +91 XXXXX XXXXX</motion.p>
-              <motion.p variants={fromBottomItem}>📧 info@dataartisans.com</motion.p>
-              <motion.p variants={fromBottomItem}>🌐 www.dataartisans.com</motion.p>
-              <motion.p variants={fromBottomItem} style={{ marginTop: 20, fontWeight: 700 }}>Learn. Practice. Grow Professionally.</motion.p>
-            </motion.div>
-          </div>
         </motion.div>
+
+        {/* ABOUT INTERNSHIPS - Section 2 */}
+        <motion.div
+          ref={aboutInternshipRef}
+          variants={imageFromRight}
+          initial="hidden"
+          animate={aboutInternshipControls}
+          style={getAboutInternshipBoxStyle()}
+        >
+          <h3 style={{ fontSize: isMobile ? 24 : 28, marginBottom: 16 }}>ABOUT INTERNSHIPS</h3>
+          <h4 style={{ fontSize: isMobile ? 18 : 20, marginBottom: 16 }}>Practical Learning Beyond Classrooms</h4>
+          <p style={{ fontSize: isMobile ? 13 : 15, lineHeight: 1.7, marginBottom: 16 }}>
+            At Data Artisans, we believe internships are the foundation for building successful careers. Our 
+            programs are designed to provide practical exposure, professional work environments, and industry-oriented learning experiences.
+          </p>
+          <p style={{ fontSize: isMobile ? 13 : 15, lineHeight: 1.7, marginBottom: 16 }}>
+            Students get an opportunity to work on real-time projects, understand industry workflows, 
+            collaborate with mentors, and develop technical as well as communication skills required in modern workplaces.
+          </p>
+          <p style={{ fontSize: isMobile ? 13 : 15, lineHeight: 1.7 }}>
+            Our internship programs are suitable for students, freshers, career switchers, and professionals 
+            looking to gain practical experience in high-demand technologies and business domains.
+          </p>
+        </motion.div>
+
+        {/* INTERNSHIP PROGRAMS - Section 3 */}
+        <div ref={internshipProgramsRef}>
+          <motion.div
+            variants={fromRightStagger}
+            initial="hidden"
+            animate={internshipProgramsControls}
+          >
+            <motion.h2 variants={fromRightItem} style={{ ...getSectionHeadingStyle(), marginTop: 48 }}>INTERNSHIP PROGRAMS</motion.h2>
+            <motion.h3 variants={fromRightItem} style={{ fontSize: isMobile ? 20 : 24, color: "#1976D2", marginBottom: 24, textAlign: isMobile || isTablet ? "center" : "left" }}>Internship Domains</motion.h3>
+
+            <motion.div variants={fromRightItem} style={{ ...styles.expertiseGrid, gridTemplateColumns: getExpertiseGridColumns() }}>
+              {internshipProgramsData.map((item, idx) => (
+                <div key={idx} style={{ ...styles.expertiseCard, background: programCardColors[idx % programCardColors.length].bg }}>
+                  <div style={styles.expertiseCardContent}>
+                    <h4 style={{ ...styles.expertiseTitle, color: programCardColors[idx % programCardColors.length].titleColor, fontSize: isMobile ? 18 : 22 }}>{item.title}</h4>
+                    <p style={{ ...styles.expertiseDesc, color: programCardColors[idx % programCardColors.length].textColor, fontSize: isMobile ? 12 : 14 }}>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* INTERNSHIPS IN INDIA - Section 4 */}
+        <div ref={indiaInternshipRef}>
+          <motion.div
+            variants={fromBottomStagger}
+            initial="hidden"
+            animate={indiaInternshipControls}
+          >
+            <div style={getTwoColumnWrapperStyle()}>
+              <div style={getContentColumnStyle()}>
+                <motion.h2 variants={fromBottomItem} style={{ ...getSectionHeadingStyle(), marginTop: 48, marginBottom: 16 }}>INTERNSHIPS IN INDIA</motion.h2>
+                <motion.h3 variants={fromBottomItem} style={{ fontSize: isMobile ? 20 : 24, color: "#1976D2", marginBottom: 16, textAlign: isMobile || isTablet ? "center" : "left" }}>Industry-Focused Internship Opportunities Across India</motion.h3>
+                <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+                  Our India internship programs are designed for students and fresh graduates who want to gain 
+                  practical exposure and improve employability through real-time project experience.
+                </motion.p>
+                <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+                  We collaborate with industry professionals and growing organizations to provide internship 
+                  opportunities in various technical and non-technical domains.
+                </motion.p>
+                <motion.h4 variants={fromBottomItem} style={{ fontSize: isMobile ? 16 : 18, fontWeight: 700, marginTop: 24, textAlign: isMobile || isTablet ? "center" : "left" }}>Benefits of India Internships</motion.h4>
+                <motion.div variants={fromBottomItem} style={styles.benefitList}>
+                  {indiaBenefits.map(b => (
+                    <span key={b} style={styles.benefitItem}>{b}</span>
+                  ))}
+                </motion.div>
+              </div>
+              <motion.div variants={imageFromRight} style={getImageColumnStyle()}>
+                <img src="/internship-img5.jpg" alt="Internship Opportunities in India" style={styles.sectionImage} />
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* INTERNSHIPS IN UK - Section 5 */}
+        <div ref={ukInternshipRef}>
+          <motion.div
+            variants={fromBottomStagger}
+            initial="hidden"
+            animate={ukInternshipControls}
+          >
+            <div style={getTwoColumnWrapperStyle()}>
+              <div style={getContentColumnStyle()}>
+                <motion.h2 variants={fromBottomItem} style={{ ...getSectionHeadingStyle(), marginTop: 48, marginBottom: 16 }}>INTERNSHIPS IN UK</motion.h2>
+                <motion.h3 variants={fromBottomItem} style={{ fontSize: isMobile ? 20 : 24, color: "#1976D2", marginBottom: 16, textAlign: isMobile || isTablet ? "center" : "left" }}>International Internship Opportunities In The UK</motion.h3>
+                <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+                  Data Artisans also supports students and professionals looking for international internship 
+                  opportunities in the United Kingdom.
+                </motion.p>
+                <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+                  Our UK internship support programs help candidates gain global exposure, international work 
+                  experience, and professional development opportunities in modern business environments.
+                </motion.p>
+                <motion.h4 variants={fromBottomItem} style={{ fontSize: isMobile ? 16 : 18, fontWeight: 700, marginTop: 24, textAlign: isMobile || isTablet ? "center" : "left" }}>Benefits of UK Internships</motion.h4>
+                <motion.div variants={fromBottomItem} style={styles.benefitList}>
+                  {ukBenefits.map(b => (
+                    <span key={b} style={styles.benefitItem}>{b}</span>
+                  ))}
+                </motion.div>
+              </div>
+              <motion.div variants={imageFromLeft} style={getImageColumnStyle()}>
+                <img src="/internship-img6.jpg" alt="Internship Opportunities in UK" style={styles.sectionImage} />
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* WHY CHOOSE - Section 6 */}
+        <div ref={whyChooseRef}>
+          <motion.div
+            variants={fromRightStagger}
+            initial="hidden"
+            animate={whyChooseControls}
+          >
+            <motion.h2 variants={fromRightItem} style={{ ...getSectionHeadingStyle(), marginTop: 48 }}>WHY CHOOSE DATA ARTISANS</motion.h2>
+            <motion.h3 variants={fromRightItem} style={{ fontSize: isMobile ? 18 : 20, marginBottom: 24, textAlign: isMobile || isTablet ? "center" : "left" }}>Why Students Prefer Our Internship Programs</motion.h3>
+            <motion.div variants={fromRightItem} style={{ ...styles.checkList, gridTemplateColumns: getCheckListColumns() }}>
+              {["Industry-Relevant Training", "Real-Time Practical Exposure", "Experienced Mentors", "Career-Oriented Learning", "Flexible Learning Models", "Professional Guidance", "Internship Certification", "Placement-Focused Support"].map(w => (
+                <div key={w} style={styles.checkItem}>{w}</div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* OUR PROCESS - Section 7 */}
+        <div ref={ourProcessRef}>
+          <motion.div
+            variants={fromRightStagger}
+            initial="hidden"
+            animate={ourProcessControls}
+          >
+            <motion.h2 variants={fromRightItem} style={{ ...getSectionHeadingStyle(), marginTop: 48 }}>OUR PROCESS</motion.h2>
+            <motion.h3 variants={fromRightItem} style={{ fontSize: isMobile ? 18 : 20, marginBottom: 24, textAlign: isMobile || isTablet ? "center" : "left" }}>How Our Internship Program Works</motion.h3>
+            <motion.div variants={fromRightItem} style={{ ...styles.processGrid, gridTemplateColumns: getProcessGridColumns() }}>
+              <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>1. Profile Evaluation</strong><br />Understanding student interests, skills, and career goals.</div>
+              <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>2. Domain Selection</strong><br />Choosing suitable internship programs based on career interests.</div>
+              <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>3. Training & Project Assignment</strong><br />Hands-on learning with real-time projects and mentorship.</div>
+              <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>4. Practical Implementation</strong><br />Working on assignments, case studies, and project execution.</div>
+              <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>5. Certification</strong><br />Internship completion certification and performance evaluation.</div>
+              <div style={styles.processStep}><strong style={{ color: "#1976D2" }}>6. Career Support</strong><br />Resume guidance, interview preparation, and placement assistance.</div>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* WHO CAN APPLY - Section 8 */}
+        <div ref={whoCanApplyRef}>
+          <motion.div
+            variants={fromBottomStagger}
+            initial="hidden"
+            animate={whoCanApplyControls}
+          >
+            <div style={getTwoColumnWrapperStyle()}>
+              <div style={getContentColumnStyle()}>
+                <motion.h3 variants={fromBottomItem} style={{ fontSize: isMobile ? 24 : 28, marginBottom: 24, color: "#1976D2", textAlign: isMobile || isTablet ? "center" : "left" }}>WHO CAN APPLY</motion.h3>
+                <motion.div variants={fromBottomItem} style={{ display: "flex", flexWrap: "wrap", gap: 32, marginBottom: 24, justifyContent: isMobile || isTablet ? "center" : "flex-start" }}>
+                  {["🎓 Students", "👨‍🎓 Freshers", "💻 Career Switchers", "🎓 Graduates", "🌍 International Aspirants", "⚙️ Tech Enthusiasts"].map(w => (
+                    <span key={w} style={{ fontSize: isMobile ? 16 : 18 }}>{w}</span>
+                  ))}
+                </motion.div>
+                <motion.p variants={fromBottomItem} style={{ fontSize: isMobile ? 13 : 14, lineHeight: 1.6, textAlign: isMobile || isTablet ? "center" : "left" }}>Whether you are starting your career or upgrading your practical skills, our internship programs are designed to help you gain real-world industry exposure.</motion.p>
+              </div>
+              <motion.div variants={imageFromRight} style={getImageColumnStyle()}>
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=360&fit=crop" alt="Who Can Apply - Students and Professionals" style={styles.sectionImage} />
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* CALL TO ACTION - Section 9 */}
+        <div ref={ctaSimpleRef}>
+          <motion.div
+            variants={fromBottomStagger}
+            initial="hidden"
+            animate={ctaSimpleControls}
+            style={getCtaSimpleStyle()}
+          >
+            <motion.h3 variants={fromBottomItem} style={{ fontSize: isMobile ? 22 : 28, marginBottom: 16 }}>Start Your Internship Journey Today</motion.h3>
+            <motion.p variants={fromBottomItem} style={{ fontSize: isMobile ? 14 : 16, marginBottom: 24 }}>Build practical skills, gain industry exposure, and strengthen your career with Data Artisans internship programs in India and the UK.</motion.p>
+            <motion.p variants={fromBottomItem}>📞 +91 XXXXX XXXXX</motion.p>
+            <motion.p variants={fromBottomItem}>📧 info@dataartisans.com</motion.p>
+            <motion.p variants={fromBottomItem}>🌐 www.dataartisans.com</motion.p>
+            <motion.p variants={fromBottomItem} style={{ marginTop: 20, fontWeight: 700 }}>Learn. Practice. Grow Professionally.</motion.p>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
