@@ -22,6 +22,7 @@ const styles: Record<string, React.CSSProperties> = {
     minHeight: 520,
     position: "relative",
     overflow: "hidden",
+    backgroundRepeat: "no-repeat",
   },
   heroText: { maxWidth: 700, zIndex: 1, margin: "0 auto" },
   heroHeading: {
@@ -345,6 +346,19 @@ const styles: Record<string, React.CSSProperties> = {
 const AIPoweredHiring: React.FC = () => {
   // State for hovered icon
   const [hoveredIcon, setHoveredIcon] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   // Animation controls
   const heroImageControls = useAnimation();
@@ -395,11 +409,6 @@ const AIPoweredHiring: React.FC = () => {
     hidden: { opacity: 0, x: -100 },
     visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
   } as const;
-
-  // const contentFromRight = {
-  //   hidden: { opacity: 0, x: 100 },
-  //   visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
-  // } as const;
 
   const cardFromBottom = {
     hidden: { opacity: 0, y: 80 },
@@ -467,7 +476,222 @@ const AIPoweredHiring: React.FC = () => {
     window.location.href = "/contact-us";
   };
 
-  // Intersection Observer setup (removed triggerOnce - not a valid option)
+  // Responsive style functions
+  const getHeroBackgroundStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { 
+        ...styles.hero, 
+        backgroundSize: "contain", 
+        backgroundPosition: "center", 
+        backgroundRepeat: "no-repeat",
+        minHeight: 320,
+        padding: "0px"
+      };
+    }
+    if (isTablet) {
+      return { 
+        ...styles.hero, 
+        backgroundSize: "contain", 
+        backgroundPosition: "center", 
+        backgroundRepeat: "no-repeat",
+        minHeight: 450,
+        padding: "60px 40px"
+      };
+    }
+    return styles.hero;
+  };
+
+  const getHeroHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroHeading, fontSize: 32 };
+    if (isTablet) return { ...styles.heroHeading, fontSize: 40 };
+    return styles.heroHeading;
+  };
+
+  const getHeroDescriptionStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroDescription, display: "none" };
+    if (isTablet) return { ...styles.heroDescription, fontSize: 13 };
+    return styles.heroDescription;
+  };
+
+  const getIntroSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.introSection, flexDirection: "column", padding: "20px 20px 40px 20px", textAlign: "center" };
+    }
+    if (isTablet) {
+      return { ...styles.introSection, flexDirection: "column", padding: "30px 20px 50px 20px", textAlign: "center" };
+    }
+    return styles.introSection;
+  };
+
+  const getIntroBodyStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.introBody;
+  };
+
+  const getIntroImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.introImageBox;
+  };
+
+  const getCardsGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(3, 1fr)";
+  };
+
+  const getCardsSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.cardsSection, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.cardsSection, padding: "50px 30px" };
+    }
+    return styles.cardsSection;
+  };
+
+  const getStatsGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(4, 1fr)";
+  };
+
+  const getStatsSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.statsSection, padding: "40px 20px", gap: 30 };
+    }
+    if (isTablet) {
+      return { ...styles.statsSection, padding: "50px 30px", gap: 30 };
+    }
+    return styles.statsSection;
+  };
+
+  const getStatNumberStyle = (): React.CSSProperties => {
+    if (isMobile) return { fontSize: 36 };
+    if (isTablet) return { fontSize: 42 };
+    return { fontSize: 48 };
+  };
+
+  const getStatLabelStyle = (): React.CSSProperties => {
+    if (isMobile) return { fontSize: 11 };
+    if (isTablet) return { fontSize: 12 };
+    return { fontSize: 14 };
+  };
+
+  const getGoldBannerStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.goldBanner, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.goldBanner;
+  };
+
+  const getGoldBannerTextStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.goldBannerText;
+  };
+
+  const getGoldBannerImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.goldBannerImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.goldBannerImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.goldBannerImageBox;
+  };
+
+  const getIconGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    return "repeat(2, 1fr)";
+  };
+
+  const getIconRowStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.iconRow, padding: "0 20px 40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.iconRow, padding: "0 30px 50px 30px" };
+    }
+    return styles.iconRow;
+  };
+
+  const getTechSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.techSection, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.techSection;
+  };
+
+  const getTechBodyStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.techBody;
+  };
+
+  const getTechImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.techImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.techImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.techImageBox;
+  };
+
+  const getFeatureGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(3, 1fr)";
+  };
+
+  const getFeatureSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.featureSection, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.featureSection, padding: "50px 30px" };
+    }
+    return styles.featureSection;
+  };
+
+  const getCtaBannerStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.ctaBanner, padding: "40px 20px", fontSize: 18 };
+    }
+    if (isTablet) {
+      return { ...styles.ctaBanner, padding: "48px 30px", fontSize: 20 };
+    }
+    return styles.ctaBanner;
+  };
+
+  const getIntroParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.introPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.introPara, fontSize: 14, textAlign: "center" };
+    return styles.introPara;
+  };
+
+  const getSectionHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.sectionHeading, fontSize: 28 };
+    if (isTablet) return { ...styles.sectionHeading, fontSize: 32 };
+    return styles.sectionHeading;
+  };
+
+  const getTechParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.techPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.techPara, fontSize: 14, textAlign: "center" };
+    return styles.techPara;
+  };
+
+  // Intersection Observer setup
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
@@ -628,7 +852,7 @@ const AIPoweredHiring: React.FC = () => {
       {/* ── HERO ── */}
       <motion.section
         ref={heroRef}
-        style={styles.hero}
+        style={getHeroBackgroundStyle()}
         initial="hidden"
         animate={heroImageControls}
         variants={imageFromRight}
@@ -639,14 +863,14 @@ const AIPoweredHiring: React.FC = () => {
           initial="hidden"
           animate={heroTextControls}
         >
-          <h1 style={styles.heroHeading}>
+          <h1 style={getHeroHeadingStyle()}>
             AI Powered<br />
             Hiring.
           </h1>
-          <p style={styles.heroDescription}>
+          <p style={getHeroDescriptionStyle()}>
             Revolutionize your recruitment process with cutting-edge AI technology.
           </p>
-          <p style={styles.heroDescription}>
+          <p style={getHeroDescriptionStyle()}>
             Smart hiring starts with smart data - let AI lead the way.
           </p>
         </motion.div>
@@ -654,9 +878,25 @@ const AIPoweredHiring: React.FC = () => {
       </motion.section>
 
       {/* ── INTRO ── */}
-      <section ref={introRef} style={styles.introSection}>
+      <section ref={introRef} style={getIntroSectionStyle()}>
         <motion.div
-          style={styles.introImageBox}
+          style={getIntroBodyStyle()}
+          variants={fromBottomStagger}
+          initial="hidden"
+          animate={introContentControls}
+        >
+          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+            In today's diverse workforce, fairness and objectivity are non-negotiable. Traditional hiring methods can unknowingly introduce bias, leading to missed opportunities for both employers and talented candidates. AI-powered hiring transforms this by using data-driven assessments and algorithms that focus solely on skills, experience, and job relevance.
+          </motion.p>
+          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+            By removing human bias from the equation, AI helps organizations build more inclusive teams that reflect true merit. It ensures that every candidate is evaluated on an equal footing, paving the way for a transparent, equitable, and future-ready hiring process.
+          </motion.p>
+          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+            Discover the future of recruitment automation with Data Artisans.
+          </motion.p>
+        </motion.div>
+        <motion.div
+          style={getIntroImageBoxStyle()}
           variants={imageFromLeft}
           initial="hidden"
           animate={introImageControls}
@@ -667,36 +907,20 @@ const AIPoweredHiring: React.FC = () => {
             style={styles.introImage}
           />
         </motion.div>
-        <motion.div
-          style={styles.introBody}
-          variants={fromBottomStagger}
-          initial="hidden"
-          animate={introContentControls}
-        >
-          <motion.p variants={fromBottomItem} style={styles.introPara}>
-            In today's diverse workforce, fairness and objectivity are non-negotiable. Traditional hiring methods can unknowingly introduce bias, leading to missed opportunities for both employers and talented candidates. AI-powered hiring transforms this by using data-driven assessments and algorithms that focus solely on skills, experience, and job relevance.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.introPara}>
-            By removing human bias from the equation, AI helps organizations build more inclusive teams that reflect true merit. It ensures that every candidate is evaluated on an equal footing, paving the way for a transparent, equitable, and future-ready hiring process.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.introPara}>
-            Discover the future of recruitment automation with Data Artisans.
-          </motion.p>
-        </motion.div>
       </section>
 
       {/* ── CARDS (3 columns, 2 rows = 6 cards with different colors) ── */}
       <motion.section
         ref={cardsRef}
-        style={styles.cardsSection}
+        style={getCardsSectionStyle()}
         initial="hidden"
         animate={cardsControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Making <em style={styles.sectionHeadingItalic}>AI-powered recruitment happen</em>
         </motion.h2>
         <motion.div
-          style={styles.cardsGrid}
+          style={{ ...styles.cardsGrid, gridTemplateColumns: getCardsGridColumns() }}
           variants={cardContentStagger}
           initial="hidden"
           animate={cardsControls}
@@ -724,7 +948,7 @@ const AIPoweredHiring: React.FC = () => {
       {/* ── STATS SECTION ── */}
       <motion.div
         ref={statsRef}
-        style={styles.statsSection}
+        style={{ ...getStatsSectionStyle(), gridTemplateColumns: getStatsGridColumns() }}
         variants={fromRightStagger}
         initial="hidden"
         animate={statsControls}
@@ -736,16 +960,16 @@ const AIPoweredHiring: React.FC = () => {
           { number: "24x7", label: "Automated Engagement" },
         ].map((stat, i) => (
           <motion.div key={i} variants={fromRightItem} style={styles.statItem}>
-            <div style={styles.statNumber}>{stat.number}</div>
-            <div style={styles.statLabel}>{stat.label}</div>
+            <div style={{ ...styles.statNumber, ...getStatNumberStyle() }}>{stat.number}</div>
+            <div style={{ ...styles.statLabel, ...getStatLabelStyle() }}>{stat.label}</div>
           </motion.div>
         ))}
       </motion.div>
 
       {/* ── GOLD BANNER (Image on Right, Content on Left) ── */}
-      <section ref={goldBannerRef} style={styles.goldBanner}>
+      <section ref={goldBannerRef} style={getGoldBannerStyle()}>
         <motion.div
-          style={styles.goldBannerText}
+          style={getGoldBannerTextStyle()}
           variants={fromBottomStagger}
           initial="hidden"
           animate={goldBannerContentControls}
@@ -764,7 +988,7 @@ const AIPoweredHiring: React.FC = () => {
           </motion.p>
         </motion.div>
         <motion.div
-          style={styles.goldBannerImageBox}
+          style={getGoldBannerImageBoxStyle()}
           variants={imageFromRight}
           initial="hidden"
           animate={goldBannerImageControls}
@@ -780,12 +1004,12 @@ const AIPoweredHiring: React.FC = () => {
       {/* ── ICON ROW (2 columns, hover effect, same bg as gold banner) ── */}
       <motion.div
         ref={iconRowRef}
-        style={styles.iconRow}
+        style={getIconRowStyle()}
         variants={listFromRight}
         initial="hidden"
         animate={iconRowControls}
       >
-        <div style={styles.iconGrid}>
+        <div style={{ ...styles.iconGrid, gridTemplateColumns: getIconGridColumns() }}>
           {iconItems.map((item, i) => (
             <motion.div
               key={i}
@@ -817,12 +1041,31 @@ const AIPoweredHiring: React.FC = () => {
       {/* ── TECH SECTION ── */}
       <motion.section
         ref={techRef}
-        style={styles.techSection}
+        style={getTechSectionStyle()}
         initial="hidden"
         animate={techImageControls}
       >
         <motion.div
-          style={styles.techImageBox}
+          style={getTechBodyStyle()}
+          variants={fromBottomStagger}
+          initial="hidden"
+          animate={techContentControls}
+        >
+          <motion.p variants={fromBottomItem} style={getTechParaStyle()}>
+            The traditional hiring process — paper resumes, manual shortlisting, and lengthy interview cycles — is a thing of the past. We have evolved alongside the industry to bring technology at the centre of every placement we make.
+          </motion.p>
+          <motion.p variants={fromBottomItem} style={getTechParaStyle()}>
+            We have seen how recruitment has shifted from brick-and-mortar hiring to AI-powered talent matching. That evolution gives us the foresight to help organizations find exactly the right talent faster and more accurately than ever before.
+          </motion.p>
+          <motion.p variants={fromBottomItem} style={getTechParaStyle()}>
+            With the help of our group company Simplify3x, we deploy intelligent matching algorithms, automated assessments, and virtual interview platforms to streamline the entire hiring cycle end to end.
+          </motion.p>
+          <motion.p variants={fromBottomItem} style={getTechParaStyle()}>
+            Our internal processes leverage data, analytics, and operational automation to deliver exceptional experiences for both candidates and hiring organizations — reducing time-to-hire while improving quality of placement.
+          </motion.p>
+        </motion.div>
+        <motion.div
+          style={getTechImageBoxStyle()}
           variants={imageFromLeft}
           initial="hidden"
           animate={techImageControls}
@@ -833,45 +1076,26 @@ const AIPoweredHiring: React.FC = () => {
             style={styles.techImage}
           />
         </motion.div>
-        <motion.div
-          style={styles.techBody}
-          variants={fromBottomStagger}
-          initial="hidden"
-          animate={techContentControls}
-        >
-          <motion.p variants={fromBottomItem} style={styles.techPara}>
-            The traditional hiring process  paper resumes, manual shortlisting, and lengthy interview cycles — is a thing of the past. We have evolved alongside the industry to bring technology at the centre of every placement we make.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.techPara}>
-            We have seen how recruitment has shifted from brick-and-mortar hiring to AI-powered talent matching. That evolution gives us the foresight to help organizations find exactly the right talent faster and more accurately than ever before.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.techPara}>
-            With the help of our group company Simplify3x, we deploy intelligent matching algorithms, automated assessments, and virtual interview platforms to streamline the entire hiring cycle end to end.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.techPara}>
-            Our internal processes leverage data, analytics, and operational automation to deliver exceptional experiences for both candidates and hiring organizations  reducing time-to-hire while improving quality of placement.
-          </motion.p>
-        </motion.div>
       </motion.section>
 
       {/* ── FEATURE CARDS ── */}
       <motion.section
         ref={featureRef}
-        style={styles.featureSection}
+        style={getFeatureSectionStyle()}
         initial="hidden"
         animate={featureCardsControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Features
         </motion.h2>
         <motion.div
-          style={styles.featureGrid}
+          style={{ ...styles.featureGrid, gridTemplateColumns: getFeatureGridColumns() }}
           variants={cardContentStagger}
           initial="hidden"
           animate={featureCardsControls}
         >
           {[
-            { icon: "🖥️", title: "End to end virtual recruitment", body: "From sourcing and assessments to offer letters and virtual onboarding  fully digital and seamless." },
+            { icon: "🖥️", title: "End to end virtual recruitment", body: "From sourcing and assessments to offer letters and virtual onboarding — fully digital and seamless." },
             { icon: "📝", title: "AI-powered assessments", body: "Fraud-proof candidate screening with auto-detection and intelligent proctoring." },
             { icon: "🎥", title: "High volume video interviews", body: "With automatic ID verification and prevention of impersonation across bulk hiring drives." },
             { icon: "📱", title: "Seamless digital onboarding", body: "Fully digitized candidate engagement and document collection from day one." },
@@ -895,7 +1119,7 @@ const AIPoweredHiring: React.FC = () => {
       </motion.section>
 
       {/* ── CTA with Contact Us Button ── */}
-      <div style={styles.ctaBanner}>
+      <div style={getCtaBannerStyle()}>
         <div style={{ marginBottom: 16 }}>
           Visit <span style={styles.ctaSpan}>Simplify3x</span> to explore a whole new world of recruitment automation.
         </div>

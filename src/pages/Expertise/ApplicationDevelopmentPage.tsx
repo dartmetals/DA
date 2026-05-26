@@ -22,6 +22,7 @@ const styles: Record<string, React.CSSProperties> = {
     minHeight: 520,
     position: "relative",
     overflow: "hidden",
+    backgroundRepeat: "no-repeat",
   },
   heroOverlay: {
     position: "absolute",
@@ -345,6 +346,19 @@ const styles: Record<string, React.CSSProperties> = {
 const ApplicationDevelopmentPage: React.FC = () => {
   // State for hovered icon
   const [hoveredIcon, setHoveredIcon] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   // Animation controls
   const heroImageControls = useAnimation();
@@ -447,11 +461,205 @@ const ApplicationDevelopmentPage: React.FC = () => {
     window.location.href = "/contact-us";
   };
 
-  // Intersection Observer setup (removed triggerOnce)
+  // Responsive style functions with proper return type
+  const getHeroBackgroundStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { 
+        ...styles.hero, 
+        backgroundSize: "cover", 
+        backgroundPosition: "center", 
+        backgroundRepeat: "no-repeat",
+        minHeight: 380,
+        padding: "40px 20px"
+      };
+    }
+    if (isTablet) {
+      return { 
+        ...styles.hero, 
+        backgroundSize: "contain", 
+        backgroundPosition: "center", 
+        backgroundRepeat: "no-repeat",
+        minHeight: 520,
+        padding: "60px 40px"
+      };
+    }
+    return styles.hero;
+  };
+
+  const getHeroHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroHeading, fontSize: 32 };
+    if (isTablet) return { ...styles.heroHeading, fontSize: 42 };
+    return styles.heroHeading;
+  };
+
+  const getHeroDescriptionStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.heroDescription, display: "none" };
+    if (isTablet) return { ...styles.heroDescription, fontSize: 14 };
+    return styles.heroDescription;
+  };
+
+  const getIntroSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.introSection, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.introSection;
+  };
+
+  const getIntroBodyStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.introBody;
+  };
+
+  const getIntroImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.introImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.introImageBox;
+  };
+
+  const getCardsGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(4, 1fr)";
+  };
+
+  const getCardsSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.cardsSection, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.cardsSection, padding: "50px 30px" };
+    }
+    return styles.cardsSection;
+  };
+
+  const getGoldBannerStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.goldBanner, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.goldBanner;
+  };
+
+  const getGoldBannerTextStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.goldBannerText;
+  };
+
+  const getGoldBannerImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.goldBannerImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.goldBannerImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.goldBannerImageBox;
+  };
+
+  const getIconGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    return "repeat(2, 1fr)";
+  };
+
+  const getIconRowStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.iconRow, padding: "0 20px 40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.iconRow, padding: "0 30px 50px 30px" };
+    }
+    return styles.iconRow;
+  };
+
+  const getTechSectionStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { ...styles.techSection, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+    }
+    return styles.techSection;
+  };
+
+  const getTechBodyStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { width: "100%", textAlign: "center" };
+    }
+    return styles.techBody;
+  };
+
+  const getTechImageBoxStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.techImageBox, width: "100%", height: "auto", minHeight: 250 };
+    }
+    if (isTablet) {
+      return { ...styles.techImageBox, width: "100%", height: "auto", minHeight: 300 };
+    }
+    return styles.techImageBox;
+  };
+
+  const getFeatureGridColumns = (): string => {
+    if (isMobile) return "1fr";
+    if (isTablet) return "repeat(2, 1fr)";
+    return "repeat(3, 1fr)";
+  };
+
+  const getFeatureSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.featureSection, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.featureSection, padding: "50px 30px" };
+    }
+    return styles.featureSection;
+  };
+
+  const getCtaBannerStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.ctaBanner, padding: "40px 20px", fontSize: 18 };
+    }
+    if (isTablet) {
+      return { ...styles.ctaBanner, padding: "48px 30px", fontSize: 20 };
+    }
+    return styles.ctaBanner;
+  };
+
+  const getAdditionalSectionStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { ...styles.additionalSection, padding: "40px 20px" };
+    }
+    if (isTablet) {
+      return { ...styles.additionalSection, padding: "50px 30px" };
+    }
+    return styles.additionalSection;
+  };
+
+  const getIntroParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.introPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.introPara, fontSize: 14, textAlign: "center" };
+    return styles.introPara;
+  };
+
+  const getSectionHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.sectionHeading, fontSize: 28 };
+    if (isTablet) return { ...styles.sectionHeading, fontSize: 32 };
+    return styles.sectionHeading;
+  };
+
+  const getTechParaStyle = (): React.CSSProperties => {
+    if (isMobile) return { ...styles.techPara, fontSize: 13, textAlign: "center" };
+    if (isTablet) return { ...styles.techPara, fontSize: 14, textAlign: "center" };
+    return styles.techPara;
+  };
+
+  // Intersection Observer setup
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
-    // Hero section - image from right, text from bottom after image
+    // Hero section
     if (heroRef.current) {
       const heroObserver = new IntersectionObserver(
         ([entry]) => {
@@ -469,7 +677,7 @@ const ApplicationDevelopmentPage: React.FC = () => {
       observers.push(heroObserver);
     }
 
-    // Intro section - image from left, content from bottom
+    // Intro section
     if (introRef.current) {
       const introObserver = new IntersectionObserver(
         ([entry]) => {
@@ -487,7 +695,7 @@ const ApplicationDevelopmentPage: React.FC = () => {
       observers.push(introObserver);
     }
 
-    // Cards section - everything from bottom
+    // Cards section
     if (cardsRef.current) {
       const cardsObserver = new IntersectionObserver(
         ([entry]) => {
@@ -503,7 +711,7 @@ const ApplicationDevelopmentPage: React.FC = () => {
       observers.push(cardsObserver);
     }
 
-    // Gold Banner - image from right, content from bottom
+    // Gold Banner
     if (goldBannerRef.current) {
       const goldObserver = new IntersectionObserver(
         ([entry]) => {
@@ -521,7 +729,7 @@ const ApplicationDevelopmentPage: React.FC = () => {
       observers.push(goldObserver);
     }
 
-    // Icon Row - points from right one after another
+    // Icon Row
     if (iconRowRef.current) {
       const iconObserver = new IntersectionObserver(
         ([entry]) => {
@@ -537,7 +745,7 @@ const ApplicationDevelopmentPage: React.FC = () => {
       observers.push(iconObserver);
     }
 
-    // Tech section - image from left, content from bottom
+    // Tech section
     if (techRef.current) {
       const techObserver = new IntersectionObserver(
         ([entry]) => {
@@ -555,7 +763,7 @@ const ApplicationDevelopmentPage: React.FC = () => {
       observers.push(techObserver);
     }
 
-    // Feature Cards - cards from bottom
+    // Feature Cards
     if (featureRef.current) {
       const featureObserver = new IntersectionObserver(
         ([entry]) => {
@@ -571,7 +779,7 @@ const ApplicationDevelopmentPage: React.FC = () => {
       observers.push(featureObserver);
     }
 
-    // Additional section - content from bottom
+    // Additional section
     if (additionalRef.current) {
       const additionalObserver = new IntersectionObserver(
         ([entry]) => {
@@ -614,7 +822,7 @@ const ApplicationDevelopmentPage: React.FC = () => {
       {/* ── HERO ── */}
       <motion.section
         ref={heroRef}
-        style={styles.hero}
+        style={getHeroBackgroundStyle()}
         initial="hidden"
         animate={heroImageControls}
         variants={imageFromRight}
@@ -627,11 +835,11 @@ const ApplicationDevelopmentPage: React.FC = () => {
           initial="hidden"
           animate={heroTextControls}
         >
-          <h1 style={styles.heroHeading}>
-            Innovate with<br />
+          <h1 style={getHeroHeadingStyle()}>
+            Innovate with
             Code.
           </h1>
-          <p style={styles.heroDescription}>
+          <p style={getHeroDescriptionStyle()}>
             Transform your ideas into powerful, scalable applications with our expert development team.
             From concept to deployment, we bring your vision to life.
           </p>
@@ -640,9 +848,28 @@ const ApplicationDevelopmentPage: React.FC = () => {
       </motion.section>
 
       {/* ── INTRO ── */}
-      <section ref={introRef} style={styles.introSection}>
+      <section ref={introRef} style={getIntroSectionStyle()}>
         <motion.div
-          style={styles.introImageBox}
+          style={getIntroBodyStyle()}
+          variants={fromBottomStagger}
+          initial="hidden"
+          animate={introContentControls}
+        >
+          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+            Data Artisans blends technical expertise with strategic thinking to deliver custom application solutions that solve real business challenges. We prioritize seamless integration, future-ready architecture, and user-centric design to create software that's not only functional but transformative.
+          </motion.p>
+          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+            With over two decades of connecting talent with opportunity, we understand what organisations need from technology partners and what end-users need from applications. Our development programmes are structured to deliver real value — not just code completion, but genuine business impact.
+          </motion.p>
+          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+            We partner with organisations across sectors to create custom applications that solve real business challenges. From identifying the right technology stack to managing the entire development lifecycle, we make it seamless.
+          </motion.p>
+          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+            Our deep industry expertise, technology partnerships, and agile development capabilities give us the edge to deliver the right solution for the right problem — every time. Let us make the right experience happen.
+          </motion.p>
+        </motion.div>
+        <motion.div
+          style={getIntroImageBoxStyle()}
           variants={imageFromLeft}
           initial="hidden"
           animate={introImageControls}
@@ -653,39 +880,20 @@ const ApplicationDevelopmentPage: React.FC = () => {
             style={styles.introImage}
           />
         </motion.div>
-        <motion.div
-          style={styles.introBody}
-          variants={fromBottomStagger}
-          initial="hidden"
-          animate={introContentControls}
-        >
-          <motion.p variants={fromBottomItem} style={styles.introPara}>
-            Data Artisans blends technical expertise with strategic thinking to deliver custom application solutions that solve real business challenges. We prioritize seamless integration, future-ready architecture, and user-centric design to create software that's not only functional but transformative.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.introPara}>
-            With over two decades of connecting talent with opportunity, we understand what organisations need from technology partners and what end-users need from applications. Our development programmes are structured to deliver real value  not just code completion, but genuine business impact.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.introPara}>
-            We partner with organisations across sectors to create custom applications that solve real business challenges. From identifying the right technology stack to managing the entire development lifecycle, we make it seamless.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.introPara}>
-            Our deep industry expertise, technology partnerships, and agile development capabilities give us the edge to deliver the right solution for the right problem  every time. Let us make the right experience happen.
-          </motion.p>
-        </motion.div>
       </section>
 
       {/* ── CARDS (4 cards in one row with different colors) ── */}
       <motion.section
         ref={cardsRef}
-        style={styles.cardsSection}
+        style={getCardsSectionStyle()}
         initial="hidden"
         animate={cardsControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Crafting <em style={styles.sectionHeadingItalic}>Intelligent Solutions</em> that Empower Digital Growth
         </motion.h2>
         <motion.div
-          style={styles.cardsGrid}
+          style={{ ...styles.cardsGrid, gridTemplateColumns: getCardsGridColumns() }}
           variants={cardContentStagger}
           initial="hidden"
           animate={cardsControls}
@@ -711,9 +919,9 @@ const ApplicationDevelopmentPage: React.FC = () => {
       </motion.section>
 
       {/* ── GOLD BANNER (Image on Right, Content on Left) ── */}
-      <section ref={goldBannerRef} style={styles.goldBanner}>
+      <section ref={goldBannerRef} style={getGoldBannerStyle()}>
         <motion.div
-          style={styles.goldBannerText}
+          style={getGoldBannerTextStyle()}
           variants={fromBottomStagger}
           initial="hidden"
           animate={goldBannerContentControls}
@@ -729,7 +937,7 @@ const ApplicationDevelopmentPage: React.FC = () => {
           </motion.p>
         </motion.div>
         <motion.div
-          style={styles.goldBannerImageBox}
+          style={getGoldBannerImageBoxStyle()}
           variants={imageFromRight}
           initial="hidden"
           animate={goldBannerImageControls}
@@ -745,12 +953,12 @@ const ApplicationDevelopmentPage: React.FC = () => {
       {/* ── ICON ROW (2 columns, same color as gold banner, hover effect) ── */}
       <motion.div
         ref={iconRowRef}
-        style={styles.iconRow}
+        style={getIconRowStyle()}
         variants={listFromRight}
         initial="hidden"
         animate={iconRowControls}
       >
-        <div style={styles.iconGrid}>
+        <div style={{ ...styles.iconGrid, gridTemplateColumns: getIconGridColumns() }}>
           {iconItems.map((item, i) => (
             <motion.div
               key={i}
@@ -782,12 +990,28 @@ const ApplicationDevelopmentPage: React.FC = () => {
       {/* ── TECH SECTION (Image on Left, Content on Right) ── */}
       <motion.section
         ref={techRef}
-        style={styles.techSection}
+        style={getTechSectionStyle()}
         initial="hidden"
         animate={techImageControls}
       >
         <motion.div
-          style={styles.techImageBox}
+          style={getTechBodyStyle()}
+          variants={fromBottomStagger}
+          initial="hidden"
+          animate={techContentControls}
+        >
+          <motion.p variants={fromBottomItem} style={getTechParaStyle()}>
+            Today businesses thrive on global, forward-thinking strategies programmed into high-end technology solutions. Businesses want solutions based on innovative concepts that should give them leverage over their competitors. These solutions should be agile enough to respond to inevitable changes and should have an ability to deliver quick results amid various industry challenges.
+          </motion.p>
+          <motion.p variants={fromBottomItem} style={getTechParaStyle()}>
+            We, at Data Artisans, drive businesses to success by giving them the much required edge in the industry. By delivering all kinds of solutions from enterprise-based applications to custom-made eCommerce applications, Data Artisans creates new opportunities, streamlines processes, and integrates operations.
+          </motion.p>
+          <motion.p variants={fromBottomItem} style={getTechParaStyle()}>
+            The skilful experts at Data Artisans are your right technology partners, who can help you maximize process improvement and operational savings by implementing best Web solutions designed for your business needs.
+          </motion.p>
+        </motion.div>
+        <motion.div
+          style={getTechImageBoxStyle()}
           variants={imageFromLeft}
           initial="hidden"
           animate={techImageControls}
@@ -798,36 +1022,20 @@ const ApplicationDevelopmentPage: React.FC = () => {
             style={styles.techImage}
           />
         </motion.div>
-        <motion.div
-          style={styles.techBody}
-          variants={fromBottomStagger}
-          initial="hidden"
-          animate={techContentControls}
-        >
-          <motion.p variants={fromBottomItem} style={styles.techPara}>
-            Today businesses thrive on global, forward-thinking strategies programmed into high-end technology solutions. Businesses want solutions based on innovative concepts that should give them leverage over their competitors. These solutions should be agile enough to respond to inevitable changes and should have an ability to deliver quick results amid various industry challenges.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.techPara}>
-            We, at Data Artisans, drive businesses to success by giving them the much required edge in the industry. By delivering all kinds of solutions from enterprise-based applications to custom-made eCommerce applications, Data Artisans creates new opportunities, streamlines processes, and integrates operations.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.techPara}>
-            The skilful experts at Data Artisans are your right technology partners, who can help you maximize process improvement and operational savings by implementing best Web solutions designed for your business needs.
-          </motion.p>
-        </motion.div>
       </motion.section>
 
       {/* ── FEATURE CARDS ── */}
       <motion.section
         ref={featureRef}
-        style={styles.featureSection}
+        style={getFeatureSectionStyle()}
         initial="hidden"
         animate={featureCardsControls}
       >
-        <motion.h2 variants={textFromBottom} style={styles.sectionHeading}>
+        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
           Features
         </motion.h2>
         <motion.div
-          style={styles.featureGrid}
+          style={{ ...styles.featureGrid, gridTemplateColumns: getFeatureGridColumns() }}
           variants={cardContentStagger}
           initial="hidden"
           animate={featureCardsControls}
@@ -857,7 +1065,7 @@ const ApplicationDevelopmentPage: React.FC = () => {
       </motion.section>
 
       {/* ── CTA with Contact Us Button ── */}
-      <div style={styles.ctaBanner}>
+      <div style={getCtaBannerStyle()}>
         <div>At the heart of great software lies <span style={styles.ctaSpan}>purpose-driven development.</span></div>
         <button onClick={handleContactClick} style={styles.ctaButton}>
           Contact Us
@@ -867,19 +1075,19 @@ const ApplicationDevelopmentPage: React.FC = () => {
       {/* ── ADDITIONAL CONTENT SECTION ── */}
       <motion.section
         ref={additionalRef}
-        style={styles.additionalSection}
+        style={getAdditionalSectionStyle()}
         variants={fromBottomStagger}
         initial="hidden"
         animate={additionalSectionControls}
       >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <motion.p variants={fromBottomItem} style={styles.introPara}>
+          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
             Data Artisans eBusiness consulting solutions deliver measurable value, incorporating a broad range of technologies. We build and implement end-to-end e-Business services and solutions that seamlessly integrate with diverse business applications.
           </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.introPara}>
+          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
             Our portfolio of successful Web projects includes Web Portals for eGovernance, License Management Systems, Social Networking sites, Customer relationship management applications, Content management and Workflow solutions, eLearning portals, storefronts, integration with back-end applications, Web-enabling of legacy applications, and ERP systems integration with Web applications.
           </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.introPara}>
+          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
             Our Web solutions bring together expertise in middleware integration, application servers, portal development frameworks, and content management solutions, on the latest technology platforms such as Microsoft .NET and J2EE.
           </motion.p>
         </div>
