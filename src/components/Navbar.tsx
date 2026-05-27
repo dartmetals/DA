@@ -293,6 +293,8 @@ const Navbar: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             gap: '12px',
+            maxHeight: '80vh',
+            overflowY: 'auto',
           }}
         >
           {/* Mobile Home Link */}
@@ -401,9 +403,57 @@ const Navbar: React.FC = () => {
       )}
 
       <style>{`
-        @media (max-width: 900px) {
-          .desktop-nav { display: none !important; }
-          .hamburger { display: block !important; }
+        @media (max-width: 1024px) {
+          /* For tablet and below, make desktop nav scrollable horizontally */
+          .desktop-nav {
+            display: flex !important;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+            flex: 1;
+            justify-content: flex-start;
+            margin-left: 20px;
+            margin-right: 10px;
+          }
+          
+          .desktop-nav::-webkit-scrollbar {
+            height: 4px;
+          }
+          
+          .desktop-nav::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+          }
+          
+          .desktop-nav::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+          }
+          
+          .desktop-nav::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+          }
+          
+          .desktop-nav a,
+          .desktop-nav > div {
+            flex-shrink: 0;
+          }
+          
+          .hamburger {
+            display: none !important;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          /* For mobile, hide desktop nav and show hamburger */
+          .desktop-nav {
+            display: none !important;
+          }
+          .hamburger {
+            display: block !important;
+          }
         }
         
         @keyframes fadeIn {

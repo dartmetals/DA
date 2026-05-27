@@ -37,6 +37,21 @@ const HeroBanner: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<Particle[]>([])
   const animFrameRef = useRef<number>(0)
+  
+  // State for responsive layout
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 700)
+      setIsTablet(window.innerWidth >= 700 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
 
   /* ── Colour cycling ── */
   useEffect(() => {
@@ -168,7 +183,7 @@ const HeroBanner: React.FC = () => {
   return (
     <div style={{
       position: 'relative',
-      height: '300px',
+      height: isMobile ? '240px' : isTablet ? '300px' : '360px',
       overflow: 'hidden',
       transition: 'background 1.2s ease',
       background: transitioning
@@ -198,7 +213,7 @@ const HeroBanner: React.FC = () => {
       ))}
 
       {/* Content */}
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1200px', margin: '0 auto', padding: '0 40px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: '0' }}>
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1200px', margin: '0 auto', padding: '40px 40px', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: '0' }}>
         {/* Breadcrumb */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
           <a href="/" style={{ color: 'rgba(255,255,255,0.75)', fontSize: '13px', textDecoration: 'underline', cursor: 'pointer' }}>Home</a>
@@ -207,7 +222,7 @@ const HeroBanner: React.FC = () => {
         </div>
         {/* Title */}
         <h1 style={{
-          fontSize: 'clamp(38px, 6vw, 60px)',
+          fontSize: isMobile ? '32px' : isTablet ? '42px' : 'clamp(38px, 6vw, 60px)',
           fontWeight: '700',
           color: '#ffffff',
           lineHeight: 1.15,
@@ -217,7 +232,7 @@ const HeroBanner: React.FC = () => {
           Contact Us
         </h1>
         {/* Red bar accent */}
-        <div style={{ display: 'flex', gap: '6px', marginBottom: '0', paddingBottom: '40px' }}>
+        <div style={{ display: 'flex', gap: '6px', marginBottom: '0', paddingBottom: isMobile ? '20px' : '40px' }}>
           <div style={{ width: '40px', height: '3px', backgroundColor: RED }} />
           <div style={{ width: '14px', height: '3px', backgroundColor: 'rgba(255,255,255,0.4)' }} />
         </div>
@@ -276,6 +291,21 @@ const MapPinIcon = () => (
 )
 
 const InfoCards: React.FC = () => {
+  // State for responsive layout
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
   const cards = [
     {
       icon: <EmailIcon />,
@@ -307,11 +337,18 @@ const InfoCards: React.FC = () => {
     },
   ]
 
+  // Responsive grid style
+  const getGridStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return { display: 'grid', gridTemplateColumns: '1fr', gap: '20px', marginTop: '-56px', position: 'relative', zIndex: 10 }
+    }
+    return { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '-56px', position: 'relative', zIndex: 10 }
+  }
+
   return (
     <div style={{
       maxWidth: '1200px', margin: '0 auto', padding: '0 40px',
-      display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
-      gap: '20px', marginTop: '-56px', position: 'relative', zIndex: 10,
+      ...getGridStyle(),
     }}>
       {cards.map((card, i) => (
         <div key={i} style={{
@@ -359,6 +396,21 @@ const AnimatedContactSection: React.FC = () => {
   const [animPhase, setAnimPhase] = useState(0)
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+  
+  // State for responsive layout
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
 
   // Blue-themed animated gradient cycling (same concept as hero)
   const CONTACT_PHASES = [
@@ -386,10 +438,28 @@ const AnimatedContactSection: React.FC = () => {
     setFormData({ name: '', email: '', subject: '', message: '' })
   }
 
+  // Responsive grid style for the contact section
+  const getContactGridStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) {
+      return {
+        position: 'relative', zIndex: 1,
+        maxWidth: '1200px', margin: '0 auto', padding: '0 40px',
+        display: 'flex', flexDirection: 'column',
+        gap: '28px', alignItems: 'stretch',
+      }
+    }
+    return {
+      position: 'relative', zIndex: 1,
+      maxWidth: '1200px', margin: '0 auto', padding: '0 40px',
+      display: 'grid', gridTemplateColumns: '1fr 1fr',
+      gap: '28px', alignItems: 'stretch',
+    }
+  }
+
   return (
     <div style={{
       backgroundColor: '#fff',
-      padding: '48px 0 70px',
+      padding: isMobile ? '30px 0 50px' : '48px 0 70px',
       position: 'relative',
       overflow: 'hidden',
     }}>
@@ -419,12 +489,7 @@ const AnimatedContactSection: React.FC = () => {
         }} />
       ))}
 
-      <div style={{
-        position: 'relative', zIndex: 1,
-        maxWidth: '1200px', margin: '0 auto', padding: '0 40px',
-        display: 'grid', gridTemplateColumns: '1fr 1fr',
-        gap: '28px', alignItems: 'stretch',
-      }}>
+      <div style={getContactGridStyle()}>
         {/* ── LEFT: Map ── */}
         <div style={{
           borderRadius: '8px', overflow: 'hidden',
@@ -434,7 +499,7 @@ const AnimatedContactSection: React.FC = () => {
         }}>
           {/* Map info strip */}
           <div style={{ padding: '18px 20px 14px', backgroundColor: '#fff', borderBottom: '1px solid #f0f0f0' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
               <div>
                 <h4 style={{ fontSize: '14px', fontWeight: '700', color: DARK, marginBottom: '4px' }}>Data Artisans</h4>
                 <p style={{ fontSize: '12.5px', color: GRAY, lineHeight: 1.6 }}>
@@ -462,7 +527,7 @@ const AnimatedContactSection: React.FC = () => {
           </div>
 
           {/* Embedded Google Map iframe */}
-          <div style={{ height: '380px', position: 'relative' }}>
+          <div style={{ height: isMobile ? '280px' : '380px', position: 'relative' }}>
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.1234567890123!2d78.48765!3d17.44220!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb90f8d4e3b7a1%3A0xabcdef1234567890!2sTMI%20Network!5e0!3m2!1sen!2sin!4v1716000000000!5m2!1sen!2sin"
               width="100%"
@@ -482,10 +547,10 @@ const AnimatedContactSection: React.FC = () => {
           borderRadius: '8px',
           border: '1px solid #e2e8f0',
           boxShadow: '0 6px 24px rgba(0,0,0,0.06)',
-          padding: '36px 32px',
+          padding: isMobile ? '24px 20px' : '36px 32px',
           display: 'flex', flexDirection: 'column',
         }}>
-          <h2 style={{ fontSize: '24px', fontWeight: '700', color: DARK, textAlign: 'center', marginBottom: '6px' }}>
+          <h2 style={{ fontSize: isMobile ? '22px' : '24px', fontWeight: '700', color: DARK, textAlign: 'center', marginBottom: '6px' }}>
             Contact Us
           </h2>
           <p style={{ fontSize: '13.5px', color: GRAY, textAlign: 'center', marginBottom: '28px' }}>
@@ -624,21 +689,36 @@ const AnimatedContactSection: React.FC = () => {
 }
 
 
-const ContactUs: React.FC = () => (
-  <div style={{ fontFamily: FONT, backgroundColor: '#ffffff' }}>
-    
-    <div style={{ paddingTop: '68px' }}>
-      <HeroBanner />
-      {/* Info cards overlap hero bottom */}
-      <div style={{ backgroundColor: '#f8f8f8', paddingBottom: '0' }}>
-        <InfoCards />
+const ContactUs: React.FC = () => {
+  // State for responsive layout
+  const [isMobile, setIsMobile] = useState(false)
+  const [_isTablet, setIsTablet] = useState(false)
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
+  return (
+    <div style={{ fontFamily: FONT, backgroundColor: '#ffffff' }}>
+      <div style={{ paddingTop: '68px' }}>
+        <HeroBanner />
+        {/* Info cards overlap hero bottom */}
+        <div style={{ backgroundColor: '#f8f8f8', paddingBottom: '0' }}>
+          <InfoCards />
+        </div>
+        <div style={{ backgroundColor: '#f8f8f8', paddingTop: isMobile ? '30px' : '48px' }}>
+          <AnimatedContactSection />
+        </div>
       </div>
-      <div style={{ backgroundColor: '#f8f8f8', paddingTop: '48px' }}>
-        <AnimatedContactSection />
-      </div>
-      
     </div>
-  </div>
-)
+  )
+}
 
 export default ContactUs

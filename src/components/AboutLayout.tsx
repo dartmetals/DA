@@ -18,6 +18,118 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ children }) => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
+  // State for responsive layout
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [isTablet, setIsTablet] = React.useState(false);
+  const [_isLaptop, setIsLaptop] = React.useState(false);
+
+  // Check screen size for responsive layout
+  React.useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 700);
+      setIsTablet(window.innerWidth >= 700 && window.innerWidth <= 1024);
+      setIsLaptop(window.innerWidth > 1024 && window.innerWidth <= 1440);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  // Responsive hero background style
+  const getHeroBackgroundStyle = (bgImage: string): React.CSSProperties => {
+    if (isMobile) {
+      return {
+        position: 'relative',
+        height: '240px',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#0a1a3a',
+      };
+    }
+    if (isTablet) {
+      return {
+        position: 'relative',
+        height: '430px',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      };
+    }
+    // Laptop and Desktop
+    return {
+      position: 'relative',
+      height: '480px',
+      overflow: 'hidden',
+      display: 'flex',
+      alignItems: 'center',
+      backgroundImage: `url(${bgImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+    };
+  };
+
+  // Responsive heading style
+  const getHeadingStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return {
+        fontSize: '24px',
+        fontWeight: '700',
+        color: '#ffffff',
+        marginBottom: '8px',
+      };
+    }
+    if (isTablet) {
+      return {
+        fontSize: '34px',
+        fontWeight: '700',
+        color: '#ffffff',
+        marginBottom: '10px',
+      };
+    }
+    return {
+      fontSize: 'clamp(28px, 4vw, 42px)',
+      fontWeight: '700',
+      color: '#ffffff',
+      marginBottom: '12px',
+    };
+  };
+
+  // Responsive subheading style
+  const getSubheadingStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return {
+        fontSize: '14px',
+        fontWeight: '500',
+        color: 'rgba(255,255,255,0.9)',
+        marginBottom: '12px',
+      };
+    }
+    if (isTablet) {
+      return {
+        fontSize: '17px',
+        fontWeight: '500',
+        color: 'rgba(255,255,255,0.9)',
+        marginBottom: '14px',
+      };
+    }
+    return {
+      fontSize: 'clamp(16px, 2vw, 20px)',
+      fontWeight: '500',
+      color: 'rgba(255,255,255,0.9)',
+      marginBottom: '16px',
+    };
+  };
+
   // Dynamic hero content based on current path
   const getHeroContent = () => {
     if (pathname === '/overview') {
@@ -57,53 +169,26 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ children }) => {
   return (
     <div style={{ paddingTop: '68px' }}>
       {/* ── Hero Banner ── */}
-      <div
-        style={{
-          position: 'relative',
-          height: '480px',
-          overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-          backgroundImage: `url(${heroContent.bgImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      >
+      <div style={getHeroBackgroundStyle(heroContent.bgImage)}>
         {/* BG gradient overlay - decreased opacity */}
         <div style={{
           position: 'absolute', inset: 0,
           background: 'linear-gradient(135deg, rgba(15,32,68,0.6) 0%, rgba(26,53,102,0.6) 40%, rgba(13,48,96,0.6) 70%, rgba(7,29,69,0.6) 100%)',
         }} />
-        {/* Tech pattern overlay */}
-        {/* <div style={{
-          position: 'absolute', inset: 0, opacity: 0.08,
-          backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.3) 40px, rgba(255,255,255,0.3) 41px),
-            repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.3) 40px, rgba(255,255,255,0.3) 41px)`,
-        }} /> */}
-        {/* Decorative circles */}
-        {/* {[350, 500, 650].map((x, i) => (
-          <div key={i} style={{
-            position: 'absolute', right: `${x - 300}px`, top: '-40px',
-            width: `${140 + i * 60}px`, height: `${140 + i * 60}px`,
-            borderRadius: '50%',
-            border: '1px solid rgba(255,255,255,0.08)',
-          }} />
-        ))} */}
 
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '1200px', margin: '0 auto', padding: '0 40px', width: '100%' }}>
           {/* Breadcrumb */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-            <a href="/" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px', textDecoration: 'underline', cursor: 'pointer' }}>Home</a>
-            <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px' }}>»</span>
-            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>About Us</span>
+            <a href="/" style={{ color: 'rgba(255,255,255,0.7)', fontSize: isMobile ? '10px' : '12px', textDecoration: 'underline', cursor: 'pointer' }}>Home</a>
+            <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: isMobile ? '10px' : '12px' }}>»</span>
+            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: isMobile ? '10px' : '12px' }}>About Us</span>
           </div>
           
           {/* Dynamic Hero Content */}
-          <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: '700', color: '#ffffff', marginBottom: '12px' }}>
+          <h1 style={getHeadingStyle()}>
             {heroContent.heading}
           </h1>
-          <p style={{ fontSize: 'clamp(16px, 2vw, 20px)', fontWeight: '500', color: 'rgba(255,255,255,0.9)', marginBottom: '16px' }}>
+          <p style={getSubheadingStyle()}>
             {heroContent.subheading}
           </p>
           <div style={{ width: '50px', height: '3px', backgroundColor: '#e31e24' }} />
@@ -120,8 +205,8 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ children }) => {
                 key={link.href}
                 onClick={() => navigate(link.href)}
                 style={{
-                  padding: '16px 22px',
-                  fontSize: '13px',
+                  padding: isMobile ? '12px 16px' : '16px 22px',
+                  fontSize: isMobile ? '12px' : '13px',
                   fontWeight: active ? '600' : '400',
                   color: active ? '#e31e24' : '#555',
                   background: 'none',

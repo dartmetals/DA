@@ -48,6 +48,21 @@ const HeroBanner: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<Particle[]>([])
   const animFrameRef = useRef<number>(0)
+  
+  // State for responsive layout
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+
+  // Check screen size for responsive layout
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
 
   /* ── Colour cycling ── */
   useEffect(() => {
@@ -179,7 +194,7 @@ const HeroBanner: React.FC = () => {
   return (
     <div style={{
       position: 'relative',
-      minHeight: '480px',
+      minHeight: isMobile ? '400px' : '480px',
       overflow: 'hidden',
       transition: 'background 1.2s ease',
       background: transitioning
@@ -222,22 +237,23 @@ const HeroBanner: React.FC = () => {
         position: 'relative', zIndex: 10,
         maxWidth: '1200px', margin: '0 auto', padding: '0 40px',
         width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        minHeight: '480px',
+        minHeight: isMobile ? '400px' : '480px',
       }}>
         <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}>
-          <ItalicScript size="clamp(38px,5vw,64px)">
+          <ItalicScript size={isMobile ? "clamp(28px,5vw,38px)" : "clamp(38px,5vw,64px)"}>
             Make your career happen with us
           </ItalicScript>
-          <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '14px', lineHeight: 1.8, marginTop: '24px', maxWidth: '900px', marginLeft: 'auto', marginRight: 'auto' }}>
+          <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: isMobile ? '12px' : '14px', lineHeight: 1.8, marginTop: '24px', maxWidth: '900px', marginLeft: 'auto', marginRight: 'auto' }}>
             As India's leading talent solutions provider, our values range from our love to large enterprises to our resolve to make a difference. We strongly believe that a diverse workforce is essential for future growth and innovation — and that calls for passionate people like you.
           </p>
-          <p style={{ color: 'rgba(255,255,255,0.95)', fontSize: '14.5px', fontWeight: '600', marginTop: '20px', lineHeight: 1.7 }}>
+          <p style={{ color: 'rgba(255,255,255,0.95)', fontSize: isMobile ? '13px' : '14.5px', fontWeight: '600', marginTop: '20px', lineHeight: 1.7 }}>
             Are you passionate, driven and want to make your mark in the recruitment space?
           </p>
           <a href="#" style={{
             display: 'inline-block', marginTop: '28px',
             backgroundColor: '#fff', color: RED,
-            padding: '12px 32px', borderRadius: '4px',
+            padding: isMobile ? '10px 24px' : '12px 32px',
+            borderRadius: '4px',
             fontSize: '13px', fontWeight: '700', letterSpacing: '1px',
             transition: 'all 0.25s ease',
           }}
@@ -439,11 +455,32 @@ const I = {
    SECTION 2 — WHY JOIN US STATS
 ══════════════════════════════════════════════════════ */
 const WhyJoinStats: React.FC = () => {
+  // State for responsive layout
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
   const stats = [
     { icon: I.enterprise, num: '100K+', label: 'enterprises served,\nof which 50 are F500 companies' },
     { icon: I.advisor, num: '3000+', label: 'domain advisors have\nengaged with us' },
     { icon: I.candidate, num: '5M+', label: 'We have a talent network of\n5M+ candidates across domains, expertise and experience levels' },
   ]
+
+  const getWhyJoinStatsGridStyle = () => {
+    if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '30px' }
+    if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '30px' }
+    return { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '30px' }
+  }
+
   return (
     <div style={{ backgroundColor: '#fff', padding: '70px 0' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
@@ -452,7 +489,7 @@ const WhyJoinStats: React.FC = () => {
         </h2>
         <div style={{ width: '50px', height: '3px', backgroundColor: RED, margin: '0 auto 50px' }}/>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '30px' }}>
+        <div style={getWhyJoinStatsGridStyle()}>
           {stats.map((s, i) => (
             <div key={i} style={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
@@ -477,165 +514,236 @@ const WhyJoinStats: React.FC = () => {
 /* ══════════════════════════════════════════════════════
    SECTION 3 — EMPLOYEES FIRST
 ══════════════════════════════════════════════════════ */
-const EmployeesFirst: React.FC = () => (
-  <div style={{ backgroundColor: '#fafafa', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
-      <h2 style={{ fontSize: '30px', fontWeight: '700', color: DARK, marginBottom: '8px' }}>Employees first</h2>
-      <RedBar/>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px' }}>
-        <div>
-          <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px' }}>
-            Our company's successful rise of over two decades is based on attributes that we value: trust, empathy, and approachability. Our culture matters. Trust, arriving in the workplace comes before arriving in the marketplace. That's why every employee is encouraged to achieve their full potential, to strive out of the box, take calculated risks and grow beyond their core roles.
-          </p>
-          <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9 }}>
-            We create equal opportunities for career building — both to serve our employees and our clients first organisation. To facilitate this, our HR professionals and employees work towards maintaining a motivated, inclusive and effective workforce.
-          </p>
-        </div>
-        <div>
-          <h3 style={{ fontSize: '18px', fontWeight: '700', color: DARK, marginBottom: '16px' }}>Going the extra mile — with trust, integrity and tenacity</h3>
-          <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '14px' }}>
-            Our vision — to create connectivity by incorporating technology and human-influenced capital to offer innovative recruitment solutions. We may be in our second decade as an organisation, but from Day One, to today and beyond, Talent and People have always been core. Our focus on best-in-class relationships and delivering value to all clients.
-          </p>
-          <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9 }}>
-            At our company, we believe in Commitment — it is our foundation. We've recognised and been recognised as one that has become better over every decade. Through the years, we are proud to say that there are people who have made our company what it is today. We aim to also enable a balanced culture that genuinely allows everyone to build a fulfilling career. At the end of the day, that is what matters most.
-          </p>
+const EmployeesFirst: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
+  const getEmployeesFirstGridStyle = () => {
+    if (isMobile || isTablet) return { display: 'grid', gridTemplateColumns: '1fr', gap: '30px' }
+    return { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px' }
+  }
+
+  return (
+    <div style={{ backgroundColor: '#fafafa', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
+        <h2 style={{ fontSize: isMobile ? '26px' : '30px', fontWeight: '700', color: DARK, marginBottom: '8px' }}>Employees first</h2>
+        <RedBar/>
+        <div style={getEmployeesFirstGridStyle()}>
+          <div>
+            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px' }}>
+              Our company's successful rise of over two decades is based on attributes that we value: trust, empathy, and approachability. Our culture matters. Trust, arriving in the workplace comes before arriving in the marketplace. That's why every employee is encouraged to achieve their full potential, to strive out of the box, take calculated risks and grow beyond their core roles.
+            </p>
+            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9 }}>
+              We create equal opportunities for career building — both to serve our employees and our clients first organisation. To facilitate this, our HR professionals and employees work towards maintaining a motivated, inclusive and effective workforce.
+            </p>
+          </div>
+          <div>
+            <h3 style={{ fontSize: '18px', fontWeight: '700', color: DARK, marginBottom: '16px' }}>Going the extra mile — with trust, integrity and tenacity</h3>
+            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '14px' }}>
+              Our vision — to create connectivity by incorporating technology and human-influenced capital to offer innovative recruitment solutions. We may be in our second decade as an organisation, but from Day One, to today and beyond, Talent and People have always been core. Our focus on best-in-class relationships and delivering value to all clients.
+            </p>
+            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9 }}>
+              At our company, we believe in Commitment — it is our foundation. We've recognised and been recognised as one that has become better over every decade. Through the years, we are proud to say that there are people who have made our company what it is today. We aim to also enable a balanced culture that genuinely allows everyone to build a fulfilling career. At the end of the day, that is what matters most.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-)
+  )
+}
 
 /* ══════════════════════════════════════════════════════
    SECTION 4 — L&D CIRCULAR IMAGE + FEATURES
 ══════════════════════════════════════════════════════ */
-const LandDSection: React.FC = () => (
-  <div style={{ backgroundColor: '#fafafa', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
-      {/* Top: circular image + text */}
-      <div style={{ display: 'grid', gridTemplateColumns: '380px 1fr', gap: '60px', alignItems: 'center', marginBottom: '60px' }}>
-        {/* Circular image */}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div style={{ position: 'relative' }}>
-            <div style={{
-              width: '320px', height: '320px', borderRadius: '50%',
-              background: `linear-gradient(135deg, ${BLUE} 0%, ${BLUE_DARK} 100%)`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              overflow: 'hidden', boxShadow: '0 16px 50px rgba(37,99,235,0.3)',
-            }}>
-              {/* Unsplash Image - Team meeting */}
-              <img 
-                src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop"
-                alt="Team collaboration and learning"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                }}
-              />
-              {/* Dark overlay for text readability */}
-              <div style={{ 
-                position: 'absolute', 
-                inset: 0, 
-                background: 'rgba(30,58,138,0.5)', 
-                zIndex: 1 
-              }} />
-              <div style={{ 
-                position: 'absolute', 
-                inset: 0, 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                textAlign: 'center', 
-                padding: '30px',
-                zIndex: 2,
+const LandDSection: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
+  const getLandDTopGridStyle = () => {
+    if (isMobile || isTablet) return { display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'center', marginBottom: '60px' }
+    return { display: 'grid', gridTemplateColumns: '380px 1fr', gap: '60px', alignItems: 'center', marginBottom: '60px' }
+  }
+
+  const getLandDFeaturesGridStyle = () => {
+    if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '20px', marginTop: '8px' }
+    if (isTablet) return { display: 'grid', gridTemplateColumns: '1fr', gap: '20px', marginTop: '8px' }
+    return { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '8px' }
+  }
+
+  const getLandDCardsGridStyle = () => {
+    if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }
+    if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '20px' }
+    return { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '20px' }
+  }
+
+  const getLandDNewEmployeesGridStyle = () => {
+    if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '10px' }
+    if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '10px 30px' }
+    return { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 30px' }
+  }
+
+  return (
+    <div style={{ backgroundColor: '#fafafa', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
+        {/* Top: circular image + text */}
+        <div style={getLandDTopGridStyle()}>
+          {/* Circular image */}
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+            <div style={{ position: 'relative' }}>
+              <div style={{
+                width: isMobile ? '260px' : '320px',
+                height: isMobile ? '260px' : '320px',
+                borderRadius: '50%',
+                background: `linear-gradient(135deg, ${BLUE} 0%, ${BLUE_DARK} 100%)`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                overflow: 'hidden', boxShadow: '0 16px 50px rgba(37,99,235,0.3)',
               }}>
-                <ItalicScript size="22px" color="#ffffff">Making<br />career growth<br />happen</ItalicScript>
+                <img 
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop"
+                  alt="Team collaboration and learning"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                  }}
+                />
+                <div style={{ 
+                  position: 'absolute', 
+                  inset: 0, 
+                  background: 'rgba(30,58,138,0.5)', 
+                  zIndex: 1 
+                }} />
+                <div style={{ 
+                  position: 'absolute', 
+                  inset: 0, 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  textAlign: 'center', 
+                  padding: '30px',
+                  zIndex: 2,
+                }}>
+                  <ItalicScript size={isMobile ? "18px" : "22px"} color="#ffffff">Making<br />career growth<br />happen</ItalicScript>
+                </div>
               </div>
+            </div>
+          </div>
+
+          {/* Right text */}
+          <div style={{ width: '100%' }}>
+            <Tag text="Learning & Development" />
+            <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: '700', color: DARK, lineHeight: 1.4, marginBottom: '8px', textAlign: isMobile || isTablet ? 'center' : 'left' }}>
+              Our company has a dedicated L&D team<br />in place that aims to:
+            </h2>
+            <RedBar/>
+            <div style={getLandDFeaturesGridStyle()}>
+              {[
+                { icon: I.ldel, title: 'Deliver structured L&D', desc: 'Performance driven blended learning using consistent experience and agility/knowledge.' },
+                { icon: I.target, title: 'Identify development opportunities', desc: 'Building a strong, consistent learning culture within the organisation.' },
+                { icon: I.growth, title: 'Upskilling through various learning initiatives', desc: 'Enabling and empowering employees to understand their responsibilities.' },
+                { icon: I.rocket, title: 'Building employee confidence', desc: 'Sensitising employees to be an equal partner in its success and growth.' },
+              ].map((c, i) => (
+                <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                  <Circle size={52}>{c.icon}</Circle>
+                  <div>
+                    <h4 style={{ fontSize: '13px', fontWeight: '700', color: DARK, marginBottom: '6px', lineHeight: 1.35 }}>{c.title}</h4>
+                    <p style={{ fontSize: '12.5px', color: '#666', lineHeight: 1.7 }}>{c.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Right text */}
-        <div>
-          <Tag text="Learning & Development" />
-          <h2 style={{ fontSize: '26px', fontWeight: '700', color: DARK, lineHeight: 1.4, marginBottom: '8px' }}>
-            Our company has a dedicated L&D team<br />in place that aims to:
-          </h2>
-          <RedBar/>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '8px' }}>
+        {/* L&D function cards */}
+        <h3 style={{ fontSize: isMobile ? '18px' : '20px', fontWeight: '700', color: DARK, marginBottom: '28px', textAlign: isMobile || isTablet ? 'center' : 'left' }}>
+          Our L&D function plays a significant role in the organisation by:
+        </h3>
+        <div style={getLandDCardsGridStyle()}>
+          {[
+            { icon: I.learning, text: 'Spotlighting through various learning initiatives in-person real-time' },
+            { icon: I.team, text: 'Enabling employees to understand their responsibilities effectively' },
+            { icon: I.award, text: 'Sensitising employees to take pride in its success and growth' },
+            { icon: I.star, text: 'Building employee confidence through skills development programs' },
+            { icon: I.rocket, text: 'Providing a wide spectrum of learning paths for all talent levels' },
+            { icon: I.diversity, text: 'Creating an inclusive learning culture across the entire workforce' },
+          ].map((c, i) => (
+            <div key={i} style={{
+              display: 'flex', gap: '14px', alignItems: 'flex-start',
+              padding: '18px', border: '1px solid #ebebeb', borderRadius: '6px',
+              backgroundColor: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+            }}>
+              <Circle size={48}>{c.icon}</Circle>
+              <p style={{ fontSize: '13px', color: '#555', lineHeight: 1.7 }}>{c.text}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* L&D new employees */}
+        <div style={{ marginTop: '40px', backgroundColor: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: '8px', padding: isMobile ? '20px' : '28px 32px' }}>
+          <p style={{ fontSize: '14px', fontWeight: '600', color: DARK, marginBottom: '16px' }}>
+            We offer multiple ongoing L&D programmes and initiatives, many of which are designed especially for new employees:
+          </p>
+          <div style={getLandDNewEmployeesGridStyle()}>
             {[
-              { icon: I.ldel, title: 'Deliver structured L&D', desc: 'Performance driven blended learning using consistent experience and agility/knowledge.' },
-              { icon: I.target, title: 'Identify development opportunities', desc: 'Building a strong, consistent learning culture within the organisation.' },
-              { icon: I.growth, title: 'Upskilling through various learning initiatives', desc: 'Enabling and empowering employees to understand their responsibilities.' },
-              { icon: I.rocket, title: 'Building employee confidence', desc: 'Sensitising employees to be an equal partner in its success and growth.' },
-            ].map((c, i) => (
-              <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-                <Circle size={52}>{c.icon}</Circle>
-                <div>
-                  <h4 style={{ fontSize: '13px', fontWeight: '700', color: DARK, marginBottom: '6px', lineHeight: 1.35 }}>{c.title}</h4>
-                  <p style={{ fontSize: '12.5px', color: '#666', lineHeight: 1.7 }}>{c.desc}</p>
-                </div>
+              'Onboarding programs for new recruiters',
+              'Induction programs for Freshers across talent functions',
+              'Training programs for lateral employees across functional domains, candidates level, and data management tools',
+              'Organizational level compliance initiatives',
+              'People Awareness Initiatives',
+            ].map((item, i) => (
+              <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                {I.check}
+                <span style={{ fontSize: '13px', color: '#555', lineHeight: 1.65 }}>{item}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
-
-      {/* L&D function cards */}
-      <h3 style={{ fontSize: '20px', fontWeight: '700', color: DARK, marginBottom: '28px' }}>
-        Our L&D function plays a significant role in the organisation by:
-      </h3>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '20px' }}>
-        {[
-          { icon: I.learning, text: 'Spotlighting through various learning initiatives in-person real-time' },
-          { icon: I.team, text: 'Enabling employees to understand their responsibilities effectively' },
-          { icon: I.award, text: 'Sensitising employees to take pride in its success and growth' },
-          { icon: I.star, text: 'Building employee confidence through skills development programs' },
-          { icon: I.rocket, text: 'Providing a wide spectrum of learning paths for all talent levels' },
-          { icon: I.diversity, text: 'Creating an inclusive learning culture across the entire workforce' },
-        ].map((c, i) => (
-          <div key={i} style={{
-            display: 'flex', gap: '14px', alignItems: 'flex-start',
-            padding: '18px', border: '1px solid #ebebeb', borderRadius: '6px',
-            backgroundColor: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-          }}>
-            <Circle size={48}>{c.icon}</Circle>
-            <p style={{ fontSize: '13px', color: '#555', lineHeight: 1.7 }}>{c.text}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* L&D new employees */}
-      <div style={{ marginTop: '40px', backgroundColor: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: '8px', padding: '28px 32px' }}>
-        <p style={{ fontSize: '14px', fontWeight: '600', color: DARK, marginBottom: '16px' }}>
-          We offer multiple ongoing L&D programmes and initiatives, many of which are designed especially for new employees:
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 30px' }}>
-          {[
-            'Onboarding programs for new recruiters',
-            'Induction programs for Freshers across talent functions',
-            'Training programs for lateral employees across functional domains, candidates level, and data management tools',
-            'Organizational level compliance initiatives',
-            'People Awareness Initiatives',
-          ].map((item, i) => (
-            <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-              {I.check}
-              <span style={{ fontSize: '13px', color: '#555', lineHeight: 1.65 }}>{item}</span>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
-  </div>
-)
+  )
+}
 
 /* ══════════════════════════════════════════════════════
    SECTION 5 — EMPLOYEE BENEFITS
 ══════════════════════════════════════════════════════ */
 const BenefitsSection: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
   const benefits = [
     { icon: I.appraisal, title: 'Appraisal', desc: 'Performance appraisals done on a bi-annual cycle' },
     { icon: I.schedule, title: 'Work schedule', desc: 'Flexitime of every week for a work-life balance' },
@@ -646,14 +754,21 @@ const BenefitsSection: React.FC = () => {
     { icon: I.culture, title: 'Cultural Committee', desc: 'Vibrant Cultural Committee events, activities, and team-building programs' },
     { icon: I.awards2, title: 'Awards', desc: 'Weekly, Fortnightly, monthly awards Quarterly, Annual Performance/Level Bonus' },
   ]
+
+  const getBenefitsGridStyle = () => {
+    if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '24px', marginTop: '12px' }
+    if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '24px', marginTop: '12px' }
+    return { display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '24px', marginTop: '12px' }
+  }
+
   return (
     <div style={{ backgroundColor: '#fff', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
-        <h2 style={{ fontSize: '26px', fontWeight: '700', color: DARK, marginBottom: '8px' }}>
-          Making the good life happen — <ItalicScript size="26px" color={RED}>employee benefits</ItalicScript>
+        <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: '700', color: DARK, marginBottom: '8px', textAlign: isMobile || isTablet ? 'center' : 'left' }}>
+          Making the good life happen — <ItalicScript size={isMobile ? "22px" : "26px"} color={RED}>employee benefits</ItalicScript>
         </h2>
         <RedBar/>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '24px', marginTop: '12px' }}>
+        <div style={getBenefitsGridStyle()}>
           {benefits.map((b, i) => (
             <div key={i} style={{
               border: '1px solid #ebebeb', borderRadius: '8px', padding: '28px 22px',
@@ -688,165 +803,229 @@ const BenefitsSection: React.FC = () => {
 /* ══════════════════════════════════════════════════════
    SECTION 6 — LEADING FROM THE FRONT
 ══════════════════════════════════════════════════════ */
-const LeadingSection: React.FC = () => (
-  <div style={{ backgroundColor: '#fafafa', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
-      <h2 style={{ fontSize: '26px', fontWeight: '700', color: DARK, marginBottom: '8px' }}>Leading from the front</h2>
-      <RedBar/>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px', alignItems: 'center' }}>
-        <div>
-          <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '14px' }}>
-            The leaders at our company push us from our current selves to professional qualifications and extensive industry expertise. What our founders created nearly two decades ago, is echoed back in everything that our company produces today. The in-depth dedication and focus on thinking. The single-mindedness and concentration that the team brings to the table has enabled far-reaching advances in our recruitment category and has allowed us to focus on producing consistently relevant results to be in the client's business, developing top-of-the-line recruitment models and providing unparalleled value in our understanding of recruitment.
-          </p>
-          <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '20px' }}>
-            We are currently hiring professionals with <span style={{ color: RED, fontWeight: '600' }}>6+ years</span> of experience in talent acquisition, of which <span style={{ color: RED, fontWeight: '600' }}>4+ years</span> of relevant experience as industry advisors well beyond.
-          </p>
-          <p style={{ fontSize: '14px', fontWeight: '600', color: DARK }}>
-            Does the prospect of working with <em style={{ color: RED }}>India's leading talent solutions provider</em> excite you?
-          </p>
-          <a href="#" style={{
-            display: 'inline-block', marginTop: '22px',
-            backgroundColor: RED, color: '#fff',
-            padding: '12px 32px', borderRadius: '4px',
-            fontSize: '13px', fontWeight: '700', letterSpacing: '1px',
-            transition: 'background-color 0.25s',
-          }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#c01820' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = RED }}
-          >
-            JOIN US →
-          </a>
-        </div>
-        {/* Stats grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-          {[
-            { num: '24+', label: 'Years of Industry\nExperience', icon: I.star },
-            { num: '2500+', label: 'Talent Advisors\nAcross India', icon: I.advisor },
-            { num: '400+', label: 'Corporate Clients\nServed', icon: I.enterprise },
-            { num: '5M+', label: 'Candidate Network\nGlobally', icon: I.candidate },
-          ].map((s, i) => (
-            <div key={i} style={{
-              backgroundColor: '#fff', border: '1px solid #ebebeb', borderRadius: '8px',
-              padding: '26px 20px', textAlign: 'center',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
-            }}>
-              <Circle size={50}>{s.icon}</Circle>
-              <div style={{ fontSize: '32px', fontWeight: '800', color: BLUE, margin: '12px 0 4px' }}>{s.num}</div>
-              <p style={{ fontSize: '12.5px', color: '#666', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-)
+const LeadingSection: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
 
-/* ══════════════════════════════════════════════════════
-   SECTION 7 — CAREER BREAK
-══════════════════════════════════════════════════════ */
-const CareerBreakSection: React.FC = () => (
-  <div style={{ backgroundColor: '#fff', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
-      <div style={{ backgroundColor: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: '12px', overflow: 'hidden' }}>
-        <div style={{ backgroundColor: RED, padding: '24px 36px' }}>
-          <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#fff' }}>
-            Getting back into the groove after a career break
-          </h2>
-        </div>
-        <div style={{ padding: '36px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', alignItems: 'center' }}>
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
+  const getLeadingGridStyle = () => {
+    if (isMobile || isTablet) return { display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'center' }
+    return { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px', alignItems: 'center' }
+  }
+
+  return (
+    <div style={{ backgroundColor: '#fafafa', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
+        <h2 style={{ fontSize: isMobile ? '24px' : '26px', fontWeight: '700', color: DARK, marginBottom: '8px', textAlign: isMobile || isTablet ? 'center' : 'left' }}>Leading from the front</h2>
+        <RedBar/>
+        <div style={getLeadingGridStyle()}>
           <div>
-            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px' }}>
-              It is increasingly common for professionals to take a career break — to spend time with family, for personal reasons, or to pursue education. At our company, we make it easy for professionals who have been through career breaks to rejoin the workforce. We offer a special induction programme and structured onboarding for return professionals.
+            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '14px' }}>
+              The leaders at our company push us from our current selves to professional qualifications and extensive industry expertise. What our founders created nearly two decades ago, is echoed back in everything that our company produces today. The in-depth dedication and focus on thinking. The single-mindedness and concentration that the team brings to the table has enabled far-reaching advances in our recruitment category and has allowed us to focus on producing consistently relevant results to be in the client's business, developing top-of-the-line recruitment models and providing unparalleled value in our understanding of recruitment.
             </p>
-            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '22px' }}>
-              Through our structured onboarding for reboarding candidates, we help professionals re-enter the industry with confidence and ease — providing them tools, mentors, and peer networks to get back up to speed.
+            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '20px' }}>
+              We are currently hiring professionals with <span style={{ color: RED, fontWeight: '600' }}>6+ years</span> of experience in talent acquisition, of which <span style={{ color: RED, fontWeight: '600' }}>4+ years</span> of relevant experience as industry advisors well beyond.
+            </p>
+            <p style={{ fontSize: '14px', fontWeight: '600', color: DARK }}>
+              Does the prospect of working with <em style={{ color: RED }}>India's leading talent solutions provider</em> excite you?
             </p>
             <a href="#" style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              border: `2px solid ${RED}`, color: RED,
-              padding: '11px 26px', borderRadius: '4px',
+              display: 'inline-block', marginTop: '22px',
+              backgroundColor: RED, color: '#fff',
+              padding: '12px 32px', borderRadius: '4px',
               fontSize: '13px', fontWeight: '700', letterSpacing: '1px',
-              transition: 'all 0.25s',
+              transition: 'background-color 0.25s',
             }}
-              onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = RED; el.style.color = '#fff' }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = 'transparent'; el.style.color = RED }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#c01820' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = RED }}
             >
-              KNOW MORE →
+              JOIN US →
             </a>
           </div>
-          {/* Feature list */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Stats grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '20px' }}>
             {[
-              { icon: I.learning, text: 'A Return-to-Work programme for returners' },
-              { icon: I.team, text: 'Dedicated onboarding for freshers and recruiters' },
-              { icon: I.ldel, text: 'Training programmes for lateral employees across business domains' },
-              { icon: I.target, text: 'Organisational-level compliance initiatives' },
-              { icon: I.diversity, text: 'People Awareness Initiatives' },
-            ].map((item, i) => (
-              <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
-                <Circle size={48}>{item.icon}</Circle>
-                <span style={{ fontSize: '13.5px', color: '#444', lineHeight: 1.6 }}>{item.text}</span>
+              { num: '24+', label: 'Years of Industry\nExperience', icon: I.star },
+              { num: '2500+', label: 'Talent Advisors\nAcross India', icon: I.advisor },
+              { num: '400+', label: 'Corporate Clients\nServed', icon: I.enterprise },
+              { num: '5M+', label: 'Candidate Network\nGlobally', icon: I.candidate },
+            ].map((s, i) => (
+              <div key={i} style={{
+                backgroundColor: '#fff', border: '1px solid #ebebeb', borderRadius: '8px',
+                padding: '26px 20px', textAlign: 'center',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
+              }}>
+                <Circle size={50}>{s.icon}</Circle>
+                <div style={{ fontSize: '32px', fontWeight: '800', color: BLUE, margin: '12px 0 4px' }}>{s.num}</div>
+                <p style={{ fontSize: '12.5px', color: '#666', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{s.label}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
     </div>
-  </div>
-)
+  )
+}
+
+/* ══════════════════════════════════════════════════════
+   SECTION 7 — CAREER BREAK
+══════════════════════════════════════════════════════ */
+const CareerBreakSection: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
+  const getCareerBreakContentGridStyle = () => {
+    if (isMobile || isTablet) return { padding: '36px', display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center' }
+    return { padding: '36px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', alignItems: 'center' }
+  }
+
+  return (
+    <div style={{ backgroundColor: '#fff', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
+        <div style={{ backgroundColor: BLUE_LIGHT, border: `1px solid ${BLUE}`, borderRadius: '12px', overflow: 'hidden' }}>
+          <div style={{ backgroundColor: RED, padding: isMobile ? '20px 24px' : '24px 36px' }}>
+            <h2 style={{ fontSize: isMobile ? '18px' : '22px', fontWeight: '700', color: '#fff', textAlign: 'center' }}>
+              Getting back into the groove after a career break
+            </h2>
+          </div>
+          <div style={getCareerBreakContentGridStyle()}>
+            <div>
+              <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px' }}>
+                It is increasingly common for professionals to take a career break — to spend time with family, for personal reasons, or to pursue education. At our company, we make it easy for professionals who have been through career breaks to rejoin the workforce. We offer a special induction programme and structured onboarding for return professionals.
+              </p>
+              <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '22px' }}>
+                Through our structured onboarding for reboarding candidates, we help professionals re-enter the industry with confidence and ease — providing them tools, mentors, and peer networks to get back up to speed.
+              </p>
+              <a href="#" style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                border: `2px solid ${RED}`, color: RED,
+                padding: '11px 26px', borderRadius: '4px',
+                fontSize: '13px', fontWeight: '700', letterSpacing: '1px',
+                transition: 'all 0.25s',
+              }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = RED; el.style.color = '#fff' }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.backgroundColor = 'transparent'; el.style.color = RED }}
+              >
+                KNOW MORE →
+              </a>
+            </div>
+            {/* Feature list */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {[
+                { icon: I.learning, text: 'A Return-to-Work programme for returners' },
+                { icon: I.team, text: 'Dedicated onboarding for freshers and recruiters' },
+                { icon: I.ldel, text: 'Training programmes for lateral employees across business domains' },
+                { icon: I.target, text: 'Organisational-level compliance initiatives' },
+                { icon: I.diversity, text: 'People Awareness Initiatives' },
+              ].map((item, i) => (
+                <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+                  <Circle size={48}>{item.icon}</Circle>
+                  <span style={{ fontSize: '13.5px', color: '#444', lineHeight: 1.6 }}>{item.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 /* ══════════════════════════════════════════════════════
    SECTION 8 — DIVERSITY & INCLUSION
 ══════════════════════════════════════════════════════ */
-const DiversitySection: React.FC = () => (
-  <div style={{ backgroundColor: '#fafafa', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: '60px', alignItems: 'center' }}>
-        {/* Circular visual */}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div style={{
-            width: '280px', height: '280px', borderRadius: '50%',
-            background: `linear-gradient(135deg, ${BLUE}, ${BLUE_DARK})`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 12px 40px rgba(37,99,235,0.25)', textAlign: 'center', padding: '32px',
-          }}>
-            <ItalicScript size="22px">Making<br />workplaces<br />diverse,<br />equitable<br />&amp; inclusive</ItalicScript>
-          </div>
-        </div>
+const DiversitySection: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
 
-        {/* Content */}
-        <div>
-          <Tag text="Diversity, Equity & Inclusion" />
-          <h2 style={{ fontSize: '26px', fontWeight: '700', color: DARK, lineHeight: 1.4, marginBottom: '8px' }}>
-            Making workplaces diverse,<br />equitable and inclusive
-          </h2>
-          <RedBar/>
-          <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px' }}>
-            We strongly believe that a truly inclusive and equitable workplace is essential for organizational growth. Our company puts this into practice by removing unconscious biases from our processes, providing tools and networks to hone their skills and advocating innovative thinking.
-          </p>
-          <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px' }}>
-            Do you believe in a workplace that prioritizes diversity, equity and inclusion? We want you to be part of this movement. Our Equal Opportunities policy makes certain that each employee, regardless of their background, gets a fair opportunity to contribute and grow.
-          </p>
-          <p style={{ fontSize: '14.5px', fontWeight: '700', color: DARK }}>
-            Does this sound like a workplace that <em style={{ color: RED }}>you would like to be a part of?</em>
-          </p>
-          <a href="#" style={{
-            display: 'inline-block', marginTop: '22px',
-            backgroundColor: RED, color: '#fff',
-            padding: '12px 32px', borderRadius: '4px',
-            fontSize: '13px', fontWeight: '700', letterSpacing: '1px',
-            transition: 'background-color 0.25s',
-          }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#c01820' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = RED }}
-          >
-            JOIN US →
-          </a>
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
+  const getDiversityGridStyle = () => {
+    if (isMobile || isTablet) return { display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'center' }
+    return { display: 'grid', gridTemplateColumns: '320px 1fr', gap: '60px', alignItems: 'center' }
+  }
+
+  return (
+    <div style={{ backgroundColor: '#fafafa', padding: '70px 0', borderTop: '1px solid #f0f0f0' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
+        <div style={getDiversityGridStyle()}>
+          {/* Circular visual */}
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{
+              width: isMobile ? '220px' : '280px',
+              height: isMobile ? '220px' : '280px',
+              borderRadius: '50%',
+              background: `linear-gradient(135deg, ${BLUE}, ${BLUE_DARK})`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 12px 40px rgba(37,99,235,0.25)', textAlign: 'center', padding: '32px',
+            }}>
+              <ItalicScript size={isMobile ? "18px" : "22px"}>Making<br />workplaces<br />diverse,<br />equitable<br />&amp; inclusive</ItalicScript>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div>
+            <Tag text="Diversity, Equity & Inclusion" />
+            <h2 style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: '700', color: DARK, lineHeight: 1.4, marginBottom: '8px', textAlign: isMobile || isTablet ? 'center' : 'left' }}>
+              Making workplaces diverse,<br />equitable and inclusive
+            </h2>
+            <RedBar/>
+            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px', textAlign: isMobile || isTablet ? 'center' : 'left' }}>
+              We strongly believe that a truly inclusive and equitable workplace is essential for organizational growth. Our company puts this into practice by removing unconscious biases from our processes, providing tools and networks to hone their skills and advocating innovative thinking.
+            </p>
+            <p style={{ fontSize: '13.5px', color: '#555', lineHeight: 1.9, marginBottom: '16px', textAlign: isMobile || isTablet ? 'center' : 'left' }}>
+              Do you believe in a workplace that prioritizes diversity, equity and inclusion? We want you to be part of this movement. Our Equal Opportunities policy makes certain that each employee, regardless of their background, gets a fair opportunity to contribute and grow.
+            </p>
+            <p style={{ fontSize: '14.5px', fontWeight: '700', color: DARK, textAlign: isMobile || isTablet ? 'center' : 'left' }}>
+              Does this sound like a workplace that <em style={{ color: RED }}>you would like to be a part of?</em>
+            </p>
+            <div style={{ textAlign: isMobile || isTablet ? 'center' : 'left' }}>
+              <a href="#" style={{
+                display: 'inline-block', marginTop: '22px',
+                backgroundColor: RED, color: '#fff',
+                padding: '12px 32px', borderRadius: '4px',
+                fontSize: '13px', fontWeight: '700', letterSpacing: '1px',
+                transition: 'background-color 0.25s',
+              }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#c01820' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = RED }}
+              >
+                JOIN US →
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-)
+  )
+}
 
 /* ══════════════════════════════════════════════════════
    MAIN JOIN US PAGE
