@@ -150,8 +150,8 @@ const WhyDataArtisans: React.FC = () => {
   // Check screen size for responsive layout
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth <= 768);
-      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth <= 1024);
     };
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
