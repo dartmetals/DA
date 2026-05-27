@@ -51,7 +51,7 @@ const HeroBanner: React.FC = () => {
   
   // State for responsive layout
   const [isMobile, setIsMobile] = useState(false)
-  const [isTablet, setIsTablet] = useState(false)
+  const [_isTablet, setIsTablet] = useState(false)
 
   // Check screen size for responsive layout
   useEffect(() => {
@@ -475,10 +475,10 @@ const WhyJoinStats: React.FC = () => {
     { icon: I.candidate, num: '5M+', label: 'We have a talent network of\n5M+ candidates across domains, expertise and experience levels' },
   ]
 
-  const getWhyJoinStatsGridStyle = () => {
-    if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '30px' }
-    if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '30px' }
-    return { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '30px' }
+  const getWhyJoinStatsGridStyle = (): React.CSSProperties => {
+    if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '30px' } as React.CSSProperties
+    if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '30px' } as React.CSSProperties
+    return { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '30px' } as React.CSSProperties
   }
 
   return (
@@ -528,9 +528,9 @@ const EmployeesFirst: React.FC = () => {
     return () => window.removeEventListener("resize", checkScreenSize)
   }, [])
 
-  const getEmployeesFirstGridStyle = () => {
-    if (isMobile || isTablet) return { display: 'grid', gridTemplateColumns: '1fr', gap: '30px' }
-    return { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px' }
+  const getEmployeesFirstGridStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) return { display: 'grid', gridTemplateColumns: '1fr', gap: '30px' } as React.CSSProperties
+    return { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px' } as React.CSSProperties
   }
 
   return (
@@ -579,24 +579,24 @@ const LandDSection: React.FC = () => {
     return () => window.removeEventListener("resize", checkScreenSize)
   }, [])
 
-  const getLandDTopGridStyle = () => {
-    if (isMobile || isTablet) return { display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'center', marginBottom: '60px' }
+  const getLandDTopGridStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) return { display: 'flex', flexDirection: 'column' as const, gap: '40px', alignItems: 'center', marginBottom: '60px' }
     return { display: 'grid', gridTemplateColumns: '380px 1fr', gap: '60px', alignItems: 'center', marginBottom: '60px' }
   }
 
-  const getLandDFeaturesGridStyle = () => {
+  const getLandDFeaturesGridStyle = (): React.CSSProperties => {
     if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '20px', marginTop: '8px' }
     if (isTablet) return { display: 'grid', gridTemplateColumns: '1fr', gap: '20px', marginTop: '8px' }
     return { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '8px' }
   }
 
-  const getLandDCardsGridStyle = () => {
+  const getLandDCardsGridStyle = (): React.CSSProperties => {
     if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }
     if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '20px' }
     return { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '20px' }
   }
 
-  const getLandDNewEmployeesGridStyle = () => {
+  const getLandDNewEmployeesGridStyle = (): React.CSSProperties => {
     if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '10px' }
     if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '10px 30px' }
     return { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 30px' }
@@ -755,7 +755,7 @@ const BenefitsSection: React.FC = () => {
     { icon: I.awards2, title: 'Awards', desc: 'Weekly, Fortnightly, monthly awards Quarterly, Annual Performance/Level Bonus' },
   ]
 
-  const getBenefitsGridStyle = () => {
+  const getBenefitsGridStyle = (): React.CSSProperties => {
     if (isMobile) return { display: 'grid', gridTemplateColumns: '1fr', gap: '24px', marginTop: '12px' }
     if (isTablet) return { display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '24px', marginTop: '12px' }
     return { display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '24px', marginTop: '12px' }
@@ -817,8 +817,8 @@ const LeadingSection: React.FC = () => {
     return () => window.removeEventListener("resize", checkScreenSize)
   }, [])
 
-  const getLeadingGridStyle = () => {
-    if (isMobile || isTablet) return { display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'center' }
+  const getLeadingGridStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) return { display: 'flex', flexDirection: 'column' as const, gap: '40px', alignItems: 'center' }
     return { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '50px', alignItems: 'center' }
   }
 
@@ -893,8 +893,8 @@ const CareerBreakSection: React.FC = () => {
     return () => window.removeEventListener("resize", checkScreenSize)
   }, [])
 
-  const getCareerBreakContentGridStyle = () => {
-    if (isMobile || isTablet) return { padding: '36px', display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center' }
+  const getCareerBreakContentGridStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) return { padding: '36px', display: 'flex', flexDirection: 'column' as const, gap: '30px', alignItems: 'center' }
     return { padding: '36px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', alignItems: 'center' }
   }
 
@@ -967,8 +967,8 @@ const DiversitySection: React.FC = () => {
     return () => window.removeEventListener("resize", checkScreenSize)
   }, [])
 
-  const getDiversityGridStyle = () => {
-    if (isMobile || isTablet) return { display: 'flex', flexDirection: 'column', gap: '40px', alignItems: 'center' }
+  const getDiversityGridStyle = (): React.CSSProperties => {
+    if (isMobile || isTablet) return { display: 'flex', flexDirection: 'column' as const, gap: '40px', alignItems: 'center' }
     return { display: 'grid', gridTemplateColumns: '320px 1fr', gap: '60px', alignItems: 'center' }
   }
 

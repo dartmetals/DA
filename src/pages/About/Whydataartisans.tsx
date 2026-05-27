@@ -224,7 +224,7 @@ const WhyDataArtisans: React.FC = () => {
     return { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', border: '1px solid #ddd' };
   };
 
-  const getStatsItemBorderRight = (index: number, total: number, isHighlight: boolean): string => {
+  const getStatsItemBorderRight = (index: number, _total: number, isHighlight: boolean): string => {
     if (isMobile) {
       // For mobile (2 columns): remove border-right for even indices (1st, 3rd, 5th...)
       return (index + 1) % 2 !== 0 ? `1px solid ${isHighlight ? 'rgba(255,255,255,0.2)' : '#ddd'}` : 'none';
