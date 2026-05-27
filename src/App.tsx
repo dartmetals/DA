@@ -12,7 +12,6 @@ import Footer from './components/Footer'
 import Overview from './pages/About/Overview'
 import WhyDataArtisans from './pages/About/Whydataartisans'
 import OurJourney from './pages/About/Ourjourney'
-import Leadership from './pages/About/Leadership'
 import Locations from './pages/About/Locations'
 import TrainingPage from './pages/Expertise/Training'
 import InternshipPage from './pages/Expertise/Internship'
@@ -46,7 +45,6 @@ const App: React.FC = () => (
           <Route path="/overview" element={<Overview />} />
           <Route path='/whydataartisans' element={<WhyDataArtisans/>}/>
           <Route path='/ourjourney' element={<OurJourney/>}/>
-          <Route path='/leadership' element={<Leadership/>}/>
           <Route path='/locations' element={<Locations/>}/>
           <Route path='/training' element={<TrainingPage/>}/>
           <Route path='/internship' element={<InternshipPage/>}/>

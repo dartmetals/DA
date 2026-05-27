@@ -51,8 +51,32 @@ const typeBg   = { HQ: '#eff6ff', Regional: '#e0e7ff', Delivery: '#f1f5f9' }
 const Locations: React.FC = () => {
   const [activeCity, setActiveCity] = useState<string | null>('Hyderabad')
   const [activeTab, setActiveTab] = useState<'India' | 'International'>('India')
+  
+  // State for responsive layout
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [_isTablet, setIsTablet] = React.useState(false);
+
+  // Check screen size for responsive layout
+  React.useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+    };
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
   const filtered = offices.filter(o => activeTab === 'India' ? o.country === 'India' : o.country === 'International')
+
+  // Responsive grid style function
+  const getGridStyle = (): React.CSSProperties => {
+    if (isMobile) {
+      return { display: 'grid', gridTemplateColumns: '1fr', gap: '20px' };
+    }
+    // Tablet and Desktop: 3 columns
+    return { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '20px' };
+  };
 
   return (
     <AboutLayout title="Locations">
@@ -74,7 +98,7 @@ const Locations: React.FC = () => {
             ))}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '20px' }}>
+          <div style={getGridStyle()}>
             {filtered.map((office, i) => (
               <div key={i}
                 onClick={() => setActiveCity(office.city)}
