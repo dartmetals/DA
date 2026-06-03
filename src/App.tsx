@@ -23,6 +23,14 @@ import DataEngineerCourse from './pages/Courses/DataEngineer'
 import IndustriesPage from './pages/Expertise/IndustriesPage'
 import AIPoweredHiring from './pages/Expertise/AIPoweredHiring'
 import ApplicationDevelopmentPage from './pages/Expertise/ApplicationDevelopmentPage'
+import CloudSolutions from './pages/Solutions/CloudSolutions'
+import BIDataVisualization from './pages/Solutions/BIAndDataVisualization'
+import IoTDigitalEngineering from './pages/Solutions/IOTDigital'
+import DataArtificialIntelligence from './pages/Solutions/DataArtificial'
+import EnterpriseSolutions from './pages/Solutions/EnterpriseSolutions'
+import ProfessionalStaffing from './pages/Solutions/ProfessionalStaffing'
+import ResearchConsulting from './pages/Solutions/ResearchConsulting'
+import CareerTransitions from './pages/Solutions/CareerTransitions'
 
 const Home: React.FC = () => (
   <>
@@ -56,6 +64,14 @@ const App: React.FC = () => (
           <Route path='/industries' element={<IndustriesPage/>}/>
           <Route path='/ai-powered-hiring' element={<AIPoweredHiring/>}/>
           <Route path='/application-development' element={<ApplicationDevelopmentPage/>}/>
+          <Route path='/cloud-solutions' element={<CloudSolutions/>}/>
+          <Route path='/bi-data' element={<BIDataVisualization/>}/>
+          <Route path='/iot-digital' element={<IoTDigitalEngineering/>}/>
+          <Route path='/data-artificial' element={<DataArtificialIntelligence/>}/>
+          <Route path='/enterprise-solutions' element={<EnterpriseSolutions/>}/>
+          <Route path='/professional-staffing' element={<ProfessionalStaffing/>}/>
+          <Route path='/research-consulting' element={<ResearchConsulting/>}/>
+          <Route path='/career-transitions' element={<CareerTransitions/>}/>
         </Routes>
       </main>
       <Footer />

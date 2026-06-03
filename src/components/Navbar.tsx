@@ -51,10 +51,14 @@ const Navbar: React.FC = () => {
       { label: 'Application Development', href: 'application-development' },
     ],
     'SOLUTIONS': [
-      { label: 'Hiring', href: 'hiring' },
-      { label: 'Staffing', href: 'staffing' },
-      { label: 'Development', href: 'development' },
-      { label: 'Training', href: 'training-solutions' },
+      { label: 'Cloud Solutions', href: 'cloud-solutions' },
+      { label: 'BI & Data Visualization', href: 'bi-data' },
+      { label: 'IOT & Digital Engineering', href: 'iot-digital' },
+      { label: 'Data & Artificial Intelligence', href: 'data-artificial' },
+      { label: 'Enterprise Solutions', href: 'enterprise-solutions' },
+      { label: 'Professional Staffing', href: 'professional-staffing' },
+      { label: 'Research & Consulting', href: 'research-consulting' },
+      { label: 'Career Transitions', href: 'career-transitions' },
     ],
     'COURSES': [
       { label: 'Azure Data Engineer', href: 'data-engineer' },
