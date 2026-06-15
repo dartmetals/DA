@@ -12,19 +12,21 @@ const styles: Record<string, React.CSSProperties> = {
   hero: {
     background: "url('/studyabroad-bg.jpg')",
     backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
     backgroundPosition: "top",
+    backgroundColor: '#ffffff',
     color: "#ffffff",
     padding: "80px 60px",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center" as const,
-    minHeight: 520,
+    justifyContent: "flex-start",
+    textAlign: "left" as const,
+    minHeight: 560,
     position: "relative",
     overflow: "hidden",
-    backgroundRepeat: "no-repeat"
+    
   },
-  heroText: { maxWidth: 700, zIndex: 1, margin: "0 auto" },
+  heroText: { maxWidth: 700, zIndex: 1, margin: "0", marginLeft: 0 },
   heroHeading: {
     fontFamily: "'Georgia', 'Times New Roman', serif",
     fontStyle: "italic",
@@ -32,6 +34,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 700,
     lineHeight: 1.15,
     margin: 0,
+    textAlign: "left" as const,
   },
   heroDescription: {
     fontSize: 16,
@@ -39,8 +42,9 @@ const styles: Record<string, React.CSSProperties> = {
     opacity: 0.9,
     lineHeight: 1.5,
     maxWidth: 600,
-    marginLeft: "auto",
+    marginLeft: 0,
     marginRight: "auto",
+    textAlign: "left" as const,
   },
   heroImagePlaceholder: {
     display: "none",
@@ -577,24 +581,28 @@ const StudyAbroadPage: React.FC = () => {
   // Responsive style functions
   const getHeroBackgroundStyle = (): React.CSSProperties => {
     if (isMobile) {
-      return { ...styles.hero, backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat", minHeight: 400, padding: "60px 20px" };
+      return { ...styles.hero, backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat", minHeight: 400, padding: "60px 20px", justifyContent: "flex-start" };
     }
     if (isTablet) {
-      return { ...styles.hero, backgroundSize: "cover", backgroundPosition: "top", backgroundRepeat: "no-repeat" };
+      return { ...styles.hero, backgroundSize: "cover", backgroundPosition: "top", backgroundRepeat: "no-repeat", justifyContent: "flex-start" };
     }
     return styles.hero;
   };
 
   const getHeroHeadingStyle = (): React.CSSProperties => {
-    if (isMobile) return { ...styles.heroHeading, fontSize: 32 };
-    if (isTablet) return { ...styles.heroHeading, fontSize: 42 };
-    return styles.heroHeading;
+    if (isMobile) return { ...styles.heroHeading, fontSize: 32, textAlign: "left" };
+    if (isTablet) return { ...styles.heroHeading, fontSize: 42, textAlign: "left" };
+    return { ...styles.heroHeading, textAlign: "left" };
   };
 
   const getHeroDescriptionStyle = (): React.CSSProperties => {
     if (isMobile) return { ...styles.heroDescription, display: "none" };
-    if (isTablet) return { ...styles.heroDescription, fontSize: 14 };
-    return styles.heroDescription;
+    if (isTablet) return { ...styles.heroDescription, fontSize: 14, textAlign: "left", marginLeft: 0, marginRight: "auto" };
+    return { ...styles.heroDescription, textAlign: "left", marginLeft: 0, marginRight: "auto" };
+  };
+
+  const getHeroTextStyle = (): React.CSSProperties => {
+    return { ...styles.heroText, marginLeft: 0, marginRight: "auto" };
   };
 
   const getIntroSectionStyle = (): React.CSSProperties => {
@@ -925,7 +933,7 @@ const StudyAbroadPage: React.FC = () => {
       <div style={styles.page}>
         {/* ── HERO ── */}
         <section style={getHeroBackgroundStyle()}>
-          <div style={styles.heroText}>
+          <div style={getHeroTextStyle()}>
             <h1 style={getHeroHeadingStyle()}>
               Study Abroad<br />
               Expertise
@@ -1139,7 +1147,7 @@ const StudyAbroadPage: React.FC = () => {
         variants={imageFromRight}
       >
         <motion.div
-          style={styles.heroText}
+          style={getHeroTextStyle()}
           variants={textFromBottom}
           initial="hidden"
           animate={heroTextControls}

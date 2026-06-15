@@ -10,20 +10,25 @@ const styles: Record<string, React.CSSProperties> = {
     overflowX: "hidden",
   },
   hero: {
-    background: "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600')",
-    backgroundSize: "cover",
-    backgroundPosition: "top",
-    color: "#fff",
-    padding: "80px 60px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center" as const,
-    minHeight: 560,
-    position: "relative",
-    overflow: "hidden",
-  },
-  heroText: { maxWidth: 900, zIndex: 1, margin: "0 auto" },
+  background: "url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600')",
+  backgroundSize: "cover",
+  backgroundPosition: "top",
+  color: "#fff",
+  padding: "80px 60px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-start",  // Changed from "center" to "flex-start"
+  textAlign: "left" as const,     // Changed from "center" to "left"
+  minHeight: 560,
+  position: "relative",
+  overflow: "hidden",
+},
+heroText: { 
+  maxWidth: 900, 
+  zIndex: 1, 
+  margin: "0",  // Changed from "0 auto" to "0"
+  textAlign: "left" as const,  // Added textAlign left
+},
   heroHeading: {
     fontFamily: "'Georgia', 'Times New Roman', serif",
     fontStyle: "italic",

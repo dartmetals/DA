@@ -17,14 +17,19 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "80px 60px",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center" as const,
+    justifyContent: "flex-start", // Changed from "center"
+    textAlign: "left" as const,    // Changed from "center"
     minHeight: 520,
     position: "relative",
     overflow: "hidden",
     backgroundRepeat: "no-repeat",
   },
-  heroText: { maxWidth: 700, zIndex: 1, margin: "0 auto" },
+  heroText: { 
+    maxWidth: 700, 
+    zIndex: 1, 
+    margin: "0",  // Changed from "0 auto"
+    textAlign: "left" as const  // Added
+  },
   heroHeading: {
     fontFamily: "'Georgia', 'Times New Roman', serif",
     fontStyle: "italic",
@@ -32,11 +37,13 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 700,
     lineHeight: 1.15,
     margin: 0,
+    textAlign: "left" as const,  // Added
   },
   heroSubText: {
     fontSize: 18,
     marginTop: 16,
     opacity: 0.95,
+    textAlign: "left" as const,  // Added
   },
   heroDescription: {
     fontSize: 16,
@@ -44,8 +51,9 @@ const styles: Record<string, React.CSSProperties> = {
     opacity: 0.9,
     lineHeight: 1.5,
     maxWidth: 550,
-    marginLeft: "auto",
+    marginLeft: 0,      // Changed from "auto"
     marginRight: "auto",
+    textAlign: "left" as const,  // Added
   },
   heroImagePlaceholder: {
     display: "none",

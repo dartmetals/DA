@@ -36,7 +36,7 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ children }) => {
   }, []);
 
   // Responsive hero background style
-  const getHeroBackgroundStyle = (bgImage: string): React.CSSProperties => {
+  const getHeroBackgroundStyle = (bgImage: string, currentPath: string): React.CSSProperties => {
     if (isMobile) {
       return {
         position: 'relative',
@@ -48,7 +48,6 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ children }) => {
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundColor: '#0a1a3a',
       };
     }
     if (isTablet) {
@@ -64,16 +63,66 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ children }) => {
         backgroundRepeat: 'no-repeat',
       };
     }
-    // Laptop and Desktop
+    // Desktop - different heights and background positions for each page
+    if (currentPath === '/overview') {
+      return {
+        position: 'relative',
+        height: '580px',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'top',
+        backgroundRepeat: 'no-repeat',
+      };
+    } else if (currentPath === '/whydataartisans') {
+      return {
+        position: 'relative',
+        height: '520px',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 30%',
+        backgroundRepeat: 'no-repeat',
+      };
+    } else if (currentPath === '/ourjourney') {
+      return {
+        position: 'relative',
+        height: '560px',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'bottom',
+        backgroundRepeat: 'no-repeat',
+      };
+    } else if (currentPath === '/locations') {
+      return {
+        position: 'relative',
+        height: '560px',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'bottom',
+        backgroundRepeat: 'no-repeat',
+      };
+    }
+    // Default fallback
     return {
       position: 'relative',
-      height: '480px',
+      height: '540px',
       overflow: 'hidden',
       display: 'flex',
       alignItems: 'center',
       backgroundImage: `url(${bgImage})`,
       backgroundSize: 'cover',
-      backgroundPosition: 'center',
+      backgroundPosition: 'bottom',
       backgroundRepeat: 'no-repeat',
     };
   };
@@ -136,25 +185,25 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ children }) => {
       return {
         heading: 'Tech for tomorrow',
         subheading: 'Empowering businesses with cutting-edge solutions.',
-        bgImage: '/overview-bg.jpg'
+        bgImage: '/overview-bgimg.png'
       }
     } else if (pathname === '/whydataartisans') {
       return {
         heading: 'Making great teams',
         subheading: 'Choose us for reliable & secure software.',
-        bgImage: '/overview-bg.jpg'
+        bgImage: '/whyus.png'
       }
     } else if (pathname === '/ourjourney') {
       return {
         heading: 'From vision to innovation',
         subheading: 'A journey of progress, powered by technology and passion.',
-        bgImage: '/overview-bg.jpg'
+        bgImage: '/journey.png'
       }
     } else if (pathname === '/locations') {
       return {
         heading: 'Our Global Presence',
         subheading: 'Serving businesses across the world with excellence.',
-        bgImage: '/overview-bg.jpg'
+        bgImage: '/location-symbol.jpeg'
       }
     }
     return {
@@ -169,20 +218,19 @@ const AboutLayout: React.FC<AboutLayoutProps> = ({ children }) => {
   return (
     <div style={{ paddingTop: '68px' }}>
       {/* ── Hero Banner ── */}
-      <div style={getHeroBackgroundStyle(heroContent.bgImage)}>
+      <div style={getHeroBackgroundStyle(heroContent.bgImage, pathname)}>
         {/* BG gradient overlay - decreased opacity */}
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(135deg, rgba(15,32,68,0.6) 0%, rgba(26,53,102,0.6) 40%, rgba(13,48,96,0.6) 70%, rgba(7,29,69,0.6) 100%)',
         }} />
 
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '1200px', margin: '0 auto', padding: '0 40px', width: '100%' }}>
           {/* Breadcrumb */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+          {/* <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
             <a href="/" style={{ color: 'rgba(255,255,255,0.7)', fontSize: isMobile ? '10px' : '12px', textDecoration: 'underline', cursor: 'pointer' }}>Home</a>
             <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: isMobile ? '10px' : '12px' }}>»</span>
             <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: isMobile ? '10px' : '12px' }}>About Us</span>
-          </div>
+          </div> */}
           
           {/* Dynamic Hero Content */}
           <h1 style={getHeadingStyle()}>

@@ -18,8 +18,8 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "80px 60px",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center" as const,
+    justifyContent: "flex-start",
+    textAlign: "left" as const,
     minHeight: 520,
     position: "relative",
     overflow: "hidden",
@@ -31,7 +31,8 @@ const styles: Record<string, React.CSSProperties> = {
   heroText: {
     maxWidth: 900,
     zIndex: 1,
-    margin: "0 auto",
+    margin: "0",
+    textAlign: "left" as const,
   },
   heroHeading: {
     fontFamily: "'Georgia', 'Times New Roman', serif",
@@ -40,11 +41,13 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 700,
     lineHeight: 1.15,
     margin: 0,
+    textAlign: "left" as const,
   },
   heroSubheading: {
     fontSize: 18,
     marginTop: 20,
     opacity: 0.9,
+    textAlign: "left" as const,
   },
   heroDescription: {
     fontSize: 16,
@@ -52,8 +55,9 @@ const styles: Record<string, React.CSSProperties> = {
     opacity: 0.85,
     lineHeight: 1.5,
     maxWidth: 600,
-    marginLeft: "auto",
-    marginRight: "auto",
+    marginLeft: 0,
+    marginRight: 0,
+    textAlign: "left" as const,
   },
   heroImagePlaceholder: {
     display: "none",
@@ -63,7 +67,7 @@ const styles: Record<string, React.CSSProperties> = {
   introSection: {
     display: "flex",
     alignItems: "center",
-    gap:60,
+    gap: 120,
     padding: "70px 60px 16px",
     background: "#fff",
   },
@@ -87,6 +91,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   introBody: {
     flex: 1,
+    paddingLeft: 20,
   },
   introPara: {
     fontSize: 15,
@@ -768,33 +773,33 @@ const TrainingPage: React.FC = () => {
   // Get responsive styles for sections - using spread operator to create new objects
   const getHeroHeadingStyle = (): React.CSSProperties => {
     if (isMobile) {
-      return { ...styles.heroHeading, fontSize: 24, width: "90%", margin: "0 auto", wordBreak: "break-word" };
+      return { ...styles.heroHeading, fontSize: 24, width: "90%", wordBreak: "break-word", textAlign: "left" };
     }
     if (isTablet) {
-      return { ...styles.heroHeading, fontSize: 36 };
+      return { ...styles.heroHeading, fontSize: 36, textAlign: "left" };
     }
-    return styles.heroHeading;
+    return { ...styles.heroHeading, textAlign: "left" };
   };
 
   // For mobile: hide the description paragraph
   const getHeroDescriptionStyle = (): React.CSSProperties => {
     if (isMobile) return { ...styles.heroDescription, display: "none" };
-    if (isTablet) return { ...styles.heroDescription, fontSize: 15 };
-    return styles.heroDescription;
+    if (isTablet) return { ...styles.heroDescription, fontSize: 15, textAlign: "left", marginLeft: 0, marginRight: 0 };
+    return { ...styles.heroDescription, textAlign: "left", marginLeft: 0, marginRight: 0 };
   };
 
   const getHeroBackgroundStyle = (): React.CSSProperties => {
     if (isMobile) {
-      return { ...styles.hero, backgroundSize: "contain", backgroundPosition: "center", padding: "40px 20px 0px 20px", minHeight: 400 };
+      return { ...styles.hero, backgroundSize: "contain", backgroundPosition: "center", padding: "40px 20px 0px 20px", minHeight: 400, justifyContent: "flex-start", textAlign: "left" };
     }
-    return styles.hero;
+    return { ...styles.hero, justifyContent: "flex-start", textAlign: "left" };
   };
 
   const getHeroTextStyle = (): React.CSSProperties => {
     if (isMobile) {
-      return { ...styles.heroText, marginBottom: 0, paddingBottom: 0 };
+      return { ...styles.heroText, marginBottom: 0, paddingBottom: 0, margin: "0", textAlign: "left" };
     }
-    return styles.heroText;
+    return { ...styles.heroText, margin: "0", textAlign: "left" };
   };
 
   const getSectionHeadingStyle = (): React.CSSProperties => {
@@ -828,7 +833,7 @@ const TrainingPage: React.FC = () => {
     if (isMobile) {
       return { ...styles.introBody, padding: "0", width: "100%" };
     }
-    return styles.introBody;
+    return { ...styles.introBody, paddingLeft: 20 };
   };
 
   const getCardsSectionStyle = (): React.CSSProperties => {
@@ -979,7 +984,7 @@ const TrainingPage: React.FC = () => {
               />
             </motion.div>
             <motion.div
-              style={styles.introBody}
+              style={getIntroBodyStyle()}
               variants={paraStagger}
               initial="hidden"
               animate={introParaControls}

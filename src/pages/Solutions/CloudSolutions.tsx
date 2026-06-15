@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 const PRIMARY_THEME = '#5B94BF'
 const THEME_WHITE = '#ffffff'
 const THEME_DARK = '#1e293b'
+
 const BLU_L = '#e8f0f6'
 const GRAY  = '#64748b'
 const WHITE = THEME_WHITE

@@ -63,7 +63,7 @@ const differentiators = [
   {
     icon: icons.talent,
     title: 'Curated Data Talent',
-    text: 'Access a pre-vetted pool of 24,000+ data professionals annually across Data Engineering, Data Science, Analytics, and Cloud — matched precisely to your stack, culture, and business objectives.',
+    text: 'Access a pre-vetted pool of 24,000+ data professionals annually across Data Engineering, Data Science, Analytics, and Cloud matched precisely to your stack, culture, and business objectives.',
   },
   {
     icon: icons.scale,
@@ -73,7 +73,7 @@ const differentiators = [
   {
     icon: icons.trust,
     title: '9+ Years of Proven Trust',
-    text: 'With 400+ corporate customers across BFSI, Manufacturing, Retail, and Consumer Goods — our track record of delivering measurable ROI speaks louder than any pitch deck.',
+    text: 'With 400+ corporate customers across BFSI, Manufacturing, Retail, and Consumer Goods our track record of delivering measurable ROI speaks louder than any pitch deck.',
   },
   {
     icon: icons.domain,
@@ -84,21 +84,21 @@ const differentiators = [
 
 /* ── Stats Grid (blue/white alternating) ── */
 const statsData = [
-  { label: '3 Group Companies',            highlight: true },
-  { label: '16 Countries',                 highlight: false },
-  { label: 'Operations in 47+ Cities in India', highlight: true },
-  { label: '5000+ Full-Time/Flexi-Time Employees', highlight: false },
-  { label: '400+ Corporate Customers',     highlight: true },
-  { label: '1000+ Partners',               highlight: false },
-  { label: '51 Government & CSR Customers', highlight: true },
-  { label: '6500+ e-Learning hours in 13 Indian & 7 International Languages', highlight: false },
-  { label: '10+ Million Brand Connects',   highlight: true },
-  { label: '5,000+ Hours of Classroom Content', highlight: false },
-  { label: '0.5+ Million Trained in Classroom', highlight: true },
-  { label: '3,000+ Employee Alumni',       highlight: false },
-  { label: '0.15+ Million Managers Placed', highlight: true },
-  { label: '1+ Million Job Seeker Engagements Annually', highlight: false },
-  { label: '3+ million eLearners from 190+ countries', highlight: true },
+  { label: 'Data Engineering	',            highlight: true },
+  { label: 'Cloud Solutions',                 highlight: false },
+  { label: 'AI & Machine Learning	', highlight: true },
+  { label: 'Cyber Security', highlight: false },
+  { label: 'Strategy & Consulting',     highlight: true },
+  { label: 'AWS, Azure & GCP Expertise',               highlight: false },
+  { label: 'End-to-End IT Solutions', highlight: true },
+  { label: 'Data Pipelines & ETL', highlight: false },
+  { label: 'Analytics & Reporting',   highlight: true },
+  { label: 'Cloud Migration Services', highlight: false },
+  { label: 'System Integration', highlight: true },
+  { label: 'Managed IT Services',       highlight: false },
+  { label: 'Technology Consulting', highlight: true },
+  { label: 'Application Development', highlight: false },
+  { label: 'Business Intelligence', highlight: true },
 ]
 
 /* ── Feature Card Component ── */
@@ -259,24 +259,29 @@ const WhyDataArtisans: React.FC = () => {
             At Data Artisans, we are committed to delivering cutting-edge, technology-driven solutions that empower businesses to succeed in today's dynamic landscape. Our expertise spans across multiple domains, ensuring innovation, efficiency, and reliability in every service we offer. With a team of highly skilled professionals, we leverage the latest technologies to develop customized solutions that address unique business challenges. Our commitment to continuous innovation enables us to stay ahead in a competitive market.
           </p>
 
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <h2 style={{ fontSize: isMobile ? '22px' : '24px', fontWeight: '700', color: '#1a1a1a', marginBottom: '8px' }}>Why Data Artisans Private Limited</h2>
-            <p style={{ fontSize: '14px', color: '#2563eb', fontWeight: '500' }}>Innovation, reliability, excellence.</p>
-          </div>
+          {/* Section with bg color #f1f5f9 - full width, no padding left/right */}
+          <div style={{ backgroundColor: '#f1f5f9', width: '100vw', position: 'relative', left: '50%', transform: 'translateX(-50%)', marginBottom: '40px' }}>
+            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 40px' }}>
+              <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+                <h2 style={{ fontSize: isMobile ? '22px' : '24px', fontWeight: '700', color: '#1a1a1a', marginBottom: '8px' }}>Why Data Artisans Private Limited</h2>
+                <p style={{ fontSize: '14px', color: '#2563eb', fontWeight: '500' }}>Innovation, reliability, excellence.</p>
+              </div>
 
-          {/* About Data Artisans + Why Data Artisans - Stacked on mobile/tablet */}
-          <div style={getAboutWhyGridStyle()}>
-            <div>
-              <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#2563eb', marginBottom: '12px' }}>About Data Artisans</h3>
-              <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#555', lineHeight: 1.85 }}>
-                Redefining business success through innovation & strategy. Quality, consistency, and integrity define our work. We take pride in maintaining the highest standards in service delivery, ensuring our clients achieve sustainable growth and long-term success.
-              </p>
-            </div>
-            <div>
-              <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#2563eb', marginBottom: '12px' }}>Why Data Artisans</h3>
-              <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#555', lineHeight: 1.85 }}>
-                Partner with Data Artisans Private Limited and experience the future of technology-driven business solutions. Let us help you scale, innovate, and transform your business for lasting success.
-              </p>
+              {/* About Data Artisans + Why Data Artisans - Stacked on mobile/tablet */}
+              <div style={getAboutWhyGridStyle()}>
+                <div>
+                  <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#2563eb', marginBottom: '12px' }}>About Data Artisans</h3>
+                  <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#555555', lineHeight: 1.85 }}>
+                    Redefining business success through innovation & strategy. Quality, consistency, and integrity define our work. We take pride in maintaining the highest standards in service delivery, ensuring our clients achieve sustainable growth and long-term success.
+                  </p>
+                </div>
+                <div>
+                  <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#2563eb', marginBottom: '12px' }}>Why Data Artisans</h3>
+                  <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#555', lineHeight: 1.85 }}>
+                    Partner with Data Artisans Private Limited and experience the future of technology-driven business solutions. Let us help you scale, innovate, and transform your business for lasting success.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -434,7 +439,7 @@ const WhyDataArtisans: React.FC = () => {
       <div ref={ref} style={{ padding: '0 0 80px', backgroundColor: '#f5f5f5' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '50px 40px 0' }}>
           <h2 style={{ fontSize: isMobile ? '24px' : '28px', fontWeight: '700', color: '#1a1a1a', textAlign: 'center', marginBottom: '40px' }}>
-            Data Artisans by Numbers
+            Data Artisans by Expertise
           </h2>
           <div style={getStatsGridStyle()}>
             {statsData.map((s, i) => (

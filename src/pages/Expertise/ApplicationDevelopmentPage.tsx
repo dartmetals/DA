@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
 
 const styles: Record<string, React.CSSProperties> = {
   page: {
@@ -10,16 +9,17 @@ const styles: Record<string, React.CSSProperties> = {
     overflowX: "hidden",
   },
   hero: {
-    background: "url('/appdev.jpg')",
-    backgroundSize: "cover",
+    background: "url('/appdev.png')",
+    backgroundSize: "contain",
     backgroundPosition: "center",
+    backgroundColor: '#000000',
     color: "#fff",
     padding: "80px 60px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center" as const,
-    minHeight: 520,
+    minHeight: 560,
     position: "relative",
     overflow: "hidden",
     backgroundRepeat: "no-repeat",
@@ -30,7 +30,7 @@ const styles: Record<string, React.CSSProperties> = {
     left: 0,
     right: 0,
     bottom: 0,
-    background: "rgba(0,0,0,0.4)",
+    background: "rgba(0, 0, 0, 0.4)",
     pointerEvents: "none",
   },
   heroOverlay2: {
@@ -39,23 +39,26 @@ const styles: Record<string, React.CSSProperties> = {
     left: 0,
     right: 0,
     bottom: 0,
-    background: "rgba(0,0,0,0.2)",
+    background: "rgba(0, 0, 0, 0.2)",
     pointerEvents: "none",
   },
-  heroText: { maxWidth: 700, zIndex: 1, margin: "0 auto" },
+  heroText: { maxWidth: 800,  zIndex: 1, margin: "0 auto",textAlign: "left" },
   heroHeading: {
     fontFamily: "'Georgia', 'Times New Roman', serif",
     fontStyle: "italic",
-    fontSize: 52,
+    fontSize: 42,
     fontWeight: 700,
     lineHeight: 1.15,
     margin: 0,
+    textAlign: 'left',
+    marginLeft: 12
   },
   heroDescription: {
-    fontSize: 16,
+    fontSize: 14,
     marginTop: 20,
     opacity: 0.95,
     lineHeight: 1.5,
+    marginLeft: 12
   },
   heroImagePlaceholder: {
     display: "none",
@@ -103,7 +106,7 @@ const styles: Record<string, React.CSSProperties> = {
     marginBottom: 48,
   },
   sectionHeadingItalic: { fontStyle: "italic", color: "#2980B9" },
-  cardsSection: { background: "#F0F4F8", padding: "60px 60px" },
+  cardsSection: { background: "#Fff", padding: "60px 60px" },
   cardsGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(4, 1fr)",
@@ -113,7 +116,8 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: 12,
     padding: "32px 28px",
     display: "flex",
-    gap: 20,
+    flexDirection: "column" as const,
+    gap: 16,
     boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
   },
   // 4 different light background colors for cards
@@ -121,33 +125,38 @@ const styles: Record<string, React.CSSProperties> = {
   card2: { background: "#E8FDE8" },  // Light Green
   card3: { background: "#FEF3E8" },  // Light Orange
   card4: { background: "#FDE8F0" },  // Light Pink
+  cardTopRow: {
+    display: "grid",
+    gridTemplateColumns: "30% 70%",
+    gap: 16,
+    alignItems: "center",
+  },
   cardIcon: {
     width: 64,
     height: 64,
-    borderRadius: "50%",
-    flexShrink: 0,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    fontSize: 26,
+    fontSize: 32,
   },
-  cardIcon1: { background: "linear-gradient(135deg, #2980B9, #1E3A5F)" },
-  cardIcon2: { background: "linear-gradient(135deg, #27AE60, #1B5E20)" },
-  cardIcon3: { background: "linear-gradient(135deg, #F39C12, #E65100)" },
-  cardIcon4: { background: "linear-gradient(135deg, #E91E63, #880E4F)" },
   cardTitle: {
     fontFamily: "'Georgia', serif",
     fontStyle: "italic",
     fontSize: 18,
     fontWeight: 700,
-    marginBottom: 8,
-    marginTop: 0,
+    margin: 0,
+    textAlign: "left" as const,
   },
   cardTitle1: { color: "#1565C0" },
   cardTitle2: { color: "#2E7D32" },
   cardTitle3: { color: "#E65100" },
   cardTitle4: { color: "#AD1457" },
-  cardBody: { fontSize: 14, lineHeight: 1.7, margin: 0 },
+  cardBody: { 
+    fontSize: 14, 
+    lineHeight: 1.7, 
+    margin: 0,
+    textAlign: "left" as const,
+  },
   cardBody1: { color: "#1A237E" },
   cardBody2: { color: "#1B5E20" },
   cardBody3: { color: "#BF360C" },
@@ -183,7 +192,7 @@ const styles: Record<string, React.CSSProperties> = {
     objectFit: 'cover' as const,
   },
   iconRow: {
-    background: "#EBF5FF",  // Same as gold banner
+    background: "#EBF5FF",
     padding: "0 60px 70px",
   },
   iconGrid: {
@@ -360,20 +369,6 @@ const ApplicationDevelopmentPage: React.FC = () => {
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  // Animation controls
-  const heroImageControls = useAnimation();
-  const heroTextControls = useAnimation();
-  const introImageControls = useAnimation();
-  const introContentControls = useAnimation();
-  const cardsControls = useAnimation();
-  const goldBannerContentControls = useAnimation();
-  const goldBannerImageControls = useAnimation();
-  const iconRowControls = useAnimation();
-  const techImageControls = useAnimation();
-  const techContentControls = useAnimation();
-  const featureCardsControls = useAnimation();
-  const additionalSectionControls = useAnimation();
-
   // Refs
   const heroRef = useRef<HTMLElement>(null);
   const introRef = useRef<HTMLElement>(null);
@@ -386,82 +381,18 @@ const ApplicationDevelopmentPage: React.FC = () => {
 
   // Card color configurations
   const cardConfigs = [
-    { bg: styles.card1, iconBg: styles.cardIcon1, titleColor: styles.cardTitle1, bodyColor: styles.cardBody1 },
-    { bg: styles.card2, iconBg: styles.cardIcon2, titleColor: styles.cardTitle2, bodyColor: styles.cardBody2 },
-    { bg: styles.card3, iconBg: styles.cardIcon3, titleColor: styles.cardTitle3, bodyColor: styles.cardBody3 },
-    { bg: styles.card4, iconBg: styles.cardIcon4, titleColor: styles.cardTitle4, bodyColor: styles.cardBody4 },
+    { bg: styles.card1, titleColor: styles.cardTitle1, bodyColor: styles.cardBody1 },
+    { bg: styles.card2, titleColor: styles.cardTitle2, bodyColor: styles.cardBody2 },
+    { bg: styles.card3, titleColor: styles.cardTitle3, bodyColor: styles.cardBody3 },
+    { bg: styles.card4, titleColor: styles.cardTitle4, bodyColor: styles.cardBody4 },
   ];
-
-  // Animation variants (using as const for type safety)
-  const imageFromRight = {
-    hidden: { opacity: 0, x: 100 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
-  } as const;
-
-  const textFromBottom = {
-    hidden: { opacity: 0, y: 100 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
-  } as const;
-
-  const imageFromLeft = {
-    hidden: { opacity: 0, x: -100 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
-  } as const;
-
-  const cardFromBottom = {
-    hidden: { opacity: 0, y: 80 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, delay: i * 0.1 }
-    })
-  } as const;
-
-  const cardContentStagger = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
-  } as const;
-
-  const cardContentItem = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-  } as const;
-
-  const listFromRight = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
-  } as const;
-
-  const listItemRight = {
-    hidden: { opacity: 0, x: 50 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.5 } }
-  } as const;
-
-  const fromBottomStagger = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
-  } as const;
-
-  const fromBottomItem = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-  } as const;
 
   // Contact Us button click handler
   const handleContactClick = () => {
     window.location.href = "/contact-us";
   };
 
-  // Responsive style functions with proper return type
+  // Responsive style functions
   const getHeroBackgroundStyle = (): React.CSSProperties => {
     if (isMobile) {
       return { 
@@ -487,15 +418,19 @@ const ApplicationDevelopmentPage: React.FC = () => {
   };
 
   const getHeroHeadingStyle = (): React.CSSProperties => {
-    if (isMobile) return { ...styles.heroHeading, fontSize: 32 };
-    if (isTablet) return { ...styles.heroHeading, fontSize: 42 };
-    return styles.heroHeading;
+    if (isMobile) return { ...styles.heroHeading, fontSize: 32, marginLeft: 12 };
+    if (isTablet) return { ...styles.heroHeading, fontSize: 42, marginLeft: 12 };
+    return { ...styles.heroHeading, marginLeft: 12 };
   };
 
   const getHeroDescriptionStyle = (): React.CSSProperties => {
     if (isMobile) return { ...styles.heroDescription, display: "none" };
-    if (isTablet) return { ...styles.heroDescription, fontSize: 14 };
-    return styles.heroDescription;
+    if (isTablet) return { ...styles.heroDescription, fontSize: 14, marginLeft: 12 };
+    return { ...styles.heroDescription, marginLeft: 12 };
+  };
+
+  const getHeroTextStyle = (): React.CSSProperties => {
+    return { ...styles.heroText, marginLeft: 0 };
   };
 
   const getIntroSectionStyle = (): React.CSSProperties => {
@@ -540,7 +475,7 @@ const ApplicationDevelopmentPage: React.FC = () => {
 
   const getGoldBannerStyle = (): React.CSSProperties => {
     if (isMobile || isTablet) {
-      return { ...styles.goldBanner, flexDirection: "column", padding: "40px 20px", textAlign: "center" };
+      return { ...styles.goldBanner, flexDirection: "column", padding: "40px 20px", textAlign: "center", background: "#EBF5FF" };
     }
     return styles.goldBanner;
   };
@@ -569,10 +504,10 @@ const ApplicationDevelopmentPage: React.FC = () => {
 
   const getIconRowStyle = (): React.CSSProperties => {
     if (isMobile) {
-      return { ...styles.iconRow, padding: "0 20px 40px 20px" };
+      return { ...styles.iconRow, padding: "0 20px 40px 20px", background: "#EBF5FF" };
     }
     if (isTablet) {
-      return { ...styles.iconRow, padding: "0 30px 50px 30px" };
+      return { ...styles.iconRow, padding: "0 30px 50px 30px", background: "#EBF5FF" };
     }
     return styles.iconRow;
   };
@@ -655,156 +590,11 @@ const ApplicationDevelopmentPage: React.FC = () => {
     return styles.techPara;
   };
 
-  // Intersection Observer setup
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-
-    // Hero section
-    if (heroRef.current) {
-      const heroObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            heroImageControls.start("visible");
-            setTimeout(() => heroTextControls.start("visible"), 400);
-          } else {
-            heroImageControls.set("hidden");
-            heroTextControls.set("hidden");
-          }
-        },
-        { threshold: 0.3 }
-      );
-      heroObserver.observe(heroRef.current);
-      observers.push(heroObserver);
-    }
-
-    // Intro section
-    if (introRef.current) {
-      const introObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            introImageControls.start("visible");
-            introContentControls.start("visible");
-          } else {
-            introImageControls.set("hidden");
-            introContentControls.set("hidden");
-          }
-        },
-        { threshold: 0.3 }
-      );
-      introObserver.observe(introRef.current);
-      observers.push(introObserver);
-    }
-
-    // Cards section
-    if (cardsRef.current) {
-      const cardsObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            cardsControls.start("visible");
-          } else {
-            cardsControls.set("hidden");
-          }
-        },
-        { threshold: 0.2 }
-      );
-      cardsObserver.observe(cardsRef.current);
-      observers.push(cardsObserver);
-    }
-
-    // Gold Banner
-    if (goldBannerRef.current) {
-      const goldObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            goldBannerContentControls.start("visible");
-            goldBannerImageControls.start("visible");
-          } else {
-            goldBannerContentControls.set("hidden");
-            goldBannerImageControls.set("hidden");
-          }
-        },
-        { threshold: 0.3 }
-      );
-      goldObserver.observe(goldBannerRef.current);
-      observers.push(goldObserver);
-    }
-
-    // Icon Row
-    if (iconRowRef.current) {
-      const iconObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            iconRowControls.start("visible");
-          } else {
-            iconRowControls.set("hidden");
-          }
-        },
-        { threshold: 0.2 }
-      );
-      iconObserver.observe(iconRowRef.current);
-      observers.push(iconObserver);
-    }
-
-    // Tech section
-    if (techRef.current) {
-      const techObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            techImageControls.start("visible");
-            techContentControls.start("visible");
-          } else {
-            techImageControls.set("hidden");
-            techContentControls.set("hidden");
-          }
-        },
-        { threshold: 0.3 }
-      );
-      techObserver.observe(techRef.current);
-      observers.push(techObserver);
-    }
-
-    // Feature Cards
-    if (featureRef.current) {
-      const featureObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            featureCardsControls.start("visible");
-          } else {
-            featureCardsControls.set("hidden");
-          }
-        },
-        { threshold: 0.2 }
-      );
-      featureObserver.observe(featureRef.current);
-      observers.push(featureObserver);
-    }
-
-    // Additional section
-    if (additionalRef.current) {
-      const additionalObserver = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            additionalSectionControls.start("visible");
-          } else {
-            additionalSectionControls.set("hidden");
-          }
-        },
-        { threshold: 0.3 }
-      );
-      additionalObserver.observe(additionalRef.current);
-      observers.push(additionalObserver);
-    }
-
-    return () => {
-      observers.forEach(observer => observer.disconnect());
-    };
-  }, []);
-
   const cardsData = [
     { icon: "🏭", title: "Industry-Specific App Expertise", body: "We specialize in building applications tailored to various industries like healthcare, fintech, retail, and logistics." },
     { icon: "⚡", title: "Performance-Optimized Architecture", body: "Our development emphasizes speed, stability, and scalability for flawless performance under any user load." },
-    { icon: "🚀", title: "Future-Ready Technologies", body: "We adopt cutting-edge technologies like AI, blockchain, and IoT to future-proof your digital products." },
-    { icon: "🎨", title: "User-Centric UI/UX Design", body: "We craft intuitive interfaces and user-friendly experiences that boost engagement and usability." },
+    { icon: "🚀", title: "Future-Ready Technologies", body: "We adopt cutting-edge technologies like AI, blockchain, IoT, and machine learning to future-proof your digital products." },
+    { icon: "🎨", title: "User-Centric UI/UX Design", body: "We craft intuitive interfaces and user-friendly experiences that boost engagement, retention, satisfaction, conversion rates, and overall usability." },
   ];
 
   const iconItems = [
@@ -820,21 +610,10 @@ const ApplicationDevelopmentPage: React.FC = () => {
     <div style={styles.page}>
 
       {/* ── HERO ── */}
-      <motion.section
-        ref={heroRef}
-        style={getHeroBackgroundStyle()}
-        initial="hidden"
-        animate={heroImageControls}
-        variants={imageFromRight}
-      >
+      <section ref={heroRef} style={getHeroBackgroundStyle()}>
         <div style={styles.heroOverlay} />
         <div style={styles.heroOverlay2} />
-        <motion.div
-          style={styles.heroText}
-          variants={textFromBottom}
-          initial="hidden"
-          animate={heroTextControls}
-        >
+        <div style={getHeroTextStyle()}>
           <h1 style={getHeroHeadingStyle()}>
             Innovate with
             Code.
@@ -843,126 +622,84 @@ const ApplicationDevelopmentPage: React.FC = () => {
             Transform your ideas into powerful, scalable applications with our expert development team.
             From concept to deployment, we bring your vision to life.
           </p>
-        </motion.div>
+        </div>
         <div style={styles.heroImagePlaceholder}>[ Application Development Hero Image ]</div>
-      </motion.section>
+      </section>
+
+      {/* ── CARDS (4 cards in one row with different colors) ── */}
+      <section ref={cardsRef} style={getCardsSectionStyle()}>
+        <h2 style={getSectionHeadingStyle()}>
+          Crafting <em style={styles.sectionHeadingItalic}>Intelligent Solutions</em> that Empower Digital Growth
+        </h2>
+        <div style={{ ...styles.cardsGrid, gridTemplateColumns: getCardsGridColumns() }}>
+          {cardsData.map((c, idx) => {
+            const config = cardConfigs[idx % cardConfigs.length];
+            return (
+              <div key={c.title} style={{ ...styles.card, ...config.bg }}>
+                <div style={styles.cardTopRow}>
+                  <div style={styles.cardIcon}>{c.icon}</div>
+                  <h3 style={{ ...styles.cardTitle, ...config.titleColor }}>{c.title}</h3>
+                </div>
+                <p style={{ ...styles.cardBody, ...config.bodyColor }}>{c.body}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
       {/* ── INTRO ── */}
       <section ref={introRef} style={getIntroSectionStyle()}>
-        <motion.div
-          style={getIntroBodyStyle()}
-          variants={fromBottomStagger}
-          initial="hidden"
-          animate={introContentControls}
-        >
-          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+        <div style={getIntroBodyStyle()}>
+          <p style={getIntroParaStyle()}>
             Data Artisans blends technical expertise with strategic thinking to deliver custom application solutions that solve real business challenges. We prioritize seamless integration, future-ready architecture, and user-centric design to create software that's not only functional but transformative.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
-            With over two decades of connecting talent with opportunity, we understand what organisations need from technology partners and what end-users need from applications. Our development programmes are structured to deliver real value — not just code completion, but genuine business impact.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+          </p>
+          <p style={getIntroParaStyle()}>
+            With over two decades of connecting talent with opportunity, we understand what organisations need from technology partners and what end-users need from applications. Our development programmes are structured to deliver real value  not just code completion, but genuine business impact.
+          </p>
+          <p style={getIntroParaStyle()}>
             We partner with organisations across sectors to create custom applications that solve real business challenges. From identifying the right technology stack to managing the entire development lifecycle, we make it seamless.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
-            Our deep industry expertise, technology partnerships, and agile development capabilities give us the edge to deliver the right solution for the right problem — every time. Let us make the right experience happen.
-          </motion.p>
-        </motion.div>
-        <motion.div
-          style={getIntroImageBoxStyle()}
-          variants={imageFromLeft}
-          initial="hidden"
-          animate={introImageControls}
-        >
+          </p>
+          <p style={getIntroParaStyle()}>
+            Our deep industry expertise, technology partnerships, and agile development capabilities give us the edge to deliver the right solution for the right problem  every time. Let us make the right experience happen.
+          </p>
+        </div>
+        <div style={getIntroImageBoxStyle()}>
           <img 
             src="/appdev-img2.jpg" 
             alt="Application Development"
             style={styles.introImage}
           />
-        </motion.div>
+        </div>
       </section>
-
-      {/* ── CARDS (4 cards in one row with different colors) ── */}
-      <motion.section
-        ref={cardsRef}
-        style={getCardsSectionStyle()}
-        initial="hidden"
-        animate={cardsControls}
-      >
-        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
-          Crafting <em style={styles.sectionHeadingItalic}>Intelligent Solutions</em> that Empower Digital Growth
-        </motion.h2>
-        <motion.div
-          style={{ ...styles.cardsGrid, gridTemplateColumns: getCardsGridColumns() }}
-          variants={cardContentStagger}
-          initial="hidden"
-          animate={cardsControls}
-        >
-          {cardsData.map((c, idx) => {
-            const config = cardConfigs[idx % cardConfigs.length];
-            return (
-              <motion.div
-                key={c.title}
-                custom={idx}
-                variants={cardFromBottom}
-                style={{ ...styles.card, ...config.bg }}
-              >
-                <motion.div variants={cardContentItem}>
-                  <div style={{ ...styles.cardIcon, ...config.iconBg }}>{c.icon}</div>
-                  <h3 style={{ ...styles.cardTitle, ...config.titleColor }}>{c.title}</h3>
-                  <p style={{ ...styles.cardBody, ...config.bodyColor }}>{c.body}</p>
-                </motion.div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </motion.section>
 
       {/* ── GOLD BANNER (Image on Right, Content on Left) ── */}
       <section ref={goldBannerRef} style={getGoldBannerStyle()}>
-        <motion.div
-          style={getGoldBannerTextStyle()}
-          variants={fromBottomStagger}
-          initial="hidden"
-          animate={goldBannerContentControls}
-        >
-          <motion.p variants={fromBottomItem} style={styles.goldBannerPara}>
+        <div style={getGoldBannerTextStyle()}>
+          <p style={styles.goldBannerPara}>
             <strong>1820+ Apps Delivered | 98% Client Satisfaction | 120+ Tech Stacks Mastered | 75+ Ongoing Projects</strong>
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.goldBannerPara}>
+          </p>
+          <p style={styles.goldBannerPara}>
             At Data Artisans, we specialize in building custom web applications designed to deliver value-driven functionality that aligns with your unique business needs. These applications go beyond just aesthetics - they serve as robust tools to boost operational productivity, streamline workflows, and increase business system efficiency.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={styles.goldBannerPara}>
+          </p>
+          <p style={styles.goldBannerPara}>
             By enhancing transparency in information sharing and optimizing internal processes, our solutions directly contribute to improving your bottom line. We craft scalable, user-friendly apps that empower business growth.
-          </motion.p>
-        </motion.div>
-        <motion.div
-          style={getGoldBannerImageBoxStyle()}
-          variants={imageFromRight}
-          initial="hidden"
-          animate={goldBannerImageControls}
-        >
+          </p>
+        </div>
+        <div style={getGoldBannerImageBoxStyle()}>
           <img 
             src="/appdev-img5.jpg" 
             alt="Application Development Success"
             style={styles.goldBannerImage}
           />
-        </motion.div>
+        </div>
       </section>
 
       {/* ── ICON ROW (2 columns, same color as gold banner, hover effect) ── */}
-      <motion.div
-        ref={iconRowRef}
-        style={getIconRowStyle()}
-        variants={listFromRight}
-        initial="hidden"
-        animate={iconRowControls}
-      >
+      <div ref={iconRowRef} style={getIconRowStyle()}>
         <div style={{ ...styles.iconGrid, gridTemplateColumns: getIconGridColumns() }}>
           {iconItems.map((item, i) => (
-            <motion.div
+            <div
               key={i}
-              variants={listItemRight}
               style={{
                 ...styles.iconItem,
                 ...(hoveredIcon === i ? styles.iconItemHover : {})
@@ -982,64 +719,39 @@ const ApplicationDevelopmentPage: React.FC = () => {
               }}>
                 {item.label}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* ── TECH SECTION (Image on Left, Content on Right) ── */}
-      <motion.section
-        ref={techRef}
-        style={getTechSectionStyle()}
-        initial="hidden"
-        animate={techImageControls}
-      >
-        <motion.div
-          style={getTechBodyStyle()}
-          variants={fromBottomStagger}
-          initial="hidden"
-          animate={techContentControls}
-        >
-          <motion.p variants={fromBottomItem} style={getTechParaStyle()}>
+      <section ref={techRef} style={getTechSectionStyle()}>
+        <div style={getTechBodyStyle()}>
+          <p style={getTechParaStyle()}>
             Today businesses thrive on global, forward-thinking strategies programmed into high-end technology solutions. Businesses want solutions based on innovative concepts that should give them leverage over their competitors. These solutions should be agile enough to respond to inevitable changes and should have an ability to deliver quick results amid various industry challenges.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={getTechParaStyle()}>
+          </p>
+          <p style={getTechParaStyle()}>
             We, at Data Artisans, drive businesses to success by giving them the much required edge in the industry. By delivering all kinds of solutions from enterprise-based applications to custom-made eCommerce applications, Data Artisans creates new opportunities, streamlines processes, and integrates operations.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={getTechParaStyle()}>
+          </p>
+          <p style={getTechParaStyle()}>
             The skilful experts at Data Artisans are your right technology partners, who can help you maximize process improvement and operational savings by implementing best Web solutions designed for your business needs.
-          </motion.p>
-        </motion.div>
-        <motion.div
-          style={getTechImageBoxStyle()}
-          variants={imageFromLeft}
-          initial="hidden"
-          animate={techImageControls}
-        >
+          </p>
+        </div>
+        <div style={getTechImageBoxStyle()}>
           <img 
             src="/appdev-img4.jpg" 
             alt="Smart Applications Development"
             style={styles.techImage}
           />
-        </motion.div>
-      </motion.section>
+        </div>
+      </section>
 
       {/* ── FEATURE CARDS ── */}
-      <motion.section
-        ref={featureRef}
-        style={getFeatureSectionStyle()}
-        initial="hidden"
-        animate={featureCardsControls}
-      >
-        <motion.h2 variants={textFromBottom} style={getSectionHeadingStyle()}>
+      <section ref={featureRef} style={getFeatureSectionStyle()}>
+        <h2 style={getSectionHeadingStyle()}>
           Features
-        </motion.h2>
-        <motion.div
-          style={{ ...styles.featureGrid, gridTemplateColumns: getFeatureGridColumns() }}
-          variants={cardContentStagger}
-          initial="hidden"
-          animate={featureCardsControls}
-        >
+        </h2>
+        <div style={{ ...styles.featureGrid, gridTemplateColumns: getFeatureGridColumns() }}>
           {[
             { icon: "🔒", title: "Robust Security Protocol", body: "Implementation of data encryption, role-based access, and secure coding practices." },
             { icon: "🧪", title: "Automated Testing & QA", body: "Continuous testing for bug-free, high-performance applications with reliable functionality." },
@@ -1047,22 +759,17 @@ const ApplicationDevelopmentPage: React.FC = () => {
             { icon: "⚡", title: "Performance Optimization", body: "Every project is built with performance and efficiency in mind." },
             { icon: "🔄", title: "Real-Time Integrations", body: "Seamless integrations streamline operations and boost productivity." },
             { icon: "🔐", title: "Secure Delivery", body: "We apply rigorous testing for secure, bug-free delivery." },
-          ].map((f, idx) => (
-            <motion.div
-              key={f.title}
-              custom={idx}
-              variants={cardFromBottom}
-              style={styles.featureCard}
-            >
-              <motion.div variants={cardContentItem}>
+          ].map((f, _idx) => (
+            <div key={f.title} style={styles.featureCard}>
+              <div>
                 <div style={styles.featureIcon}>{f.icon}</div>
                 <h4 style={styles.featureTitle}>{f.title}</h4>
                 <p style={styles.featureBody}>{f.body}</p>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           ))}
-        </motion.div>
-      </motion.section>
+        </div>
+      </section>
 
       {/* ── CTA with Contact Us Button ── */}
       <div style={getCtaBannerStyle()}>
@@ -1073,25 +780,19 @@ const ApplicationDevelopmentPage: React.FC = () => {
       </div>
 
       {/* ── ADDITIONAL CONTENT SECTION ── */}
-      <motion.section
-        ref={additionalRef}
-        style={getAdditionalSectionStyle()}
-        variants={fromBottomStagger}
-        initial="hidden"
-        animate={additionalSectionControls}
-      >
+      <section ref={additionalRef} style={getAdditionalSectionStyle()}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+          <p style={getIntroParaStyle()}>
             Data Artisans eBusiness consulting solutions deliver measurable value, incorporating a broad range of technologies. We build and implement end-to-end e-Business services and solutions that seamlessly integrate with diverse business applications.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+          </p>
+          <p style={getIntroParaStyle()}>
             Our portfolio of successful Web projects includes Web Portals for eGovernance, License Management Systems, Social Networking sites, Customer relationship management applications, Content management and Workflow solutions, eLearning portals, storefronts, integration with back-end applications, Web-enabling of legacy applications, and ERP systems integration with Web applications.
-          </motion.p>
-          <motion.p variants={fromBottomItem} style={getIntroParaStyle()}>
+          </p>
+          <p style={getIntroParaStyle()}>
             Our Web solutions bring together expertise in middleware integration, application servers, portal development frameworks, and content management solutions, on the latest technology platforms such as Microsoft .NET and J2EE.
-          </motion.p>
+          </p>
         </div>
-      </motion.section>
+      </section>
 
     </div>
   );

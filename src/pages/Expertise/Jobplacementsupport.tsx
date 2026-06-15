@@ -10,20 +10,25 @@ const styles: Record<string, React.CSSProperties> = {
     overflowX: "hidden",
   },
   hero: {
-    background: "url('/jobplacement-bg.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    color: "#0b50c0",
-    padding: "60px 40px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center" as const,
-    minHeight: 450,
-    position: "relative",
-    overflow: "hidden",
-  },
-   heroText: { maxWidth: 700, zIndex: 1, margin: "0 auto" },
+  background: "url('/jobplacement-bg.jpg')",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  color: "#0b50c0",
+  padding: "60px 40px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-start",  // Change from "center" to "flex-start"
+  textAlign: "left" as const,     // Change from "center" to "left"
+  minHeight: 560,
+  position: "relative",
+  overflow: "hidden",
+},
+heroText: { 
+  maxWidth: 700, 
+  zIndex: 1, 
+  margin: "0",      // Change from "0 auto" to "0"
+  textAlign: "left" as const  // Add this line
+},
   heroHeading: {
     fontFamily: "'Georgia', 'Times New Roman', serif",
     fontStyle: "italic",

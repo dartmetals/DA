@@ -1,17 +1,7 @@
 import React from 'react'
 import AboutLayout from '../../components/AboutLayout'
 
-
 /* ── Vision/Mission Icons ── */
-const EyeIcon = () => (
-  <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-    <circle cx="22" cy="22" r="20" stroke="#cccccc" strokeWidth="1.5" fill="none" />
-    <ellipse cx="22" cy="22" rx="12" ry="8" stroke="#888" strokeWidth="1.5" fill="none" />
-    <circle cx="22" cy="22" r="4" fill="#888" />
-    <path d="M22 6v4M22 34v4M6 22h4M34 22h4" stroke="#aaa" strokeWidth="1.5" strokeLinecap="round" />
-  </svg>
-)
-
 const CustomerIcon = () => (
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
     <circle cx="14" cy="8" r="5" stroke="#2563eb" strokeWidth="1.8" />
@@ -46,21 +36,17 @@ const CommunityIcon = () => (
   </svg>
 )
 
-/* ── Service Card Component with bgImage support (no icon, white text) ── */
-const ServiceCard: React.FC<{ title: string; description: string; bgImage?: string }> = ({ title, description, bgImage }) => (
+/* ── Service Card Component with bgImage support and custom background color ── */
+const ServiceCard: React.FC<{ title: string; description: string; bgImage?: string; bgColor?: string; textColor?: string }> = ({ title, description, bgImage, bgColor, textColor }) => (
   <div style={{
     position: 'relative',
     border: '1px solid #ebebeb',
     borderRadius: '10px',
     padding: '28px 24px',
-    backgroundColor: '#fff',
+    backgroundColor: bgColor || '#fff',
     transition: 'all 0.3s ease',
     cursor: 'pointer',
     overflow: 'hidden',
-    backgroundImage: bgImage ? `url(${bgImage})` : 'none',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
   }}
   onMouseEnter={e => {
     const el = e.currentTarget as HTMLElement
@@ -73,19 +59,26 @@ const ServiceCard: React.FC<{ title: string; description: string; bgImage?: stri
     el.style.transform = 'translateY(0)'
   }}>
     {/* Blue gradient overlay with increased opacity for better visibility */}
-    <div style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: 'linear-gradient(135deg, rgba(37,99,235,0.4), rgba(37,99,235,0.4))',
-      zIndex: 0,
-    }} />
+   <div
+  style={{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundImage: bgImage ? `url(${bgImage})` : 'none',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    filter: 'blur(1px)',   
+    transform: 'scale(1.0)', 
+    zIndex: 0,
+  }}
+/>
     
     <div style={{ position: 'relative', zIndex: 1 }}>
-      <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#ffffff', marginBottom: '12px' }}>{title}</h3>
-      <p style={{ fontSize: '13.5px', color: '#ffffff', lineHeight: 1.75, opacity: 0.9 }}>{description}</p>
+      <h3 style={{ fontSize: '18px', fontWeight: '700', color: textColor || '#ffffff', marginBottom: '12px' }}>{title}</h3>
+      <p style={{ fontSize: '13.5px', color: textColor || '#ffffff', lineHeight: 1.75, opacity: 0.9 }}>{description}</p>
     </div>
   </div>
 )
@@ -199,9 +192,9 @@ const Overview: React.FC = () => {
   };
 
   const getHowItHappensHeadingStyle = (): React.CSSProperties => {
-    if (isMobile) return { fontSize: '24px', fontWeight: '700', color: '#1a1a1a', textAlign: 'center', marginBottom: '12px' };
-    if (isTablet) return { fontSize: '28px', fontWeight: '700', color: '#1a1a1a', textAlign: 'center', marginBottom: '14px' };
-    return { fontSize: '32px', fontWeight: '700', color: '#1a1a1a', textAlign: 'center', marginBottom: '16px' };
+    if (isMobile) return { fontSize: '24px', fontWeight: '700', color: '#1a1a1a', textAlign: 'left', marginBottom: '12px' };
+    if (isTablet) return { fontSize: '28px', fontWeight: '700', color: '#1a1a1a', textAlign: 'left', marginBottom: '14px' };
+    return { fontSize: '32px', fontWeight: '700', color: '#1a1a1a', textAlign: 'left', marginBottom: '16px' };
   };
 
   const getCompanyOverviewContentStyle = (): React.CSSProperties => {
@@ -266,13 +259,13 @@ const Overview: React.FC = () => {
                 alignItems: 'center', 
                 justifyContent: 'center',
                 overflow: 'hidden',
-                backgroundImage: 'url("/vision-bg.jpg")',
+                backgroundImage: 'url("/vision-bg.jpeg")',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
               }}>
                 {/* Dark overlay for better text readability */}
-                <div style={{
+                {/* <div style={{
                   position: 'absolute',
                   top: 0,
                   left: 0,
@@ -280,13 +273,13 @@ const Overview: React.FC = () => {
                   bottom: 0,
                   backgroundColor: 'rgba(54, 127, 229, 0.6)',
                   zIndex: 0,
-                }} />
+                }} /> */}
                 
                 <div style={{ position: 'relative', zIndex: 1 }}>
-                  <div style={{ marginBottom: '20px', color: '#ffffff' }}><EyeIcon /></div>
-                  <p style={{ fontSize: isMobile ? '12px' : '13.5px', color: '#ffffff', lineHeight: 1.85, textAlign: 'center' }}>
+                  {/* <div style={{ marginBottom: '20px', color: '#ffffff' }}><EyeIcon /></div> */}
+                  {/* <p style={{ fontSize: isMobile ? '12px' : '13.5px', color: '#ffffff', lineHeight: 1.85, textAlign: 'center' }}>
                     To be a global leader in empowering businesses and individuals with innovative technology solutions, training, and career guidance.
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>
@@ -321,29 +314,38 @@ const Overview: React.FC = () => {
           <h2 style={getHowItHappensHeadingStyle()}>
             How does Data Artisans make it happen:
           </h2>
-          <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#666', textAlign: 'center', maxWidth: '800px', margin: '0 auto (isMobile ? 32px : 48px)', lineHeight: 1.8, marginBottom: isMobile ? '32px' : '48px' }}>
+          <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#666', textAlign: 'center', maxWidth: '1200px', margin: '0 0 32px 0', lineHeight: 1.8, marginBottom: isMobile ? '32px' : '48px' }}>
             At Data Artisans, we are committed to delivering innovative, data-driven, and technology-powered solutions that help businesses thrive in a competitive landscape. Our approach is built on expertise, strategy, and execution, ensuring that organizations achieve their goals efficiently.
           </p>
           <div style={getServiceCardsGridStyle()}>
             <ServiceCard 
               title="Training"
               description="We provide industry-standard training courses for professionals and students to upgrade their skills and stay competitive in the job market."
-              bgImage="/training.jpg"
+              // bgImage="/training.jpg"
+              bgColor="#eef2ff"
+              textColor="#1e3a8a"
             />
             <ServiceCard 
               title="Job Placement"
               description="We support graduates with job placement assistance, connecting them with top employers and helping them launch successful careers."
-              bgImage="/jobplacement.jpg"
+              // bgImage="/jobplacement.jpg"
+              bgColor="#fff0e0"
+              textColor="#9a3412"
             />
             <ServiceCard 
               title="Study Abroad"
               description="Complete guidance for study abroad including visa assistance, loan support, accommodation, and part-time job opportunities."
-              bgImage="/study-abroad.jpg"
+              // bgImage="/study-abroad.jpg"
+              
+              bgColor="#e6f7e6"
+              textColor="#14532d"
             />
             <ServiceCard 
               title="Internship"
               description="We offer technology-focused internships that provide hands-on experience and prepare students for real-world challenges."
-              bgImage="/internship.png"
+              // bgImage="/internship.png"
+              bgColor="#c4e7ec"
+              textColor="#1d7789"
             />
           </div>
         </div>
@@ -362,7 +364,7 @@ const Overview: React.FC = () => {
                 We believe in offering the finest standards of quality and processes that are constantly updated and adapted to the changing global scenario. We are dedicated to guiding industry professionals and students to competently compete and confirm international standards of quality employee efficiency and productivity.
               </p>
               <div style={{ marginTop: '24px', textAlign: isMobile || isTablet ? 'center' : 'left' }}>
-                <a href="#" style={{ display: 'inline-block', backgroundColor: '#2563eb', color: '#fff', padding: '12px 28px', borderRadius: '6px', textDecoration: 'none', fontWeight: '600', fontSize: '14px' }}>Partner with us →</a>
+                <a href="/contact-us" style={{ display: 'inline-block', backgroundColor: '#2563eb', color: '#fff', padding: '12px 28px', borderRadius: '6px', textDecoration: 'none', fontWeight: '600', fontSize: '14px' }}>Partner with us →</a>
               </div>
             </div>
             <div style={getCompanyOverviewImageStyle()}>

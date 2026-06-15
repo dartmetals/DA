@@ -17,14 +17,14 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "80px 60px",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center" as const,
+    justifyContent: "flex-start",
+    textAlign: "left" as const,
     minHeight: 520,
     position: "relative",
     overflow: "hidden",
     backgroundRepeat: "no-repeat",
   },
-  heroText: { maxWidth: 700, zIndex: 1, margin: "0 auto" },
+  heroText: { maxWidth: 700, zIndex: 1, margin: 0, textAlign: "left" as const },
   heroHeading: {
     fontFamily: "'Georgia', 'Times New Roman', serif",
     fontStyle: "italic",
@@ -32,11 +32,13 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 700,
     lineHeight: 1.15,
     margin: 0,
+    textAlign: "left" as const,
   },
   heroSubPara: {
     fontSize: 16,
     marginTop: 16,
     opacity: 0.9,
+    textAlign: "left" as const,
   },
   heroDescription: {
     fontSize: 16,
@@ -44,8 +46,9 @@ const styles: Record<string, React.CSSProperties> = {
     opacity: 0.95,
     lineHeight: 1.5,
     maxWidth: 600,
-    marginLeft: "auto",
-    marginRight: "auto",
+    marginLeft: 0,
+    marginRight: 0,
+    textAlign: "left" as const,
   },
   heroImagePlaceholder: {
     display: "none",
@@ -513,6 +516,10 @@ const AIPoweredHiring: React.FC = () => {
     return styles.heroDescription;
   };
 
+  const getHeroTextStyle = (): React.CSSProperties => {
+    return { ...styles.heroText };
+  };
+
   const getIntroSectionStyle = (): React.CSSProperties => {
     if (isMobile) {
       return { ...styles.introSection, flexDirection: "column", padding: "20px 20px 40px 20px", textAlign: "center" };
@@ -858,13 +865,13 @@ const AIPoweredHiring: React.FC = () => {
         variants={imageFromRight}
       >
         <motion.div
-          style={styles.heroText}
+          style={getHeroTextStyle()}
           variants={textFromBottom}
           initial="hidden"
           animate={heroTextControls}
         >
           <h1 style={getHeroHeadingStyle()}>
-            AI Powered<br />
+            AI Powered
             Hiring.
           </h1>
           <p style={getHeroDescriptionStyle()}>
